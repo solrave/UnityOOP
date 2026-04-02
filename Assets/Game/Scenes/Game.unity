@@ -520,7 +520,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::Game.UI.UIController
   _scoreView: {fileID: 895558708}
   _healthView: {fileID: 1243470931}
-  _gameOverView: {fileID: 0}
+  _gameOverView: {fileID: 1375492023}
 --- !u!1 &196756140
 GameObject:
   m_ObjectHideFlags: 0
@@ -1539,7 +1539,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'SCORE: 10'
+  m_text: 'SCORE: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
