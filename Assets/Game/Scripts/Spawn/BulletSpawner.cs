@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Modules.Utils;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace Game
         [SerializeField]
         private LevelBounds _levelBounds;
         
-        private readonly Stack<Bullet> _pool = new();
+        private readonly List<Bullet> _pool = new();
         private readonly Dictionary<TeamType, Bullet> _bulletLibrary = new();
         private readonly List<Bullet> _activeBullets = new();
         
@@ -29,11 +30,14 @@ namespace Game
 
         private void CheckBulletsInBounds()
         {
-            foreach (Bullet activeBullet in _activeBullets)
+            if (_activeBullets.Count > 0)
             {
-                if (!_levelBounds.InBounds(activeBullet.transform.position))
+                for (int i = _activeBullets.Count - 1; i >= 0; i--)
                 {
-                    ReleaseBullet(activeBullet);
+                    if (!_levelBounds.InBounds(_activeBullets[i].transform.position))
+                    {
+                        ReleaseBullet(_activeBullets[i]);
+                    }
                 }
             }
         }
@@ -46,31 +50,29 @@ namespace Game
             }
         }
 
-        public void Spawn(Transform firePoint, TeamType team)
+        public Bullet Spawn(Transform firePoint, TeamType team)
         {
-            if (_pool.TryPop(out Bullet bullet))
+            Bullet bullet = _pool.FirstOrDefault(b => b.Team == team);
+            
+            if (bullet != null)
+            {
+                bullet.transform.position = firePoint.position;
                 bullet.gameObject.SetActive(true);
+                _pool.Remove(bullet);
+            }
             else
-                bullet = Instantiate(_bulletLibrary[team], firePoint);
+                bullet = Instantiate(_bulletLibrary[team],firePoint.position,Quaternion.identity);
             
             bullet.transform.position = firePoint.position;
-            bullet.SetDirection(firePoint.up);
-            bullet.gameObject.layer = bullet.Team switch
-            {
-                TeamType.None => LayerMask.NameToLayer("Default"),
-                TeamType.Player => LayerMask.NameToLayer("PlayerBullet"),
-                TeamType.Enemy => LayerMask.NameToLayer("EnemyBullet"),
-                _ => throw new ArgumentOutOfRangeException(nameof(bullet.Team), bullet.Team, null)
-            };
-            
             bullet.OnHit += this.ReleaseBullet;
             _activeBullets.Add(bullet);
+            return bullet;
         }
 
         private void ReleaseBullet(Bullet  bullet)
         {
             bullet.gameObject.SetActive(false);
-            _pool.Push(bullet);
+            _pool.Add(bullet);
             bullet.OnHit -= this.ReleaseBullet;
             _activeBullets.Remove(bullet);
         }

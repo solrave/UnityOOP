@@ -8,16 +8,4 @@
         Enemy = 2
     }
     
-    public enum ConfigType
-    {
-        None,
-        PlayerCore,
-        EnemyCore,
-        PlayerAnimation,
-        EnemyAnimation,
-        EnemyBulletCore,
-        PlayerBulletCore,
-        BulletAnimation,
-        PlayerBulletAnimation,
-    }
 }

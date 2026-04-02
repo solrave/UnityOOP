@@ -8,9 +8,12 @@ namespace Modules.UI
         [SerializeField]
         private TMP_Text _text;
 
-        public void SetValue(int score)
+        private float _currentScore;
+
+        public void SetValue()
         {
-            _text.text = $"SCORE: {score}";
+            _currentScore += 1;
+            _text.text = $"SCORE: {_currentScore}";
         }
     }
 }

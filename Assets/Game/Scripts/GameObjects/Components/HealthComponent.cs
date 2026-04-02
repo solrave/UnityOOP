@@ -6,6 +6,13 @@ namespace Game.Components
     [Serializable]
     public class HealthComponent : MonoBehaviour
     {
+        public event Action OnDamageTaken;
+        
+        public event Action HealthDepleted;
+        
+        public event Action<int, int> OnHealthChanged;
+
+
         public bool HasHealth => _currentHealth > 0;
         
         [SerializeField]
@@ -13,7 +20,7 @@ namespace Game.Components
         
         private int _currentHealth;
         
-        private void Awake()
+        private void OnEnable()
         {
             _currentHealth = _maxHealth;
         }
@@ -21,6 +28,10 @@ namespace Game.Components
         public void ReceiveDamage(int damage)
         {
             _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, _maxHealth);
+            OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
+            this.OnDamageTaken?.Invoke();
+            if (_currentHealth <= 0)
+                this.HealthDepleted?.Invoke();
         }
     }
 }

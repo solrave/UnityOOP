@@ -16,22 +16,19 @@ namespace Game
         [SerializeField] 
         private LevelBounds _playerBounds;
 
-        [SerializeField]
-        private BulletSpawner _bulletSpawner;
+        private Rigidbody2D _rigidbody;
 
         private void OnEnable()
         {
-           OnMoveInputReceived += _playerShip.SetMoveDirection;
+            _rigidbody = _playerShip.GetComponent<Rigidbody2D>();
+           OnMoveInputReceived += _playerShip.SetDestination;
            OnFireInputReceived += _playerShip.Fire;
-           _playerShip.OnFire += _bulletSpawner.Spawn;
         }
 
         private void OnDisable()
         { 
-            OnMoveInputReceived -= _playerShip.SetMoveDirection;
+            OnMoveInputReceived -= _playerShip.SetDestination;
             OnFireInputReceived -= _playerShip.Fire;
-           _playerShip.OnFire -= _bulletSpawner.Spawn;
-            
         }
 
         private void Update() => ListenInput();
@@ -43,7 +40,7 @@ namespace Game
         {
             if (!_playerBounds.InBounds(_playerShip.transform.position))
             {
-                _playerShip.transform.position = _playerBounds.ClampInBounds(_playerShip.transform.position);
+                _rigidbody.position = _playerBounds.ClampInBounds(_playerShip.transform.position);
             }
         }
 

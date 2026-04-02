@@ -18,38 +18,54 @@ namespace Game
         private BulletAnimationComponent _animationComponent;
 
         [SerializeField] 
-        private BulletDamageComponent _damageComponent;
+        private int _damage;
 
-        public void SetDirection(Vector2 direction) => _moveComponent.SetSimpleDirection(direction);
+        private Vector2? _direction;
 
-        private void Awake()
+        public void SetDirection(Vector2? direction) => _direction = direction;
+
+        private void OnEnable()
         {
+            SetLayer();
+            OnHit += _animationComponent.PlayExplosion;
             _animationComponent.PlayVisual();
+        }
+
+        private void SetLayer()
+        {
+            this.gameObject.layer = Team switch
+            {
+                TeamType.None => LayerMask.NameToLayer("Default"),
+                TeamType.Player => LayerMask.NameToLayer("PlayerBullet"),
+                TeamType.Enemy => LayerMask.NameToLayer("EnemyBullet"),
+                _ => throw new ArgumentOutOfRangeException(nameof(this.Team), this.Team, null)
+            };
+        }
+
+        private void OnDisable()
+        {
+            OnHit -= _animationComponent.PlayExplosion;
         }
 
         private void FixedUpdate()
         {
-            _moveComponent.Move();
+            _moveComponent.SetDirection(_direction);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!other.TryGetComponent(out Ship ship))
+            if (!other.TryGetComponent(out IDamageable ship))
                 return;
-
+            
+            if (_damage > 0)
             {
-                if (this._damageComponent.Damage > 0)
-                {
-                    ship.TakeDamage(_damageComponent.Damage);
-                }
-                
-                _animationComponent.StopVisual();
-                this.gameObject.SetActive(false);
-
-                OnHit?.Invoke(this);
-
-               // Instantiate(ExplosionVFX, this.transform.position, this.transform.rotation);
+                ship.TakeDamage(_damage);
             }
+            
+            OnHit?.Invoke(this);
+            _animationComponent.StopVisual();
+            this.gameObject.SetActive(false);
+
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Game.Scripts.Components
 
         public void PlayVisual()
         {
+            _bulletVFX.Clear();
             _bulletVFX.Play();
         }
 
@@ -18,9 +19,12 @@ namespace Game.Scripts.Components
             _bulletVFX.Stop();
         }
         
-        public void PlayExplosion()
+        public void PlayExplosion(Bullet bullet)
         {
-            _explosionVFX.Play();
+            var explode = Instantiate(_explosionVFX, bullet.transform.position, bullet.transform.rotation);
+            
+            if (explode != null)
+                explode.Play();
         }
     }
 }

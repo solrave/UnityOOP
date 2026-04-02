@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7065102465694508413}
   - component: {fileID: 2232355737140723881}
+  - component: {fileID: 1549425851026827012}
   m_Layer: 0
   m_Name: AnimationComponent
   m_TagString: Untagged
@@ -70,12 +71,29 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   hitDuration: 0.2
-  renderer: {fileID: 795037679980988590}
-  fireVFX: {fileID: 198297418966626338, guid: b1ede0eef436590479b9282c69418d53, type: 3}
-  fireSfx: {fileID: 8300000, guid: 4b0fadb8fc7bdaf489e9f7879d3c71bb, type: 3}
-  damageSfx: {fileID: 8300000, guid: 9d2f129290cb1a6489928f3dde8dbb39, type: 3}
-  destroyEffectPrefab: {fileID: 198297418966626338, guid: b1ede0eef436590479b9282c69418d53, type: 3}
-  material: {fileID: 2100000, guid: 1a2a1cc8952ca774c939c363a673700f, type: 2}
+  _fireVFX: {fileID: 198435066056377344, guid: 0750c6e74aaf98c44a8ea49c64b27e99, type: 3}
+  _fireSFX: {fileID: 8300000, guid: 639bf6ac148bdf04eab2d8f6905693ac, type: 3}
+  _damageSfx: {fileID: 8300000, guid: 9d2f129290cb1a6489928f3dde8dbb39, type: 3}
+  _destroyEffectPrefab: {fileID: 198984795490016922, guid: 2b881798883cca7428d49471d484e5c9, type: 3}
+  _material: {fileID: 2100000, guid: 1a2a1cc8952ca774c939c363a673700f, type: 2}
+  _cameraShaker: {fileID: 1549425851026827012}
+--- !u!114 &1549425851026827012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494751446526104920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8a731bafd584bc398b56250ac24f9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Modules.Utils::Modules.Utils.CameraShaker
+  _transform: {fileID: 5706750963508843440}
+  _duration: 3
+  _strength: {x: 0, y: 0, z: 0}
+  _vibrato: 3
+  _randomnessMode: 0
 --- !u!1 &2552130886159874373
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,6 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d256fbef014b32a99760ceb53643f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::Game.Components.FireComponent
+  _bulletSpawner: {fileID: 0}
+  <Team>k__BackingField: 1
   <FirePoint>k__BackingField: {fileID: 8503432944885784460}
   _fireCooldown: 0.25
 --- !u!1 &4109394316656653739
@@ -134,7 +154,7 @@ GameObject:
   - component: {fileID: 4575139502811685103}
   - component: {fileID: 4075764219798992963}
   - component: {fileID: 8141832910989862937}
-  - component: {fileID: 852204190993427253}
+  - component: {fileID: 8471256025757020798}
   m_Layer: 10
   m_Name: PlayerShip
   m_TagString: Untagged
@@ -320,7 +340,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &852204190993427253
+--- !u!114 &8471256025757020798
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -329,13 +349,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4109394316656653739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 558b312fd53c491ab69f3e55255aae3c, type: 3}
+  m_Script: {fileID: 11500000, guid: bf54bd2d086a4f3587f66e803fb6ac11, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.Ship
+  m_EditorClassIdentifier: Game::Game.PlayerShip
   _fireComponent: {fileID: 194475630990398734}
   _healthComponent: {fileID: 6350082847556255991}
   _moveComponent: {fileID: 101300689140578600}
-  shipAnimationComponent: {fileID: 2232355737140723881}
+  animationComponent: {fileID: 2232355737140723881}
 --- !u!1 &5530457532182326866
 GameObject:
   m_ObjectHideFlags: 0

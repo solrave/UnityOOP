@@ -5,74 +5,70 @@ using UnityEngine;
 
 namespace Game
 {
-    public class Ship : MonoBehaviour
+    public abstract class Ship : MonoBehaviour,IDamageable
     {
-        public event Action OnDamageTaken;
         public event Action<Ship> OnShipDestroyed;
-        public event Action<Transform, TeamType> OnFire;
-
-        public bool HasHealth => _healthComponent.HasHealth;
-        public Vector2 Destination => _destination;
+        public event Action<int, int> OnHealthChanged;
 
         [SerializeField]
-        private FireComponent _fireComponent;
+        protected FireComponent _fireComponent;
         
         [SerializeField]
-        private HealthComponent _healthComponent;
+        protected HealthComponent _healthComponent;
         
         [SerializeField]
-        private MoveComponent _moveComponent;
+        protected MoveComponent _moveComponent;
         
         [SerializeField]
-        private ShipAnimationComponent shipAnimationComponent;
-
-        private Vector2 _destination;
+        protected AnimationComponent animationComponent;
         
         private void OnEnable()
         {
-            _fireComponent.FireAnimationRequested += shipAnimationComponent.AnimateFire;
-            this.OnDamageTaken += shipAnimationComponent.AnimateDamage;
-            this.OnShipDestroyed += shipAnimationComponent.AnimateDestruction;
+            _fireComponent.OnFire += animationComponent.AnimateFire;
+            _healthComponent.HealthDepleted += ShipDestroyed;
+            _healthComponent.OnDamageTaken += animationComponent.AnimateDamage;
+            _healthComponent.OnHealthChanged += HealthChanged;
+            this.OnShipDestroyed += animationComponent.AnimateDestruction;
         }
 
         private void OnDisable()
         {
-            _fireComponent.FireAnimationRequested -= shipAnimationComponent.AnimateFire;
-            this.OnDamageTaken -= shipAnimationComponent.AnimateDamage;
-            this.OnShipDestroyed -= shipAnimationComponent.AnimateDestruction;
+            _fireComponent.OnFire -= animationComponent.AnimateFire;
+            _healthComponent.HealthDepleted -= ShipDestroyed;
+            _healthComponent.OnDamageTaken -= animationComponent.AnimateDamage;
+            _healthComponent.OnHealthChanged -= HealthChanged;
+            this.OnShipDestroyed -= animationComponent.AnimateDestruction;
         }
-
-        protected virtual void FixedUpdate() => _moveComponent.Move();
-
+        
+        protected void FixedUpdate() => Proceed();
+        
         public void Fire()
         {
             if (_healthComponent.HasHealth)
             {
-                _fireComponent.Fire();
-                this.OnFire?.Invoke(_fireComponent.FirePoint, _fireComponent.Team);
+                _fireComponent.FireUp();
             }
         }
 
-        public Vector2 SetDestination(Vector2 destination) => _destination = destination;
+        public void SetDestination(Vector2? position) => _moveComponent.SetDirection(position);
 
-        public void SetMoveDirection(Vector2? position)
-        {
-            _moveComponent.SetInputDirection(position);
+        public void TakeDamage(int damage) => _healthComponent.ReceiveDamage(damage);
+        
+        protected abstract void Proceed();
+
+        private void ShipDestroyed()
+        { 
+            OnShipDestroyed?.Invoke(this);
+            this.gameObject.SetActive(false);
         }
 
-        public void TakeDamage(int damage)
-        {
-            _healthComponent.ReceiveDamage(damage);
-            
-            if (_healthComponent.HasHealth)
-            {
-                this.OnDamageTaken?.Invoke();
-            }
-            else
-            {
-                this.OnShipDestroyed?.Invoke(this);
-                this.gameObject.SetActive(false);
-            }
-        }
+        private void HealthChanged(int currentHealth, int maxHealth) =>
+            OnHealthChanged?.Invoke(currentHealth, maxHealth);
+
+    }
+
+    public interface IDamageable
+    {
+        public void TakeDamage(int damage);
     }
 }

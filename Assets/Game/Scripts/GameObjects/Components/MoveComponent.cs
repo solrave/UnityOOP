@@ -24,36 +24,19 @@ namespace Game
 
         public void SetSpeed(float speed) => _speed = speed;
 
-        public void SetInputDirection(Vector2? direction) => _inputDirection = direction;
-        
-        public void SetSimpleDirection(Vector2 direction) => _simpleDirection = direction;
+        public void SetDirection(Vector2? direction) => _inputDirection = direction;
 
-        public void Move()
+        private void FixedUpdate() => Move();
+        
+        private void Move()
         {
             if (_inputDirection.HasValue)
             {
-                MoveWithInput();
+                Vector2 newDirection = _rigidbody.position + _inputDirection.Value * (_speed * Time.fixedDeltaTime);
+                _rigidbody.MovePosition(newDirection);
+                _inputDirection = null;
             }
-
-            if (_simpleDirection != Vector2.zero)
-            {
-                MoveWithDirection();
-            }
-            
             TiltTransform();
-        }
-
-        private void MoveWithInput()
-        {
-            Vector2 newDirection = _rigidbody.position + _inputDirection.Value * (_speed * Time.fixedDeltaTime);
-            _rigidbody.MovePosition(newDirection);
-            _inputDirection = null;
-        }
-        
-        private void MoveWithDirection()
-        {
-            Vector2 newDirection = _rigidbody.position + _simpleDirection * (_speed * Time.fixedDeltaTime);
-            _rigidbody.MovePosition(newDirection);
         }
         
         private void TiltTransform()
