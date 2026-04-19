@@ -11,24 +11,24 @@ namespace Game
         [field: SerializeField]
         public TeamType Team { get; private set; }
 
+        public Vector2 Position => this.transform.position;
+
         [SerializeField] 
         private MoveComponent _moveComponent;
-        
-        [SerializeField] 
-        private BulletAnimationComponent _animationComponent;
 
         [SerializeField] 
         private int _damage;
 
-        private Vector2? _direction;
+        public void SetDirection(Vector2? direction) => _moveComponent.SetDirection(direction);
+        public void SetTeam(TeamType type) => Team = type;
 
-        public void SetDirection(Vector2? direction) => _direction = direction;
+        public void SetPosition(Vector2 position) => this.transform.position = position;
+
+        private void FixedUpdate() => _moveComponent.FixedUpdate();
 
         private void OnEnable()
         {
             SetLayer();
-            OnHit += _animationComponent.PlayExplosion;
-            _animationComponent.PlayVisual();
         }
 
         private void SetLayer()
@@ -42,16 +42,6 @@ namespace Game
             };
         }
 
-        private void OnDisable()
-        {
-            OnHit -= _animationComponent.PlayExplosion;
-        }
-
-        private void FixedUpdate()
-        {
-            _moveComponent.SetDirection(_direction);
-        }
-
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.TryGetComponent(out IDamageable ship))
@@ -63,9 +53,7 @@ namespace Game
             }
             
             OnHit?.Invoke(this);
-            _animationComponent.StopVisual();
             this.gameObject.SetActive(false);
-
         }
     }
 }

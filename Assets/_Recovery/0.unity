@@ -518,8 +518,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 394eb1b3dc9e485bac4aaec2709d58fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::Game.UI.UIController
-  _playerShip: {fileID: 1993607449}
-  _shipSpawner: {fileID: 1693583076}
   _scoreView: {fileID: 895558708}
   _healthView: {fileID: 1243470931}
   _gameOverView: {fileID: 1375492023}
@@ -1109,10 +1107,6 @@ PrefabInstance:
       propertyPath: _fireComponent._bulletSpawner
       value: 
       objectReference: {fileID: 770306092}
-    - target: {fileID: 8141832910989862937, guid: 0446acb84a7c9424d841676cef3b1d04, type: 3}
-      propertyPath: MinDistance
-      value: 1.1387568
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1223,7 +1217,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1460535799}
-  - {fileID: 1326300080}
   - {fileID: 363245576}
   - {fileID: 1879759789}
   - {fileID: 562298204}
@@ -1404,52 +1397,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2094226229}
   m_LocalEulerAnglesHint: {x: -2.627, y: 42.383, z: 33.943}
---- !u!1 &849390884
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 849390885}
-  - component: {fileID: 849390886}
-  m_Layer: 0
-  m_Name: PositionClamper
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &849390885
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 849390884}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1879759789}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &849390886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 849390884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3558fced5d664d878027a2102527aedd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game::Game.PositionClamper
-  _playerShip: {fileID: 1993607449}
-  _playerBounds: {fileID: 1498479408}
 --- !u!1 &879439866
 GameObject:
   m_ObjectHideFlags: 0
@@ -1495,6 +1442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::Game.PlayerInputController
   _playerShip: {fileID: 1993607449}
+  _playerBounds: {fileID: 1498479408}
 --- !u!1 &883274639
 GameObject:
   m_ObjectHideFlags: 0
@@ -2184,51 +2132,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1314909913}
   m_CullTransparentMesh: 1
---- !u!1 &1326300079
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1326300080}
-  - component: {fileID: 1326300081}
-  m_Layer: 0
-  m_Name: GameCycle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1326300080
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1326300079}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 739865810}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1326300081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1326300079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eed13af8eaef432f9444c68e55926c46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game::Game.GameCycle
-  _ship: {fileID: 1993607449}
 --- !u!1 &1375492019
 GameObject:
   m_ObjectHideFlags: 0
@@ -2503,10 +2406,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1460535798}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81e4079f8f8745eb9897d9727ee36528, type: 3}
+  m_Script: {fileID: 11500000, guid: eed13af8eaef432f9444c68e55926c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::Game.GameController
-  _cycle: {fileID: 1326300081}
+  _playerShip: {fileID: 1993607449}
+  _uiController: {fileID: 177601769}
   _shipSpawner: {fileID: 1693583076}
 --- !u!1 &1498479406
 GameObject:
@@ -2858,7 +2762,6 @@ Transform:
   m_Children:
   - {fileID: 879439867}
   - {fileID: 1498479407}
-  - {fileID: 849390885}
   m_Father: {fileID: 739865810}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1954893900

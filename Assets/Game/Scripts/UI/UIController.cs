@@ -7,6 +7,12 @@ namespace Game.UI
     public class UIController : MonoBehaviour
     {
         [SerializeField]
+        private Ship _playerShip;
+
+        [SerializeField]
+        private ShipSpawner _shipSpawner;
+        
+        [SerializeField]
         private ScoreView _scoreView;
 
         [SerializeField]
@@ -14,18 +20,32 @@ namespace Game.UI
 
         [SerializeField] 
         private GameOverView _gameOverView;
+        
+        private void OnEnable()
+        {
+            _playerShip.OnShipDestroyed += ShowGameOver;
+            _playerShip.OnHealthChanged += SetHealth;
+            _shipSpawner.OnShipDespawned += SetScore;
+        }
+        
+        private void OnDisable()
+        {
+            _playerShip.OnShipDestroyed -= ShowGameOver;
+            _playerShip.OnHealthChanged -= SetHealth;
+            _shipSpawner.OnShipDespawned -= SetScore;
+        }
 
-        public void SetScore()
+        private void SetScore()
         {
             _scoreView.SetValue();
         }
         
-        public void SetHealth(int health, int maxHealth)
+        private void SetHealth(int health, int maxHealth)
         {
             _healthView.SetHealth(health, maxHealth);
         }
 
-        public void ShowGameOver(Ship ship)
+        private void ShowGameOver(Transform ship)
         {
             _gameOverView.Show();
         }

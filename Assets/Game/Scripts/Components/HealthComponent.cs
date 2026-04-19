@@ -1,0 +1,37 @@
+using System;
+using UnityEngine;
+
+namespace Game.Components
+{
+    [Serializable]
+    public class HealthComponent
+    {
+        public event Action OnDamageTaken;
+        
+        public event Action OnHealthDepleted;
+        
+        public event Action<int, int> OnHealthChanged;
+
+
+        public bool HasHealth => _currentHealth > 0;
+        
+        [SerializeField]
+        private int _maxHealth = 5;
+        
+        private int _currentHealth;
+        
+        public void Init()
+        {
+            _currentHealth = _maxHealth;
+        }
+
+        public void ReceiveDamage(int damage)
+        {
+            _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, _maxHealth);
+            OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
+            this.OnDamageTaken?.Invoke();
+            if (_currentHealth <= 0)
+                this.OnHealthDepleted?.Invoke();
+        }
+    }
+}

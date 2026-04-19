@@ -5,66 +5,92 @@ using UnityEngine;
 
 namespace Game
 {
-    public abstract class Ship : MonoBehaviour,IDamageable
+    public sealed class Ship : MonoBehaviour,IDamageable
     {
-        public event Action<Ship> OnShipDestroyed;
+        public event Action<Transform> OnFire;
+        public event Action<Transform> OnShipDestroyed;
         public event Action<int, int> OnHealthChanged;
+        public event Action OnDamageTaken;
+        public event Action<Vector2?, float> OnMove;  
+        
+        public bool ReadyToShoot => _healthComponent.HasHealth;
 
-        [SerializeField]
-        protected FireComponent _fireComponent;
+        public Vector2 Position => transform.position;
+        
+        [field: SerializeField]
+        public TeamType Team { get;  private set;}
         
         [SerializeField]
-        protected HealthComponent _healthComponent;
+        private FireComponent _fireComponent;
         
         [SerializeField]
-        protected MoveComponent _moveComponent;
+        private HealthComponent _healthComponent;
         
         [SerializeField]
-        protected AnimationComponent animationComponent;
-        
+        private MoveComponent _moveComponent;
+
+        private void FixedUpdate() => _moveComponent.FixedUpdate();
+
         private void OnEnable()
         {
-            _fireComponent.OnFire += animationComponent.AnimateFire;
-            _healthComponent.HealthDepleted += ShipDestroyed;
-            _healthComponent.OnDamageTaken += animationComponent.AnimateDamage;
+            _healthComponent.Init();
+            _healthComponent.OnHealthDepleted += ShipDestroyed;
             _healthComponent.OnHealthChanged += HealthChanged;
-            this.OnShipDestroyed += animationComponent.AnimateDestruction;
+            _moveComponent.OnMove += AnimateMovement;
+            _fireComponent.OnFire += this.OnFire;
         }
 
         private void OnDisable()
         {
-            _fireComponent.OnFire -= animationComponent.AnimateFire;
-            _healthComponent.HealthDepleted -= ShipDestroyed;
-            _healthComponent.OnDamageTaken -= animationComponent.AnimateDamage;
+            _healthComponent.OnHealthDepleted -= ShipDestroyed;
             _healthComponent.OnHealthChanged -= HealthChanged;
-            this.OnShipDestroyed -= animationComponent.AnimateDestruction;
+            _moveComponent.OnMove -= AnimateMovement;
+            _fireComponent.OnFire -= this.OnFire;
         }
-        
-        protected void FixedUpdate() => Proceed();
         
         public void Fire()
         {
             if (_healthComponent.HasHealth)
             {
-                _fireComponent.FireUp();
+                _fireComponent.FireUp(Team);
             }
         }
-
-        public void SetDestination(Vector2? position) => _moveComponent.SetDirection(position);
-
-        public void TakeDamage(int damage) => _healthComponent.ReceiveDamage(damage);
         
-        protected abstract void Proceed();
+        public void FireAt(Vector2 targetPosition)
+        {
+            if (!_healthComponent.HasHealth) return;
+
+            var directionTarget = targetPosition - Position;
+            _fireComponent.FireAt(Team,directionTarget);
+        }
+
+        public void SetDirection(Vector2? position) => _moveComponent.SetDirection(position);
+        public void SetPosition(Vector2 position) => _moveComponent.SetPosition(position);
+
+        public void TakeDamage(int damage)
+        {
+            OnDamageTaken?.Invoke();
+            _healthComponent.ReceiveDamage(damage);
+        }
+        
+        public void SetSpawner(BulletSpawner spawner)
+        {
+            _fireComponent.SetSpawner(spawner);
+        }
+        
+        private void AnimateMovement(Vector2? direction, float speed)
+        {
+            OnMove?.Invoke(direction,speed);
+        }
 
         private void ShipDestroyed()
         { 
-            OnShipDestroyed?.Invoke(this);
+            OnShipDestroyed?.Invoke(this.transform);
             this.gameObject.SetActive(false);
         }
 
         private void HealthChanged(int currentHealth, int maxHealth) =>
             OnHealthChanged?.Invoke(currentHealth, maxHealth);
-
     }
 
     public interface IDamageable
