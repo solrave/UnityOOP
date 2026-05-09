@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -20,11 +21,15 @@ namespace Game.Scripts.Components
         private void OnEnable()
         {   
             SelectCurrentRepresentation();
-            _bullet.OnHit += PlayExplosion;
-            _bullet.OnHit += StopVisual;
             PlayVisual();
+            _bullet.OnHit += PlayExplosion;
         }
-
+        
+        private void OnDisable()
+        {
+            _bullet.OnHit -= PlayExplosion;
+        }
+        
         private void SelectCurrentRepresentation()
         {
             switch (_bullet.Team)
@@ -32,36 +37,37 @@ namespace Game.Scripts.Components
                 case TeamType.Player:
                     _currentBody = _bodyBlue;
                     _currentExplosion = _explosionBlue;
+                    _bodyRed.gameObject.SetActive(false);
+                    _explosionRed.gameObject.SetActive(false);
                     break;
                 
                 case TeamType.Enemy:
                     _currentBody = _bodyRed;
                     _currentExplosion = _explosionRed;
+                    _bodyBlue.gameObject.SetActive(false);
+                    _explosionBlue.gameObject.SetActive(false);
                     break;
             }
         }
-
-        private void OnDisable()
-        {
-            _bullet.OnHit -= PlayExplosion;
-            _bullet.OnHit -= StopVisual;
-        }
-
+        
         private void PlayVisual()
         {
            _currentBody.gameObject.SetActive(true);
            _currentBody.Play();
         }
 
-        private void StopVisual(Bullet bullet)
+        private void PlayExplosion()
         {
             _currentBody.Stop();
-        }
-
-        private void PlayExplosion(Bullet bullet)
-        {
             _currentExplosion.gameObject.SetActive(true);
             _currentExplosion.Play();
+            StartCoroutine(WaitForExplosion());
+        }
+
+        private IEnumerator WaitForExplosion()
+        {
+            yield return new WaitForSeconds(_currentExplosion.main.duration);
+                _bullet.IsExpired();
         }
     }
 }

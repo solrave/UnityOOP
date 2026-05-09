@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Game
 {
@@ -9,7 +10,7 @@ namespace Game
         private GameCycle _cycle;
 
         [SerializeField]
-        private ShipSpawner _shipSpawner;
+        private EnemyShipSpawner enemyShipSpawner;
         
         private void OnEnable()
         {
@@ -24,7 +25,7 @@ namespace Game
         
         private void StopGame()
         {
-            _shipSpawner.StopAllShips();
+            enemyShipSpawner.StopAllShips();
         }
 
     }

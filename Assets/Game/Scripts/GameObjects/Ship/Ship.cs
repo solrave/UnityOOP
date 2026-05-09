@@ -1,13 +1,19 @@
 using System;
 using Game.Components;
 using Game.Scripts.Components;
+using Game.Scripts.GameObjects.Ship;
 using UnityEngine;
 
 namespace Game
 {
-    public sealed class Ship : MonoBehaviour,IDamageable
+    public sealed class Ship : MonoBehaviour,IDamageable, IShip
     {
-        public event Action<Transform> OnFire;
+        public event Action OnFire
+        {
+            add => _fireComponent.OnFire += value;
+            remove => _fireComponent.OnFire -= value;
+        }
+
         public event Action<Transform> OnShipDestroyed;
         public event Action<int, int> OnHealthChanged;
         public event Action OnDamageTaken;
@@ -37,7 +43,6 @@ namespace Game
             _healthComponent.OnHealthDepleted += ShipDestroyed;
             _healthComponent.OnHealthChanged += HealthChanged;
             _moveComponent.OnMove += AnimateMovement;
-            _fireComponent.OnFire += this.OnFire;
         }
 
         private void OnDisable()
@@ -45,7 +50,6 @@ namespace Game
             _healthComponent.OnHealthDepleted -= ShipDestroyed;
             _healthComponent.OnHealthChanged -= HealthChanged;
             _moveComponent.OnMove -= AnimateMovement;
-            _fireComponent.OnFire -= this.OnFire;
         }
         
         public void Fire()
@@ -61,7 +65,7 @@ namespace Game
             if (!_healthComponent.HasHealth) return;
 
             var directionTarget = targetPosition - Position;
-            _fireComponent.FireAt(Team,directionTarget);
+            _fireComponent.FireAt(Team, directionTarget.normalized);
         }
 
         public void SetDirection(Vector2? position) => _moveComponent.SetDirection(position);

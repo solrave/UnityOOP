@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "Modules.Utils",
-        "Modules.UI"
+        "Modules.UI",
+        "Zenject"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

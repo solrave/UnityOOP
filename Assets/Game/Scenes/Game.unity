@@ -519,7 +519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::Game.UI.UIController
   _playerShip: {fileID: 1993607449}
-  _shipSpawner: {fileID: 1693583076}
+  enemyShipSpawner: {fileID: 1693583076}
   _scoreView: {fileID: 895558708}
   _healthView: {fileID: 1243470931}
   _gameOverView: {fileID: 1375492023}
@@ -1106,6 +1106,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6077239718775194687, guid: 0446acb84a7c9424d841676cef3b1d04, type: 3}
+      propertyPath: _healthComponent._maxHealth
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077239718775194687, guid: 0446acb84a7c9424d841676cef3b1d04, type: 3}
       propertyPath: _fireComponent._bulletSpawner
       value: 
       objectReference: {fileID: 770306092}
@@ -1113,7 +1117,8 @@ PrefabInstance:
       propertyPath: MinDistance
       value: 1.1387568
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3239952199147790853, guid: 0446acb84a7c9424d841676cef3b1d04, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1202,6 +1207,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 739865810}
+  - component: {fileID: 739865811}
+  - component: {fileID: 739865812}
   m_Layer: 0
   m_Name: '[GameContext]'
   m_TagString: Untagged
@@ -1231,6 +1238,50 @@ Transform:
   - {fileID: 177601767}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &739865811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739865809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Zenject::Zenject.SceneContext
+  _scriptableObjectInstallers: []
+  _monoInstallers: []
+  _installerPrefabs: []
+  _autoRun: 1
+  OnPreInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  _parentNewObjectsUnderSceneContext: 0
+  _contractNames: []
+  _parentContractNames: []
+--- !u!114 &739865812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739865809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f27a3f943f7249c1abbc7e800c0efa59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Game.Scripts.Scene.SceneContextInstaller
+  _ship: {fileID: 0}
 --- !u!1 &770306091
 GameObject:
   m_ObjectHideFlags: 0
@@ -1721,7 +1772,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 26a5170262b2141e5a3164831814a20d, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
@@ -2507,7 +2558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::Game.GameController
   _cycle: {fileID: 1326300081}
-  _shipSpawner: {fileID: 1693583076}
+  enemyShipSpawner: {fileID: 1693583076}
 --- !u!1 &1498479406
 GameObject:
   m_ObjectHideFlags: 0

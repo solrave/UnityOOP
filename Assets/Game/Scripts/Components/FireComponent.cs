@@ -6,7 +6,7 @@ namespace Game.Components
     [Serializable]
     public class FireComponent
     {
-        public event Action<Transform> OnFire;
+        public event Action OnFire;
 
         [SerializeField]
         private Transform _firePoint;
@@ -24,8 +24,8 @@ namespace Game.Components
         public void FireUp(TeamType type)
         {
             if (!TimeToShoot()) return;
-            OnFire?.Invoke(_firePoint);
-            var bullet = _bulletSpawner.Spawn(_firePoint, type);
+            OnFire?.Invoke();
+            var bullet = _bulletSpawner.Spawn(_firePoint.position, type);
             bullet.gameObject.SetActive(true);
             bullet.SetDirection(_firePoint.up);
         }
@@ -34,8 +34,8 @@ namespace Game.Components
         {
             if (!TimeToShoot()) return;
             
-            OnFire?.Invoke(_firePoint);
-            var bullet = _bulletSpawner.Spawn(_firePoint, type);
+            OnFire?.Invoke();
+            var bullet = _bulletSpawner.Spawn(_firePoint.position, type);
             bullet.gameObject.SetActive(true);
             bullet.SetDirection(direction);
         }

@@ -5,22 +5,15 @@ namespace Game.Scripts.Systems.Pool
 {
     public class Pool<T> where T : MonoBehaviour
     {
-        private readonly Queue<T> _pool;
-        private readonly T _prefab;
+        private Queue<T> _pool;
+        private readonly Factory<T> _factory;
 
         public Pool(T prefab, int prewarmObjects)
-        {
-            _prefab = prefab;
-            _pool = new Queue<T>(prewarmObjects);
-            
-            for (int i = 0; i < _pool.Count; i++)
-            {
-                T obj = GameObject.Instantiate(_prefab);
-                obj.gameObject.SetActive(false);
-                _pool.Enqueue(obj);
-            }
+        { 
+            _factory = new Factory<T>(prefab);
+            PrewarmObjects(prewarmObjects);
         }
-
+        
         public T Rent()
         {
             if (_pool.TryDequeue(out T obj))
@@ -29,14 +22,7 @@ namespace Game.Scripts.Systems.Pool
                 return obj;
             }
 
-            return Create();
-        }
-
-        private T Create()
-        {
-            T obj = GameObject.Instantiate(_prefab);
-            obj.gameObject.SetActive(false);
-            return obj;
+            return _factory.Create();
         }
 
         public void Release(T obj)
@@ -44,5 +30,27 @@ namespace Game.Scripts.Systems.Pool
             obj.gameObject.SetActive(false);
             _pool.Enqueue(obj);
         }
+        
+        private void PrewarmObjects(int prewarmObjects)
+        {
+            _pool = new Queue<T>(prewarmObjects);
+            for (int i = 0; i < _pool.Count; i++)
+            {
+                T obj = _factory.Create();
+                obj.gameObject.SetActive(false);
+                _pool.Enqueue(obj);
+            }
+        }
     }
+
+    public interface ISpawnableShip
+    {
+        void Setup(Vector2 spawnPoint, Vector2 firePoint, Ship target, BulletSpawner bulletSpawner);
+    }
+    
+    public interface ISpawnableBullet
+    {
+        void Setup(TeamType team, Vector2 position);
+    }
+    
 }

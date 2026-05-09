@@ -1,0 +1,85 @@
+using System;
+using System.Collections.Generic;
+using Game.Scripts.Systems.Pool;
+using Modules.Utils;
+using UnityEngine;
+
+namespace Game
+{
+    public class EnemyShipSpawner : MonoBehaviour
+    {
+        public event Action OnShipDespawned;
+
+        [SerializeField] 
+        private float _spawnCooldown;
+        
+        [SerializeField] 
+        private EnemyShipAI _enemyShipPrefab;
+        
+        [SerializeField]
+        private BulletSpawner _bulletSpawner;
+        
+        [SerializeField]
+        private Ship _target;
+        
+        [SerializeField] 
+        private Transform _container;
+        
+        [SerializeField]
+        private FirePointsContainer _firePoints;
+
+        [SerializeField]
+        private SpawnPointsContainer _spawnPoints;
+        
+        private Pool<EnemyShipAI> _pool;
+        
+        private SpawnTimer _timer;
+
+        private List<EnemyShipAI> _spawnedShips;
+        
+        private bool _spawnStopped;
+
+        private void Awake()
+        {
+            _timer = new SpawnTimer(_spawnCooldown);
+            _pool = new(_enemyShipPrefab, 8);
+            _spawnedShips = new List<EnemyShipAI>();
+        }
+        
+        private void Update()
+        {
+            if (_timer.TimeToSpawn(Time.deltaTime) && !_spawnStopped)
+                Spawn();
+        }
+
+        private void Spawn()
+        {
+            var ship = _pool.Rent();
+            ship.gameObject.SetActive(true);
+            ship.SetPosition(_spawnPoints.GetSpawnPoint());
+            ship.SetTarget(_target);
+            ship.SetFirePosition(_firePoints.GetFirePosition());
+            ship.SetSpawner(_bulletSpawner);
+            ship.OnShipDestroyed += Release;
+            _spawnedShips.Add(ship);
+        }
+
+        private void Release(EnemyShipAI ship)
+        {
+            ship.OnShipDestroyed -= Release;
+            OnShipDespawned?.Invoke();
+            _spawnedShips.Remove(ship);
+            _pool.Release(ship);
+        }
+
+        public void StopAllShips()
+        {
+            _spawnStopped = true;
+            foreach (var ship in _spawnedShips)
+            {
+                ship.SetTarget(null);
+                ship.SetTarget(null);
+            }
+        }
+    }
+}

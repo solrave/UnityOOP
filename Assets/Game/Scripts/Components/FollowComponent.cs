@@ -17,7 +17,7 @@ namespace Game.Scripts.GameObjects.Components
             
             if (IsReached && distance is null) return null;
             
-            IsReached = distance.Value.sqrMagnitude < _stoppingDistance;
+            IsReached = distance.Value.sqrMagnitude < _stoppingDistance * _stoppingDistance;
             
             Vector2? moveDirection = IsReached ? null : distance.Value.normalized;
             return moveDirection;

@@ -10,7 +10,7 @@ namespace Game.UI
         private Ship _playerShip;
 
         [SerializeField]
-        private ShipSpawner _shipSpawner;
+        private EnemyShipSpawner enemyShipSpawner;
         
         [SerializeField]
         private ScoreView _scoreView;
@@ -25,14 +25,14 @@ namespace Game.UI
         {
             _playerShip.OnShipDestroyed += ShowGameOver;
             _playerShip.OnHealthChanged += SetHealth;
-            _shipSpawner.OnShipDespawned += SetScore;
+            enemyShipSpawner.OnShipDespawned += SetScore;
         }
         
         private void OnDisable()
         {
             _playerShip.OnShipDestroyed -= ShowGameOver;
             _playerShip.OnHealthChanged -= SetHealth;
-            _shipSpawner.OnShipDespawned -= SetScore;
+            enemyShipSpawner.OnShipDespawned -= SetScore;
         }
 
         private void SetScore()

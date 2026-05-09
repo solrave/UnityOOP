@@ -44,15 +44,19 @@ namespace Game
             }
         }
 
-        public Bullet Spawn(Transform firePoint, TeamType team)
+        public Bullet Spawn(Vector2 firePoint, TeamType team)
         {
             Bullet bullet = _bulletPool.Rent();
-            bullet.SetTeam(team);
-            bullet.SetPosition(firePoint.position);
-            bullet.OnHit += _bulletPool.Release;
+            bullet.OnExpired += this.DespawnBullet;
             _activeBullets.Add(bullet);
-            Debug.Log($"Bullets { _activeBullets.Count}");
             return bullet;
+        }
+
+        private void DespawnBullet(Bullet bullet)
+        {
+            bullet.OnExpired -= this.DespawnBullet;
+            _activeBullets.Remove(bullet);
+            _bulletPool.Release(bullet);
         }
     }
 }

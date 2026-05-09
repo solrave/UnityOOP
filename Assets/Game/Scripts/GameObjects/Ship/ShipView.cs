@@ -62,14 +62,13 @@ namespace Game.Scripts.Components
             _ship.OnMove += AnimateMovement;
         }
 
-        private void AnimateFire(Transform position)
+        private void AnimateFire()
         {
             if (_shotSFX)
                 audioSource.PlayOneShot(_shotSFX);
 
             if (_muzzleVFX)
             {
-                //Instantiate(_muzzleVFX, position);
                 _muzzleVFX.Play();
             }
         }

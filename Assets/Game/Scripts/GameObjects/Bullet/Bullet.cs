@@ -1,12 +1,14 @@
 using System;
 using Game.Scripts.Components;
+using Game.Scripts.Systems.Pool;
 using UnityEngine;
 
 namespace Game
 {
-    public class Bullet : MonoBehaviour
+    public class Bullet : MonoBehaviour, ISpawnableBullet
     {
-        public event Action<Bullet> OnHit;
+        public event Action OnHit;
+        public event Action<Bullet> OnExpired;
         
         [field: SerializeField]
         public TeamType Team { get; private set; }
@@ -23,6 +25,8 @@ namespace Game
         public void SetTeam(TeamType type) => Team = type;
 
         public void SetPosition(Vector2 position) => this.transform.position = position;
+
+        public void IsExpired() => OnExpired?.Invoke(this);
 
         private void FixedUpdate() => _moveComponent.FixedUpdate();
 
@@ -52,8 +56,13 @@ namespace Game
                 ship.TakeDamage(_damage);
             }
             
-            OnHit?.Invoke(this);
-            this.gameObject.SetActive(false);
+            OnHit?.Invoke();
+        }
+
+        public void Setup(TeamType team, Vector2 position)
+        {
+            Team = team;
+            transform.position = position;
         }
     }
 }
