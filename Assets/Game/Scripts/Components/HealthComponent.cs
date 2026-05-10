@@ -1,27 +1,23 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace Game.Components
 {
     [Serializable]
-    public class HealthComponent
+    public class HealthComponent : IHealthComponent
     {
-        public event Action OnDamageTaken;
-        
         public event Action OnHealthDepleted;
-        
         public event Action<int, int> OnHealthChanged;
 
-
         public bool HasHealth => _currentHealth > 0;
-        
-        [SerializeField]
-        private int _maxHealth = 5;
-        
+        private int _maxHealth;
         private int _currentHealth;
-        
-        public void Init()
+
+        [Inject]
+        public HealthComponent(int maxHealth)
         {
+            _maxHealth = maxHealth;
             _currentHealth = _maxHealth;
         }
 
@@ -29,9 +25,16 @@ namespace Game.Components
         {
             _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, _maxHealth);
             OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
-            this.OnDamageTaken?.Invoke();
             if (_currentHealth <= 0)
                 this.OnHealthDepleted?.Invoke();
         }
+    }
+
+    public interface IHealthComponent
+    {
+        public bool HasHealth { get; }
+        public event Action OnHealthDepleted;
+        public event Action<int, int> OnHealthChanged;
+        public void ReceiveDamage(int damage);
     }
 }

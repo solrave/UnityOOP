@@ -1,43 +1,52 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace Game.Components
 {
     [Serializable]
-    public class FireComponent
+    public class FireComponent : IFireComponent
     {
         public event Action OnFire;
-
-        [SerializeField]
+        
         private Transform _firePoint;
+        private IMemoryPool<Bullet.BulletCreateArgs, Bullet> _bulletSpawner;
         
-        [SerializeField]
-        private BulletSpawner _bulletSpawner;
-        
-        [SerializeField] 
-        private float _fireCooldown = 0.25f;
-        
+        private float _fireCooldown;
         private float _fireTime;
         
-        public void SetSpawner(BulletSpawner spawner) => _bulletSpawner = spawner;
+        [Inject]
+        public FireComponent(IMemoryPool<Bullet.BulletCreateArgs, Bullet> bulletSpawner
+            ,Transform firePoint, float fireCooldown)
+        {
+            _bulletSpawner = bulletSpawner;
+            _firePoint = firePoint;
+            _fireCooldown = fireCooldown;
+        }
         
-        public void FireUp(TeamType type)
+        public void FireUp(TeamType team)
         {
             if (!TimeToShoot()) return;
             OnFire?.Invoke();
-            var bullet = _bulletSpawner.Spawn(_firePoint.position, type);
-            bullet.gameObject.SetActive(true);
-            bullet.SetDirection(_firePoint.up);
+            var bullet = _bulletSpawner.Spawn(new Bullet.BulletCreateArgs
+            {
+                team = team,
+                position = _firePoint.position,
+                direction = _firePoint.up
+            });
         }
 
-        public void FireAt(TeamType type, Vector2 direction)
+        public void FireAt(TeamType team, Vector2 direction)
         {
             if (!TimeToShoot()) return;
             
             OnFire?.Invoke();
-            var bullet = _bulletSpawner.Spawn(_firePoint.position, type);
-            bullet.gameObject.SetActive(true);
-            bullet.SetDirection(direction);
+            var bullet = _bulletSpawner.Spawn(new Bullet.BulletCreateArgs
+            {
+                team = team,
+                position = _firePoint.position,
+                direction = direction
+            });
         }
 
         private bool TimeToShoot()
@@ -50,5 +59,12 @@ namespace Game.Components
             _fireTime = time;
             return true;
         }
+    }
+
+    public interface IFireComponent
+    {
+        public event Action OnFire;
+        public void FireUp(TeamType team);
+        public void FireAt(TeamType type, Vector2 direction);
     }
 }

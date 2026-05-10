@@ -59,7 +59,7 @@ namespace Game.Scripts.Components
             _ship.OnFire -= AnimateFire;
             _ship.OnShipDestroyed -= AnimateDestruction;
             _ship.OnDamageTaken -= AnimateDamage;
-            _ship.OnMove += AnimateMovement;
+            _ship.OnMove -= AnimateMovement;
         }
 
         private void AnimateFire()
@@ -90,10 +90,10 @@ namespace Game.Scripts.Components
                 audioSource.PlayOneShot(_damageSfx);
         }
 
-        private void AnimateDestruction(Transform position)
+        private void AnimateDestruction(Vector2 position)
         {
             ParticleSystem prefab = _destroyEffectPrefab;
-            Instantiate(prefab, position.position, prefab.transform.rotation);
+            Instantiate(prefab, position, prefab.transform.rotation);
         }
         
         private void AnimateMovement(Vector2? inputDirection,float speed)

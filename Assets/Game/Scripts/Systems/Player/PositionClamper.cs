@@ -1,5 +1,5 @@
-using Modules.Utils;
 using UnityEngine;
+using Modules.Utils;
 
 namespace Game
 {

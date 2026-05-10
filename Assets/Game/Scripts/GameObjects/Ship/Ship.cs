@@ -1,63 +1,64 @@
 using System;
 using Game.Components;
-using Game.Scripts.Components;
-using Game.Scripts.GameObjects.Ship;
 using UnityEngine;
+using Zenject;
 
 namespace Game
 {
-    public sealed class Ship : MonoBehaviour,IDamageable, IShip
-    {
+    [Serializable]
+    public sealed class Ship : IShip, IInitializable, IDisposable
+    { 
         public event Action OnFire
         {
             add => _fireComponent.OnFire += value;
             remove => _fireComponent.OnFire -= value;
         }
 
-        public event Action<Transform> OnShipDestroyed;
-        public event Action<int, int> OnHealthChanged;
-        public event Action OnDamageTaken;
-        public event Action<Vector2?, float> OnMove;  
-        
-        public bool ReadyToShoot => _healthComponent.HasHealth;
-
-        public Vector2 Position => transform.position;
-        
-        [field: SerializeField]
-        public TeamType Team { get;  private set;}
-        
-        [SerializeField]
-        private FireComponent _fireComponent;
-        
-        [SerializeField]
-        private HealthComponent _healthComponent;
-        
-        [SerializeField]
-        private MoveComponent _moveComponent;
-
-        private void FixedUpdate() => _moveComponent.FixedUpdate();
-
-        private void OnEnable()
+        public event Action<Vector2?, float> OnMove
         {
-            _healthComponent.Init();
-            _healthComponent.OnHealthDepleted += ShipDestroyed;
-            _healthComponent.OnHealthChanged += HealthChanged;
-            _moveComponent.OnMove += AnimateMovement;
+            add => _moveComponent.OnMove += value;
+            remove => _moveComponent.OnMove -= value;
+        }  
+        
+        public event Action<int, int> OnHealthChanged 
+        {
+            add => _healthComponent.OnHealthChanged += value;
+            remove => _healthComponent.OnHealthChanged -= value;
         }
 
-        private void OnDisable()
+        public event Action<Vector2> OnShipDestroyed;
+        public event Action OnDamageTaken;
+        
+        public bool ReadyToShoot => _healthComponent.HasHealth;
+        public Vector2 Position => _moveComponent.Position;
+        
+        [Inject]
+        public TeamType Team {get;}
+        
+        [Inject]
+        private IFireComponent _fireComponent;
+        
+        [Inject]
+        private IHealthComponent _healthComponent;
+        
+        [Inject]
+        private IMoveComponent _moveComponent;
+
+        public void Initialize()
+        {
+            _healthComponent.OnHealthDepleted += ShipDestroyed;
+        }
+
+        public void Dispose()
         {
             _healthComponent.OnHealthDepleted -= ShipDestroyed;
-            _healthComponent.OnHealthChanged -= HealthChanged;
-            _moveComponent.OnMove -= AnimateMovement;
         }
         
         public void Fire()
         {
-            if (_healthComponent.HasHealth)
-            {
+            if (!_healthComponent.HasHealth) return;
+            
                 _fireComponent.FireUp(Team);
-            }
         }
         
         public void FireAt(Vector2 targetPosition)
@@ -76,29 +77,10 @@ namespace Game
             OnDamageTaken?.Invoke();
             _healthComponent.ReceiveDamage(damage);
         }
-        
-        public void SetSpawner(BulletSpawner spawner)
-        {
-            _fireComponent.SetSpawner(spawner);
-        }
-        
-        private void AnimateMovement(Vector2? direction, float speed)
-        {
-            OnMove?.Invoke(direction,speed);
-        }
 
         private void ShipDestroyed()
         { 
-            OnShipDestroyed?.Invoke(this.transform);
-            this.gameObject.SetActive(false);
+            OnShipDestroyed?.Invoke(_moveComponent.Position);
         }
-
-        private void HealthChanged(int currentHealth, int maxHealth) =>
-            OnHealthChanged?.Invoke(currentHealth, maxHealth);
-    }
-
-    public interface IDamageable
-    {
-        public void TakeDamage(int damage);
     }
 }

@@ -1281,7 +1281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f27a3f943f7249c1abbc7e800c0efa59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::Game.Scripts.Scene.SceneContextInstaller
-  _ship: {fileID: 0}
+  _ship: {fileID: 1993607449}
 --- !u!1 &770306091
 GameObject:
   m_ObjectHideFlags: 0

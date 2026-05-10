@@ -4,12 +4,15 @@ using UnityEngine;
 namespace Game.Scripts.GameObjects.Components
 {
     [Serializable]
-    public class FollowComponent
+    public class FollowComponent : IFollowComponent
     {
         public bool IsReached { get; private set; }
-
-        [SerializeField] 
         private float _stoppingDistance;
+
+        public FollowComponent(float stoppingDistance)
+        {
+            _stoppingDistance = stoppingDistance;
+        }
        
         public Vector2? GetDirection(Vector2? target,Vector2 position)
         {
@@ -22,5 +25,10 @@ namespace Game.Scripts.GameObjects.Components
             Vector2? moveDirection = IsReached ? null : distance.Value.normalized;
             return moveDirection;
         }
+    }
+
+    public interface IFollowComponent
+    {
+        
     }
 }

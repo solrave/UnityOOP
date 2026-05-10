@@ -1,20 +1,31 @@
+using System;
 using UnityEngine;
+using Zenject;
 
 namespace Game
 {
-    public class SpawnTimer
+    public class ByTimeEnemyShipSpawner : EnemyShipSpawner, ITickable
     {
         private float _lastSpawnedTime = 0f;
         private readonly float _spawnCooldown;
         
-        public SpawnTimer(float spawnCooldown)
+        public ByTimeEnemyShipSpawner(EnemyCreateArgsProvider argsProvider, EnemyShipAI.Pool pool
+            ,float spawnCooldown ): base (argsProvider, pool)
         {
             _spawnCooldown = spawnCooldown;
         }
-
-        public bool TimeToSpawn(float time)
+        
+        public void Tick()
         {
-            _lastSpawnedTime += time;
+            if (TimeToSpawn())
+            {
+                Spawn();
+            }
+        }
+
+        private bool TimeToSpawn()
+        {
+            _lastSpawnedTime += Time.time;
             
             if (_lastSpawnedTime > _spawnCooldown)
             {
@@ -29,5 +40,7 @@ namespace Game
         {
             _lastSpawnedTime = 0f;
         }
+
+       
     }
 }

@@ -11,7 +11,7 @@ namespace Modules.Utils
             int index = UnityEngine.Random.Range(0, collection.Count());
             return collection.ElementAt(index);
         }
-        
+
         public static void Shuffle(this Transform[] array)
         {
             for (int i = array.Length - 1; i > 0; i--)

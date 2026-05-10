@@ -1,29 +1,34 @@
 using System;
 using Modules.Utils;
 using UnityEngine;
+using Zenject;
 
 namespace Game
 {
     [Serializable]
-    public sealed class MoveComponent
+    public sealed class MoveComponent : IMoveComponent, IFixedTickable
     {
-        public event Action<Vector2?, float> OnMove;  
-        
-        [SerializeField]
+        public event Action<Vector2?, float> OnMove;
+        public Vector2 Position => _rigidbody.position;
+
         private Rigidbody2D _rigidbody;
-        
-        [SerializeField]
-        private float _speed = 5f;
+        private float _speed;
         
         private Vector2? _inputDirection;
         private Vector2 _simpleDirection;
 
-        public void SetSpeed(float speed) => _speed = speed;
+        [Inject]
+        public MoveComponent(Rigidbody2D rigidbody, float speed)
+        {
+            _rigidbody = rigidbody;
+            _speed = speed;
+        }
 
+        public void SetSpeed(float speed) => _speed = speed;
         public void SetDirection(Vector2? direction) => _inputDirection = direction;
         public void SetPosition(Vector2 position) => _rigidbody.position = position;
 
-        public void FixedUpdate() => Move();
+        public void FixedTick() => Move();
         
         private void Move()
         {
@@ -34,5 +39,14 @@ namespace Game
             }
             OnMove?.Invoke(_inputDirection, _speed);
         }
+    }
+
+    public interface IMoveComponent
+    {
+        public event Action<Vector2?, float> OnMove;
+        Vector2 Position { get;}
+        public void SetSpeed(float speed);
+        public void SetDirection(Vector2? direction);
+        public void SetPosition(Vector2 position);
     }
 }

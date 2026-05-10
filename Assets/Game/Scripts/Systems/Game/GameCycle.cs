@@ -21,7 +21,7 @@ namespace Game
             _ship.OnShipDestroyed -= StopGame;
         }
         
-        private void StopGame(Transform ship)
+        private void StopGame(Vector2 ship)
         {
             OnGameOver?.Invoke();
         }

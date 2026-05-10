@@ -25,14 +25,14 @@ namespace Game.UI
         {
             _playerShip.OnShipDestroyed += ShowGameOver;
             _playerShip.OnHealthChanged += SetHealth;
-            enemyShipSpawner.OnShipDespawned += SetScore;
+            enemyShipSpawner.OnKillCountIncrease += SetScore;
         }
         
         private void OnDisable()
         {
             _playerShip.OnShipDestroyed -= ShowGameOver;
             _playerShip.OnHealthChanged -= SetHealth;
-            enemyShipSpawner.OnShipDespawned -= SetScore;
+            enemyShipSpawner.OnKillCountIncrease -= SetScore;
         }
 
         private void SetScore()
@@ -45,7 +45,7 @@ namespace Game.UI
             _healthView.SetHealth(health, maxHealth);
         }
 
-        private void ShowGameOver(Transform ship)
+        private void ShowGameOver(Vector2 ship)
         {
             _gameOverView.Show();
         }
