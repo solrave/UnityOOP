@@ -26,9 +26,9 @@ namespace Zenject
             item.OnDespawned();
         }
 
-        protected override void Reinitialize(TParam1 p1, TValue bullet)
+        protected override void Reinitialize(TParam1 p1, TValue enemy)
         {
-            bullet.OnSpawned(p1);
+            enemy.OnSpawned(p1);
         }
     }
 

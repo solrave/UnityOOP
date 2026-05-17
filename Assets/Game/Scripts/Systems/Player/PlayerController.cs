@@ -1,13 +1,23 @@
+using System;
+using Game.Scripts.Components;
+using Game.Scripts.Components.Core;
+using Game.Scripts.Context.GameObject.Ship;
+using Game.Scripts.Context.GameObject.Ship.Player;
 using UnityEngine;
+using Zenject;
 
 namespace Game
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : ITickable
     {
-        [SerializeField]
-        private Ship _playerShip;
+        private readonly PlayerEntity _player;
         
-        private void Update() => ListenInput();
+        public PlayerController(PlayerEntity player)
+        {
+            _player = player;
+        }
+
+        public void Tick() => ListenInput();
         
         private void ListenInput()
         {
@@ -15,12 +25,12 @@ namespace Game
             
             if (direction != Vector2.zero)
             {
-               _playerShip.SetDirection(direction);
+               _player.Get<IMoveComponent>().SetDirection(direction);
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-               _playerShip.Fire();
+               _player.Get<IFireComponent>().FireUp();
             }
         }
     }

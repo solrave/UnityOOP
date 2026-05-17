@@ -1,5 +1,6 @@
 using System;
 using Game.Scripts.Components;
+using Game.Scripts.Components.Core;
 using Game.Scripts.Systems.Pool;
 using UnityEngine;
 using Zenject;
@@ -10,11 +11,11 @@ namespace Game
     {
         public sealed class Pool : MemoryPool<BulletCreateArgs, Bullet>
         {
-            protected override void Reinitialize(BulletCreateArgs args, Bullet bullet)
+            protected override void Reinitialize(BulletCreateArgs args, Bullet enemy)
             {
-                bullet.SetTeam(args.team);
-                bullet.SetPosition(args.position);
-                bullet.SetDirection(args.direction);
+                enemy.SetTeam(args.team);
+                enemy.SetPosition(args.position);
+                enemy.SetDirection(args.direction);
             }
             
             protected override void OnSpawned(Bullet bullet)
@@ -38,7 +39,6 @@ namespace Game
         }
         
         public event Action OnHit;
-        public event Action<Bullet> OnExpired;
         public event Action<Bullet> OnDispose;
         
         public TeamType Team { get; private set; }
@@ -58,7 +58,7 @@ namespace Game
 
         public void SetPosition(Vector2 position) => this.transform.position = position;
 
-        public void IsExpired() => OnExpired?.Invoke(this);
+        public void IsExpired() => OnDispose?.Invoke(this);
         
         public void FixedUpdate()  => _moveComponent.FixedTick();
 
@@ -85,14 +85,11 @@ namespace Game
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!other.TryGetComponent(out IShip ship))
-                return;
+            if (other.TryGetComponent(out IGameEntity entity) 
+                && entity.TryGet<IHealthComponent>(out var healthComponent))
             
-            if (_damage > 0)
-            {
-                ship.TakeDamage(_damage);
-            }
-            
+                healthComponent.ReceiveDamage(_damage);
+                
             OnHit?.Invoke();
         }
     }

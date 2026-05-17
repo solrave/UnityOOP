@@ -1,9 +1,8 @@
 using System;
-using Game.Components;
 using UnityEngine;
 using Zenject;
 
-namespace Game.Scripts.Scene
+namespace Game.Scripts.Context.Scene
 {
     [Serializable]
     public class BulletSpawnerInstaller : Installer

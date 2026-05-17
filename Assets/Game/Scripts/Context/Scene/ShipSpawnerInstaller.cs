@@ -1,40 +1,60 @@
 using System;
+using Game.Scripts.Context.GameObject.Ship.Enemy;
+using Game.Scripts.GameObjects.Ship;
+using Game.Scripts.Systems.Enemy.Spawn.ArgsProvider;
+using Game.Scripts.Systems.Enemy.Spawn.Points;
 using UnityEngine;
 using Zenject;
 
-namespace Game.Scripts.Scene
+namespace Game.Scripts.Context.Scene
 {
     [Serializable]
     public class ShipSpawnerInstaller : Installer
     {
-        [SerializeField]
-        private EnemyCreateArgsProvider _argsProvider;
-
-        [SerializeField]
-        private FirePointService _firePointService;
-        
-        [SerializeField]
-        private SpawnPointService _spawnPointService;
-
         [SerializeField] 
-        private float _spawnCooldown;
+        private EnemyEntity _enemyEntity;
         
         [SerializeField]
-        private EnemyShipAI _enemyPrefab;
+        private float _spawnCooldown;
         
         public override void InstallBindings()
         {
-            this.Container.Bind<EnemyCreateArgsProvider>().FromInstance(_argsProvider).AsSingle()
-                .WithArguments(_firePointService, _spawnPointService);
+            this.Container.Bind<FirePointService>()
+                .FromMethod(this.CreateFirePointService)
+                .AsSingle();
             
+            this.Container.Bind<SpawnPointService>()
+                .FromMethod(this.CreateSpawnPointService)
+                .AsSingle();
+            
+            this.Container.Bind<EnemyCreateArgsProvider>().AsSingle();
+
             this.Container
-                .BindMemoryPoolCustomInterface<EnemyShipAI, EnemyShipAI.Pool
-                    ,IMemoryPool<EnemyShipAI.EnemyCreateArgs, EnemyShipAI>>()
-                .FromInstance(_enemyPrefab);
+                .BindMemoryPoolCustomInterface<EnemyAI, EnemyAI.Pool
+                    ,IMemoryPool<EnemyAI.Settings, EnemyAI>>()
+                .WithInitialSize(4);
+            
+            this.Container.BindFactory<EnemyAI, EnemyEntity, EnemyEntity.Factory>()
+                .FromComponentInNewPrefab(_enemyEntity)
+                    .AsSingle();
             
             this.Container.Bind<ByTimeEnemyShipSpawner>()
-                .AsSingle().WithArguments(_argsProvider, _spawnCooldown)
+                .AsSingle().WithArguments(_spawnCooldown)
                 .NonLazy();
+        }
+
+        private SpawnPointService CreateSpawnPointService()
+        {
+            SpawnPoint[] spawnPoints = UnityEngine.GameObject.FindObjectsByType<SpawnPoint>
+                (FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+            return new SpawnPointService(spawnPoints);
+        }
+
+        private FirePointService CreateFirePointService()
+        {
+            FirePoint[] firePoints = UnityEngine.GameObject.FindObjectsByType<FirePoint>
+                (FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+            return new FirePointService(firePoints);
         }
     }
 }

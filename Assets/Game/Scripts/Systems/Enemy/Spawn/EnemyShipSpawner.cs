@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Game.Scripts.Context.GameObject.Ship.Enemy;
+using Game.Scripts.GameObjects.Ship;
+using Game.Scripts.Systems.Enemy.Spawn.ArgsProvider;
 using UnityEngine;
 using Zenject;
 
@@ -8,29 +11,29 @@ namespace Game
     public class EnemyShipSpawner
     {
         public event Action OnKillCountIncrease;
-        
         private readonly EnemyCreateArgsProvider _argsProvider;
-        private readonly IMemoryPool<EnemyShipAI.EnemyCreateArgs, EnemyShipAI> _pool;
-        
-        private List<EnemyShipAI> _spawnedShips;
+        private readonly IMemoryPool<EnemyAI.Settings, EnemyAI> _pool;
+        private readonly EnemyEntity.Factory _factory;
+        private List<EnemyAI> _spawnedShips;
 
-        [Inject]
-        public EnemyShipSpawner(EnemyCreateArgsProvider argsProvider,
-            IMemoryPool<EnemyShipAI.EnemyCreateArgs, EnemyShipAI> pool)
+        protected EnemyShipSpawner(EnemyCreateArgsProvider argsProvider,
+            IMemoryPool<EnemyAI.Settings, EnemyAI> pool, EnemyEntity.Factory factory)
         {
             _argsProvider = argsProvider;
             _pool = pool;
+            _factory = factory;
         }
 
         protected void Spawn()
         {
             var args = _argsProvider.GetNewArgs();
             var ship = _pool.Spawn(args);
+            var enemy = _factory.Create(ship);
             ship.OnDispose += Despawn;
             _spawnedShips.Add(ship);
         }
 
-        private void Despawn(EnemyShipAI ship)
+        private void Despawn(EnemyAI ship)
         {
             ship.OnDispose -= Despawn;
             OnKillCountIncrease?.Invoke();
@@ -41,7 +44,6 @@ namespace Game
         {
             foreach (var ship in _spawnedShips)
             {
-                ship.SetTarget(null);
                 ship.SetTarget(null);
             }
         }

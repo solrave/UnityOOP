@@ -1,17 +1,18 @@
 using System;
+using Game.Scripts.Components;
+using Game.Scripts.Components.Core;
+using Game.Scripts.Context.GameObject.Ship;
+using Game.Scripts.Context.GameObject.Ship.Player;
 using Modules.UI;
 using UnityEngine;
+using Zenject;
 
 namespace Game.UI
 {
     public class UIController : MonoBehaviour
     {
-        [SerializeField]
-        private Ship _playerShip;
+        private PlayerEntity _player;
 
-        [SerializeField]
-        private EnemyShipSpawner enemyShipSpawner;
-        
         [SerializeField]
         private ScoreView _scoreView;
 
@@ -21,18 +22,22 @@ namespace Game.UI
         [SerializeField] 
         private GameOverView _gameOverView;
         
+        [Inject]
+        public void Construct(PlayerEntity player)
+        {
+            _player = player;
+        }
+        
         private void OnEnable()
         {
-            _playerShip.OnShipDestroyed += ShowGameOver;
-            _playerShip.OnHealthChanged += SetHealth;
-            enemyShipSpawner.OnKillCountIncrease += SetScore;
+            _player.Get<IHealthComponent>().OnHealthDepleted += ShowGameOver;
+            _player.Get<IHealthComponent>().OnHealthChanged += SetHealth;
         }
         
         private void OnDisable()
         {
-            _playerShip.OnShipDestroyed -= ShowGameOver;
-            _playerShip.OnHealthChanged -= SetHealth;
-            enemyShipSpawner.OnKillCountIncrease -= SetScore;
+            _player.Get<IHealthComponent>().OnHealthDepleted -= ShowGameOver;
+            _player.Get<IHealthComponent>().OnHealthChanged -= SetHealth;
         }
 
         private void SetScore()
@@ -45,7 +50,7 @@ namespace Game.UI
             _healthView.SetHealth(health, maxHealth);
         }
 
-        private void ShowGameOver(Vector2 ship)
+        private void ShowGameOver()
         {
             _gameOverView.Show();
         }

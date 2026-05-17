@@ -40,6 +40,5 @@ namespace Game.Scripts.ZenjectExtensions
                     (array[i], array[j]) = (array[j], array[i]);
                 }
             }
-        
     }
 }

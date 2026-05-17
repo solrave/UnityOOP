@@ -76,10 +76,10 @@ namespace Zenject
             }
         }
 
-        protected override void Reinitialize(TParam1 p1, TValue bullet)
+        protected override void Reinitialize(TParam1 p1, TValue enemy)
         {
-            bullet.gameObject.SetActive(true);
-            bullet.OnSpawned(p1);
+            enemy.gameObject.SetActive(true);
+            enemy.OnSpawned(p1);
         }
     }
 

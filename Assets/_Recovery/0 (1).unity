@@ -915,17 +915,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 522898773}
   m_CullTransparentMesh: 1
---- !u!114 &536604351 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7188377597044863691, guid: 0446acb84a7c9424d841676cef3b1d04, type: 3}
-  m_PrefabInstance: {fileID: 1326833186}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be3fad95fe454ff0927ac66c70708520, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game::Game.Scripts.Components.GameEntity
 --- !u!1 &546105481
 GameObject:
   m_ObjectHideFlags: 0
@@ -1243,11 +1232,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f27a3f943f7249c1abbc7e800c0efa59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::Game.Scripts.Scene.SceneContextInstaller
-  _player: {fileID: 536604351}
-  _playerBounds: {fileID: 1498479408}
+  _player: {fileID: 0}
+  _enemyInstaller:
+    _enemyEntity: {fileID: 0}
   _shipSpawnerInstaller:
-    _enemyEntity: {fileID: 4996441529269337668, guid: 87fe189881a524806800482ac8eaaa83, type: 3}
-    _spawnCooldown: 5
+    _spawnCooldown: 1
   _bulletSpawnerInstaller:
     _bulletPrefab: {fileID: 76952851492952380, guid: 5fe72886874b4e445b06cf777ca4920d, type: 3}
 --- !u!1 &770306091
@@ -1408,6 +1397,96 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2094226229}
   m_LocalEulerAnglesHint: {x: -2.627, y: 42.383, z: 33.943}
+--- !u!1 &849390884
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 849390885}
+  - component: {fileID: 849390886}
+  m_Layer: 0
+  m_Name: PositionClamper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &849390885
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849390884}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1879759789}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &849390886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849390884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3558fced5d664d878027a2102527aedd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Game.PositionClamper
+  player: {fileID: 0}
+  _playerBounds: {fileID: 1498479408}
+--- !u!1 &879439866
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 879439867}
+  - component: {fileID: 879439868}
+  m_Layer: 0
+  m_Name: PlayerController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &879439867
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879439866}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1879759789}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &879439868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879439866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b73ecb213c574c55ae3e631422e4a771, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Game.PlayerInputController
 --- !u!1 &883274639
 GameObject:
   m_ObjectHideFlags: 0
@@ -2219,10 +2298,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7188377597044863691, guid: 0446acb84a7c9424d841676cef3b1d04, type: 3}
-      propertyPath: _autoRun
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2843,7 +2918,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 879439867}
   - {fileID: 1498479407}
+  - {fileID: 849390885}
   m_Father: {fileID: 739865810}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1954893900

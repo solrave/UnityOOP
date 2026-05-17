@@ -1,79 +1,75 @@
 using System;
 using DG.Tweening;
+using Game.Scripts.Components;
+using Game.Scripts.Components.Core;
+using Game.Scripts.Context.GameObject.Ship;
+using Game.Scripts.Context.GameObject.Ship.Player;
 using Modules.Utils;
 using UnityEngine;
+using Zenject;
 
-namespace Game.Scripts.Components
+namespace Game.Scripts.GameObjects.Ship
 {
-    public class ShipView : MonoBehaviour
+    public class ShipView : MonoBehaviour, IShipView
     {
-        [SerializeField]
-        private Transform _visualTransform;
-        [SerializeField]
-        private float _moveRotationAngle  = 30f;
-        
-        [SerializeField] 
-        private Ship _ship;
+        private PlayerEntity _player;
 
-        [SerializeField]
-        public AudioSource audioSource;
-        
-        [SerializeField]
-        public AnimationCurve hitAnimationCurve;
-        
-        [SerializeField]
-        public float hitDuration = 0.2f;
-        
-        [SerializeField]
-        private ParticleSystem _muzzleVFX;
+        [SerializeField] private Transform _visualTransform;
 
-        [SerializeField]
-        private AudioClip _shotSFX;
-        
-        [SerializeField]
-        private AudioClip _damageSfx;
+        [SerializeField] private float _moveRotationAngle;
 
-        [SerializeField]
-        private ParticleSystem _destroyEffectPrefab;
-        
-        [SerializeField]
-        private Material _material;
-        
-        [SerializeField]
-        private CameraShaker _cameraShaker;
+        [SerializeField] private AudioSource _audioSource;
+
+        [SerializeField] private AnimationCurve _hitAnimationCurve;
+
+        [SerializeField] private float _hitDuration;
+
+        [SerializeField] private ParticleSystem _muzzleVFX;
+
+        [SerializeField] private ParticleSystem _destroyVFX;
+
+        [SerializeField] private AudioClip _shotSFX;
+
+        [SerializeField] private AudioClip _damageSFX;
+
+        [SerializeField] private Material _material;
+
+        [SerializeField] private CameraShaker _cameraShaker;
         
         private readonly string _hitPropertyName = "_HitBlend";
         private Tweener _renderer;
         private Tweener _damageAnimation;
+        
+        [Inject]
+        public void Construct(PlayerEntity player)
+        {
+            _player = player;
+            Debug.Log($"VIEW ENTITY NOT NULL: {_player != null}");
+        }
 
         private void OnEnable()
         {
-            _ship.OnFire += AnimateFire;
-            _ship.OnShipDestroyed += AnimateDestruction;
-            _ship.OnDamageTaken += AnimateDamage;
-            _ship.OnMove += AnimateMovement;
+            _player.Get<IFireComponent>().OnFire += AnimateFire;
+            _player.Get<IHealthComponent>().OnHealthDepleted += AnimateDestruction;
+            _player.Get<IHealthComponent>().OnHit += AnimateDamage;
+            _player.Get<IMoveComponent>().OnMove += AnimateMovement;
         }
 
         private void OnDisable()
         {
-            _ship.OnFire -= AnimateFire;
-            _ship.OnShipDestroyed -= AnimateDestruction;
-            _ship.OnDamageTaken -= AnimateDamage;
-            _ship.OnMove -= AnimateMovement;
+            _player.Get<IFireComponent>().OnFire -= AnimateFire;
+            _player.Get<IHealthComponent>().OnHealthDepleted -= AnimateDestruction;
+            _player.Get<IHealthComponent>().OnHit -= AnimateDamage;
+            _player.Get<IMoveComponent>().OnMove -= AnimateMovement;
         }
 
-        private void AnimateFire()
+        public void AnimateFire()
         {
-            if (_shotSFX)
-                audioSource.PlayOneShot(_shotSFX);
-
-            if (_muzzleVFX)
-            {
-                _muzzleVFX.Play();
-            }
+            PlaySound(_shotSFX);
+           PlayEffect(_muzzleVFX);
         }
 
-        private void AnimateDamage()
+        public void AnimateDamage()
         { 
             if (_damageAnimation.IsActive())
                 _damageAnimation.Kill();
@@ -81,22 +77,20 @@ namespace Game.Scripts.Components
             _damageAnimation = DOVirtual.Float(
                 0f,
                 1f,
-                hitDuration,
+                _hitDuration,
                 progress => _material?.SetFloat(_hitPropertyName,
-                    hitAnimationCurve.Evaluate(progress))
+                    _hitAnimationCurve.Evaluate(progress))
             );
             
-            if (_damageSfx)
-                audioSource.PlayOneShot(_damageSfx);
+           PlaySound(_damageSFX);
         }
 
-        private void AnimateDestruction(Vector2 position)
+        public void AnimateDestruction()
         {
-            ParticleSystem prefab = _destroyEffectPrefab;
-            Instantiate(prefab, position, prefab.transform.rotation);
+           PlayEffect(_destroyVFX);
         }
-        
-        private void AnimateMovement(Vector2? inputDirection,float speed)
+
+        public void AnimateMovement(Vector2? inputDirection,float speed)
         {
             Vector3 shipAngles = _visualTransform.localEulerAngles;
             
@@ -108,7 +102,28 @@ namespace Game.Scripts.Components
             
             Quaternion shipRotation = Quaternion.Euler(shipAngles);
             float t = speed * Time.deltaTime;
-            _visualTransform.localRotation = Quaternion.Lerp(_visualTransform.localRotation, shipRotation, t);
+            _visualTransform.localRotation 
+                = Quaternion.Lerp(_visualTransform.localRotation, shipRotation, t);
         }
+        
+        private void PlayEffect(ParticleSystem effect)
+        {
+            if (effect)
+                Instantiate(effect, _visualTransform.position, effect.transform.rotation);
+        }
+
+        private void PlaySound(AudioClip clip)
+        {
+            if (clip)
+                this._audioSource.PlayOneShot(clip);
+        }
+    }
+
+    public interface IShipView
+    {
+        void AnimateFire();
+        void AnimateDamage();
+        void AnimateDestruction();
+        void AnimateMovement(Vector2? inputDirection, float speed);
     }
 }

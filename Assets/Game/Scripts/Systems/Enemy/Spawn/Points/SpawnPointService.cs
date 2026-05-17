@@ -4,12 +4,15 @@ using UnityEngine;
 
 namespace Game
 {
-    [Serializable]
     public class SpawnPointService
     {
-        [SerializeField] 
         private SpawnPoint[] _spawnPoints;
 
+        public SpawnPointService(SpawnPoint[] spawnPoints)
+        {
+            _spawnPoints = spawnPoints;
+        }
+        
         public IPoint GetSpawnPoint()
         {
             _spawnPoints.Shuffle();

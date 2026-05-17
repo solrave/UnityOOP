@@ -1,14 +1,18 @@
 using System;
 using Game.Scripts.ZenjectExtensions;
 using UnityEngine;
+using Zenject;
 
-namespace Game
+namespace Game.Scripts.Systems.Enemy.Spawn.Points
 {
-    [Serializable]
     public class FirePointService
     {
-        [SerializeField]
         private FirePoint[] _firePoints;
+
+        public FirePointService(FirePoint[] firePoints)
+        {
+            _firePoints = firePoints;
+        }
 
         public IPoint GetFirePosition()
         {

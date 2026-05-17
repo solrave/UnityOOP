@@ -1,28 +1,27 @@
-using System;
-using UnityEngine;
-using Zenject;
+using Game.Scripts.Context.GameObject.Ship.Enemy;
+using Game.Scripts.Context.GameObject.Ship.Player;
+using Game.Scripts.GameObjects.Ship;
+using Game.Scripts.Systems.Enemy.Spawn.Points;
 
-namespace Game
+namespace Game.Scripts.Systems.Enemy.Spawn.ArgsProvider
 {
-    [Serializable]
     public class EnemyCreateArgsProvider
     {
-        private FirePointService _firePointService;
-        private SpawnPointService _spawnPointService;
-        private IShip _target;
+        private readonly FirePointService _firePointService;
+        private readonly SpawnPointService _spawnPointService;
+        private readonly PlayerEntity _target;
         
-        [Inject]
-        public EnemyCreateArgsProvider(IShip target, FirePointService firePointService,
-            SpawnPointService spawnPointService)
+        public EnemyCreateArgsProvider(PlayerEntity target
+            ,FirePointService firePointService, SpawnPointService spawnPointService)
         {
             _target = target;
             _firePointService = firePointService;
             _spawnPointService = spawnPointService;
         }
         
-        public EnemyShipAI.EnemyCreateArgs GetNewArgs()
+        public EnemyAI.Settings GetNewArgs()
         {
-            var shipAIArgs = new EnemyShipAI.EnemyCreateArgs()
+            var shipAIArgs = new EnemyAI.Settings()
             {
                 startPosition = _spawnPointService.GetSpawnPoint().Position,
                 firePosition = _firePointService.GetFirePosition().Position,

@@ -1,6 +1,10 @@
 using System;
-using Game.UI;
+using Game.Scripts.Components;
+using Game.Scripts.Components.Core;
+using Game.Scripts.Context.GameObject.Ship;
+using Game.Scripts.Context.GameObject.Ship.Player;
 using UnityEngine;
+using Zenject;
 
 namespace Game
 {
@@ -8,20 +12,25 @@ namespace Game
     {
         public event Action OnGameOver;
         
-        [SerializeField]
-        private Ship _ship;
+        private PlayerEntity _player;
+
+        [Inject]
+        public void Construct(PlayerEntity player)
+        {
+            _player = player;
+        }
 
         private void OnEnable()
         {
-            _ship.OnShipDestroyed += StopGame;
+            _player.Get<IHealthComponent>().OnHealthDepleted += StopGame;
         }
 
         private void OnDisable()
         {
-            _ship.OnShipDestroyed -= StopGame;
+            _player.Get<IHealthComponent>().OnHealthDepleted -= StopGame;
         }
         
-        private void StopGame(Vector2 ship)
+        private void StopGame()
         {
             OnGameOver?.Invoke();
         }

@@ -57,7 +57,7 @@ namespace Zenject
             return item;
         }
 
-        protected virtual void Reinitialize(TParam1 p1, TValue bullet)
+        protected virtual void Reinitialize(TParam1 p1, TValue enemy)
         {
             // Optional
         }
