@@ -10,8 +10,8 @@ namespace Game.Scripts.Context.Scene
     [Serializable]
     public class ShipSpawnerInstaller : Installer
     {
-        [SerializeField] 
-        private Entity _enemyEntity;
+        [SerializeField]
+        private Entity _enemy;
         
         [SerializeField]
         private float _spawnCooldown;
@@ -30,11 +30,11 @@ namespace Game.Scripts.Context.Scene
             //     .BindMemoryPoolCustomInterface<EnemyAI, EnemyAI.Pool
             //         ,IMemoryPool<EnemyAI.Settings, EnemyAI>>()
             //     .WithInitialSize(4);
-            
+
             this.Container
-                .BindMemoryPoolCustomInterface<Entity, Entity.Pool
-                    ,IMemoryPool<Vector2,Vector2, Entity>>()
-                .WithInitialSize(4);
+                .BindMemoryPool<Entity, Entity.Pool>()
+                .WithInitialSize(4)
+                .FromComponentInNewPrefab(_enemy);
             
             // this.Container.BindFactory<EnemyAI, EnemyEntity, EnemyEntity.Factory>()
             //     .FromComponentInNewPrefab(_enemyEntity)

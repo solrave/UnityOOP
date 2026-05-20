@@ -11,9 +11,6 @@ namespace Game.Scripts.Context.Scene
     {
         [SerializeField] 
         private Entity _player;
-        
-        [SerializeField] 
-        private Entity _enemy;
 
         [SerializeField] 
         private LevelBounds _playerBounds;
@@ -40,16 +37,11 @@ namespace Game.Scripts.Context.Scene
             
             this.Container.Bind<LevelBounds>()
                 .FromInstance(_playerBounds)
-                .AsSingle();
+                .AsCached();
             
             this.Container.Bind<Entity>()
                 .FromInstance(_player)
                 .AsSingle();
-            
-            this.Container.Bind<Entity>()
-                .FromComponentInNewPrefab(_enemy)
-                .AsSingle()
-                .WhenInjectedInto<EnemyAI>();
             
             this.Container
                 .Install(_shipSpawnerInstaller)

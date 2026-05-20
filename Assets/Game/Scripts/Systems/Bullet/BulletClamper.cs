@@ -4,10 +4,11 @@ using System.Linq;
 using Game.Scripts.Systems.Pool;
 using Modules.Utils;
 using UnityEngine;
+using Zenject;
 
 namespace Game
 {
-    public class BulletClamper
+    public class BulletClamper : ILateTickable
     {
         private readonly LevelBounds _levelBounds;
 
@@ -22,6 +23,11 @@ namespace Game
             {
                 bullet.Dispose();
             }
+        }
+
+        public void LateTick()
+        {
+            throw new NotImplementedException();
         }
     }
 }

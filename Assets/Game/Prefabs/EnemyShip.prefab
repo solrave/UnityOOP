@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3470145497817149085}
-  - component: {fileID: 4996441529269337668}
-  - component: {fileID: 6821357159233053129}
   - component: {fileID: 5016329319120798402}
   - component: {fileID: 5568771391735819375}
   - component: {fileID: 659620479434099170}
   - component: {fileID: 4560017961611896118}
+  - component: {fileID: 168958218145818697}
+  - component: {fileID: 5378134422999263623}
   m_Layer: 11
   m_Name: EnemyShip
   m_TagString: Untagged
@@ -39,47 +39,6 @@ Transform:
   - {fileID: 2570692159425164225}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4996441529269337668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 559606060570185700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 046304b6f28c46c0b0a1e72ec4c424fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game::Game.Scripts.Context.GameObject.Ship.EnemyShipEntity
-  _scriptableObjectInstallers: []
-  _monoInstallers:
-  - {fileID: 6821357159233053129}
-  _installerPrefabs: []
-  _autoRun: 1
-  _kernel: {fileID: 0}
---- !u!114 &6821357159233053129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 559606060570185700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66465cece95e4881817ac602c6c6ef9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game::Game.Scripts.Context.GameObject.Ship.Enemy.EnemyShipInstaller
-  _fireSettings:
-    <FireCooldown>k__BackingField: 0.2
-    <GunPoint>k__BackingField: {fileID: 3195880656587174614}
-    <Team>k__BackingField: 2
-  _moveSettings:
-    <Rigidbody>k__BackingField: {fileID: 659620479434099170}
-    <Speed>k__BackingField: 5
-  _healthSettings:
-    <MaxHealth>k__BackingField: 10
-  _followSetting:
-    <StoppingDistance>k__BackingField: 0.15
 --- !u!114 &5016329319120798402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,6 +245,47 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &168958218145818697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559606060570185700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7164d9943e5f44a6930db2437291896c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Game.Scripts.Context.GameObject.Ship.Entity
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 5378134422999263623}
+  _installerPrefabs: []
+  _autoRun: 0
+  _kernel: {fileID: 0}
+--- !u!114 &5378134422999263623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559606060570185700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d0555c6d7bf471f8a48c9aba729fdaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Game.Scripts.Context.GameObject.Ship.EntityInstaller
+  _fireSettings:
+    <FireCooldown>k__BackingField: 1
+    <GunPoint>k__BackingField: {fileID: 3195880656587174614}
+    <Team>k__BackingField: 2
+  _moveSettings:
+    <Rigidbody>k__BackingField: {fileID: 659620479434099170}
+    <Speed>k__BackingField: 6
+  _healthSettings:
+    <MaxHealth>k__BackingField: 1
+  _followSettings:
+    <StoppingDistance>k__BackingField: 0.224
 --- !u!1 &1074127585690423075
 GameObject:
   m_ObjectHideFlags: 0

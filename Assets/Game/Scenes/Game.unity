@@ -915,17 +915,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 522898773}
   m_CullTransparentMesh: 1
---- !u!114 &536604351 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7188377597044863691, guid: 0446acb84a7c9424d841676cef3b1d04, type: 3}
-  m_PrefabInstance: {fileID: 1326833186}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be3fad95fe454ff0927ac66c70708520, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game::Game.Scripts.Components.GameEntity
 --- !u!1 &546105481
 GameObject:
   m_ObjectHideFlags: 0
@@ -1243,10 +1232,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f27a3f943f7249c1abbc7e800c0efa59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::Game.Scripts.Scene.SceneContextInstaller
-  _player: {fileID: 536604351}
+  _player: {fileID: 925397825}
+  _enemy: {fileID: 168958218145818697, guid: 87fe189881a524806800482ac8eaaa83, type: 3}
   _playerBounds: {fileID: 1498479408}
   _shipSpawnerInstaller:
-    _enemyEntity: {fileID: 4996441529269337668, guid: 87fe189881a524806800482ac8eaaa83, type: 3}
     _spawnCooldown: 5
   _bulletSpawnerInstaller:
     _bulletPrefab: {fileID: 76952851492952380, guid: 5fe72886874b4e445b06cf777ca4920d, type: 3}
@@ -1732,6 +1721,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &925397825 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 809175027630188939, guid: 0446acb84a7c9424d841676cef3b1d04, type: 3}
+  m_PrefabInstance: {fileID: 1326833186}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7164d9943e5f44a6930db2437291896c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Game.Scripts.Context.GameObject.Ship.Entity
 --- !u!1 &1009791780
 GameObject:
   m_ObjectHideFlags: 0
