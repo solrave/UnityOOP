@@ -8,53 +8,54 @@ namespace Game.Scripts.GameObjects.Ship
 {
     public class EnemyAI : IInitializable, IDisposable, IFixedTickable
     {
-        public struct Settings
-        {
-            public Vector2 startPosition;
-            public Vector2 firePosition;
-        }
+        // public struct Settings
+        // {
+        //     public Vector2 startPosition;
+        //     public Vector2 firePosition;
+        // }
         
-        public sealed class Pool : MemoryPool<Settings, EnemyAI>
-        {
-            private readonly TickableManager _tickableManager;
-
-            public Pool(TickableManager tickableManager)
-            {
-                _tickableManager = tickableManager;
-            }
-            
-            protected override void Reinitialize(Settings set, EnemyAI enemy)
-            {
-                enemy.SetPosition(set.startPosition);
-                enemy.SetFirePosition(set.firePosition);
-            }
-            
-            protected override void OnSpawned(EnemyAI ai)
-            {
-                base.OnSpawned(ai);
-                ai.Initialize();
-                ai.OnDispose += this.Despawn;
-                _tickableManager.AddFixed(ai);
-            }
-
-            protected override void OnDespawned(EnemyAI ai)
-            {
-                _tickableManager.RemoveFixed(ai);
-                ai.OnDispose -= this.Despawn;
-                ai.Dispose();
-                base.OnDespawned(ai);
-            }
-        }
+        // public sealed class Pool : MemoryPool<Settings, EnemyAI>
+        // {
+        //     private readonly TickableManager _tickableManager;
+        //
+        //     public Pool(TickableManager tickableManager)
+        //     {
+        //         _tickableManager = tickableManager;
+        //     }
+        //     
+        //     protected override void Reinitialize(Settings set, EnemyAI enemy)
+        //     {
+        //         enemy.SetPosition(set.startPosition);
+        //         enemy.SetFirePosition(set.firePosition);
+        //     }
+        //     
+        //     protected override void OnSpawned(EnemyAI ai)
+        //     {
+        //         base.OnSpawned(ai);
+        //         ai.Initialize();
+        //         ai.OnDispose += this.Despawn;
+        //         _tickableManager.AddFixed(ai);
+        //     }
+        //
+        //     protected override void OnDespawned(EnemyAI ai)
+        //     {
+        //         _tickableManager.RemoveFixed(ai);
+        //         ai.OnDispose -= this.Despawn;
+        //         ai.Dispose();
+        //         base.OnDespawned(ai);
+        //     }
+        // }
 
         public event Action<EnemyAI> OnDispose;
         
-        private Entity _enemy;
+        private readonly Entity _enemy;
         private Entity _target;
         private Vector2 _firePosition;
         
-        public EnemyAI()
+        public EnemyAI(Entity enemy, Entity target)
         {
-            
+            _enemy = enemy;
+            _target = target;
         }
         
         public void Initialize()

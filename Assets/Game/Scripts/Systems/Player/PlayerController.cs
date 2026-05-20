@@ -9,9 +9,9 @@ namespace Game
 {
     public class PlayerController : ITickable
     {
-        private readonly PlayerEntity _player;
+        private readonly Entity _player;
         
-        public PlayerController(PlayerEntity player)
+        public PlayerController(Entity player)
         {
             _player = player;
         }

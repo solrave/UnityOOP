@@ -1,6 +1,4 @@
-using System;
-using Game.Scripts.GameObjects.Ship;
-using Game.Scripts.Systems.Enemy.Spawn.ArgsProvider;
+using Game.Scripts.Context.GameObject.Ship;
 using UnityEngine;
 using Zenject;
 
@@ -11,10 +9,8 @@ namespace Game
         private float _lastSpawnedTime = 0f;
         private readonly float _spawnCooldown;
         
-        public ByTimeEnemyShipSpawner(EnemyCreateArgsProvider argsProvider,
-            IMemoryPool<EnemyAI.Settings, EnemyAI> pool,EnemyEntity.Factory factory
-            ,float spawnCooldown )
-            : base (argsProvider, pool, factory)
+        public ByTimeEnemyShipSpawner(Entity.Pool pool,float spawnCooldown)
+            : base (pool)
         {
             _spawnCooldown = spawnCooldown;
         }

@@ -10,7 +10,7 @@ namespace Game.UI
 {
     public class UIController : MonoBehaviour
     {
-        private PlayerEntity _player;
+        private Entity _player;
 
         [SerializeField]
         private ScoreView _scoreView;
@@ -22,7 +22,7 @@ namespace Game.UI
         private GameOverView _gameOverView;
         
         [Inject]
-        public void Construct(PlayerEntity player)
+        public void Construct(Entity player)
         {
             _player = player;
         }

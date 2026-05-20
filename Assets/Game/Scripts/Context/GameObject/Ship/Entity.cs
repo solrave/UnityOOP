@@ -22,13 +22,6 @@ namespace Game.Scripts.Context.GameObject.Ship
         
         public sealed class Pool : MemoryPool<Vector2,Vector2,Entity>
         {
-            private readonly TickableManager _tickableManager;
-
-            public Pool(TickableManager tickableManager)
-            {
-                _tickableManager = tickableManager;
-            }
-
             protected override void Reinitialize(Vector2 startPos, Vector2 firePos, Entity enemy)
             {
                 enemy.Get<IMoveComponent>().SetPosition(startPos);
@@ -39,18 +32,11 @@ namespace Game.Scripts.Context.GameObject.Ship
             {
                 base.OnSpawned(entity);
                 entity.Initialize();
-                _tickableManager.AddFixed(entity.Get<MoveComponent>());
-                
-                //entity.OnDispose += this.Despawn;
             }
 
             protected override void OnDespawned(Entity entity)
             {
-                _tickableManager.RemoveFixed(entity.Get<MoveComponent>());
                 base.OnDespawned(entity);
-                
-                //entity.Get<ShipComponents>().OnDispose -= this.Despawn;
-                //entity.Dispose();
             }
         }
 

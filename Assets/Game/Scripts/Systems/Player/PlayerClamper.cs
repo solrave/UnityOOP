@@ -9,10 +9,10 @@ namespace Game
 {
     public class PlayerClamper : ILateTickable
     {
-        private PlayerEntity _player;
+        private Entity _player;
         private LevelBounds _playerBounds;
         
-        public PlayerClamper(PlayerEntity player, LevelBounds playerBounds)
+        public PlayerClamper(Entity player, LevelBounds playerBounds)
         {
             _player = player;
             _playerBounds = playerBounds;

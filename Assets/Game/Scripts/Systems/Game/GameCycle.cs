@@ -11,10 +11,10 @@ namespace Game
     {
         public event Action OnGameOver;
         
-        private PlayerEntity _player;
+        private Entity _player;
 
         [Inject]
-        public void Construct(PlayerEntity player)
+        public void Construct(Entity player)
         {
             _player = player;
         }

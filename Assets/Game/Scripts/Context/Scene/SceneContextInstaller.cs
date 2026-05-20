@@ -1,4 +1,5 @@
 using Game.Scripts.Context.GameObject.Ship;
+using Game.Scripts.GameObjects.Ship;
 using UnityEngine;
 using Zenject;
 using Game.Scripts.ZenjectExtensions;
@@ -10,6 +11,9 @@ namespace Game.Scripts.Context.Scene
     {
         [SerializeField] 
         private Entity _player;
+        
+        [SerializeField] 
+        private Entity _enemy;
 
         [SerializeField] 
         private LevelBounds _playerBounds;
@@ -41,6 +45,11 @@ namespace Game.Scripts.Context.Scene
             this.Container.Bind<Entity>()
                 .FromInstance(_player)
                 .AsSingle();
+            
+            this.Container.Bind<Entity>()
+                .FromComponentInNewPrefab(_enemy)
+                .AsSingle()
+                .WhenInjectedInto<EnemyAI>();
             
             this.Container
                 .Install(_shipSpawnerInstaller)

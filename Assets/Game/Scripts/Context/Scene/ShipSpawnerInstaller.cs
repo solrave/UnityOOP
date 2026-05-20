@@ -26,10 +26,10 @@ namespace Game.Scripts.Context.Scene
                 .FromMethod(this.CreateSpawnPointService)
                 .AsSingle();
 
-            this.Container
-                .BindMemoryPoolCustomInterface<EnemyAI, EnemyAI.Pool
-                    ,IMemoryPool<EnemyAI.Settings, EnemyAI>>()
-                .WithInitialSize(4);
+            // this.Container
+            //     .BindMemoryPoolCustomInterface<EnemyAI, EnemyAI.Pool
+            //         ,IMemoryPool<EnemyAI.Settings, EnemyAI>>()
+            //     .WithInitialSize(4);
             
             this.Container
                 .BindMemoryPoolCustomInterface<Entity, Entity.Pool
