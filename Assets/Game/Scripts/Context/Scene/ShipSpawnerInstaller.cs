@@ -33,7 +33,6 @@ namespace Game.Scripts.Context.Scene
 
             this.Container
                 .BindMemoryPool<Entity, Entity.Pool>()
-                .WithInitialSize(4)
                 .FromComponentInNewPrefab(_enemy);
             
             // this.Container.BindFactory<EnemyAI, EnemyEntity, EnemyEntity.Factory>()

@@ -24,9 +24,10 @@ namespace Game
         private bool TimeToSpawn()
         {
             _lastSpawnedTime += Time.deltaTime;
-            
+            Debug.Log($"{_lastSpawnedTime}");
             if (_lastSpawnedTime > _spawnCooldown)
             {
+                Debug.Log($"SPAWN!");
                 ResetTimer();
                 return true;
             }

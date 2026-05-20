@@ -23,6 +23,10 @@ namespace Game.Scripts.Context.Scene
         
         public override void InstallBindings()
         {
+            this.Container.BindInterfacesTo<ITickable>().AsSingle();
+            this.Container.BindInterfacesTo<ILateTickable>().AsSingle();
+            this.Container.BindInterfacesTo<IFixedTickable>().AsSingle();
+            
             this.Container.BindInterfacesTo<PlayerController>()
                 .AsSingle()
                 .NonLazy();

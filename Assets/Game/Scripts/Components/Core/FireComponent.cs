@@ -24,6 +24,7 @@ namespace Game.Scripts.Components.Core
             bool Evaluate();
         }
 
+        public TeamType Team => _settings.Team;
         public event Action OnFire;
         public bool ReadyToShoot => TimeToShoot();
         
@@ -80,6 +81,7 @@ namespace Game.Scripts.Components.Core
 
     public interface IFireComponent
     {
+        public TeamType Team { get; }
         public event Action OnFire;
         public bool ReadyToShoot { get; }
         public void FireUp();

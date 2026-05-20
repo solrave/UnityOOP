@@ -22,10 +22,11 @@ namespace Game.Scripts.Context.GameObject.Ship
 
         [SerializeField]
         private FollowComponent.Settings _followSettings;
-        
 
         public override void InstallBindings()
         {
+            Container.Bind<Entity>().FromComponentInHierarchy().AsSingle();
+            
             this.Container.BindInterfacesTo<FireComponent>().AsSingle()
                 .WithArguments(_fireSettings);
             
@@ -38,11 +39,11 @@ namespace Game.Scripts.Context.GameObject.Ship
             this.Container.BindInterfacesTo<FollowComponent>().AsSingle()
                 .WithArguments(_followSettings);
             
-            this.Container.Bind<ShipView>().FromComponentInHierarchy().AsSingle();
+            this.Container.Bind<ShipView>().FromComponentOnRoot().AsSingle();
 
             this.Container.Bind<EnemyAI>().AsSingle();
             
-            this.Container.BindInterfacesAndSelfTo<ShipComponents>()
+            this.Container.Bind<ShipComponents>()
                 .AsSingle()
                 .NonLazy();
             

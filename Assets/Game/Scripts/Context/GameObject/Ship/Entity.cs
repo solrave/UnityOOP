@@ -19,7 +19,7 @@ namespace Game.Scripts.Context.GameObject.Ship
             result = this.Container.TryResolve<T>();
             return result != null;
         }
-        
+
         public sealed class Pool : MemoryPool<Vector2,Vector2,Entity>
         {
             protected override void Reinitialize(Vector2 startPos, Vector2 firePos, Entity enemy)
@@ -31,7 +31,7 @@ namespace Game.Scripts.Context.GameObject.Ship
             protected override void OnSpawned(Entity entity)
             {
                 base.OnSpawned(entity);
-                entity.Initialize();
+                //entity.Initialize();
             }
 
             protected override void OnDespawned(Entity entity)

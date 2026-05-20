@@ -1,4 +1,5 @@
 using Game.Scripts.Components.Core;
+using UnityEngine;
 using Zenject;
 
 namespace Game.Scripts.Context.GameObject.Ship
@@ -17,6 +18,7 @@ namespace Game.Scripts.Context.GameObject.Ship
             _moveComponent = moveComponent;
             _fireComponent = fireComponent;
             _followComponent = followComponent;
+            Debug.Log($"SHIP COMPONENTS: Health is {_healthComponent is not null}");
         }
         
         public virtual void Initialize()

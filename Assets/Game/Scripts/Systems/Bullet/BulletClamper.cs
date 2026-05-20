@@ -27,7 +27,7 @@ namespace Game
 
         public void LateTick()
         {
-            throw new NotImplementedException();
+           
         }
     }
 }

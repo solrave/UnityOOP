@@ -43,7 +43,8 @@ namespace Game.Scripts.GameObjects.Ship
         public void Construct(Entity player)
         {
             _player = player;
-            Debug.Log($"VIEW ENTITY NOT NULL: {_player != null}");
+            Debug.Log($"PLAYER IS: {_player != null}");
+            Debug.Log($"FIRE COMPONENT TEAM: {_player.Get<IFireComponent>().Team}");
         }
 
         private void OnEnable()
