@@ -1,4 +1,5 @@
 using System;
+using Game.Scripts.Context.GameObject.Ship;
 using UnityEngine;
 
 namespace Game.Scripts.Components.Core
@@ -14,11 +15,16 @@ namespace Game.Scripts.Components.Core
         
         public bool IsReached { get; private set; }
         private readonly Settings _settings;
+        private Entity _target;
+        private Vector2 _destination;
 
-        public FollowComponent(Settings settings)
+        public FollowComponent(Settings settings, Entity target)
         {
             _settings = settings;
+            _target = target;
         }
+
+        public void SetDestination(Vector2 destination) => _destination = destination;
        
         public Vector2? GetDirection(Vector2? target,Vector2 position)
         {
@@ -37,5 +43,6 @@ namespace Game.Scripts.Components.Core
     {
         public bool IsReached { get; }
         public Vector2? GetDirection(Vector2? target, Vector2 position);
+        public void SetDestination(Vector2 destination);
     }
 }

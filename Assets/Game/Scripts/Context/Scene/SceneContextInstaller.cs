@@ -1,4 +1,4 @@
-using Game.Scripts.Context.GameObject.Ship.Player;
+using Game.Scripts.Context.GameObject.Ship;
 using UnityEngine;
 using Zenject;
 using Game.Scripts.ZenjectExtensions;
@@ -9,7 +9,7 @@ namespace Game.Scripts.Context.Scene
     public class SceneContextInstaller : MonoInstaller
     {
         [SerializeField] 
-        private PlayerEntity _player;
+        private Entity _player;
 
         [SerializeField] 
         private LevelBounds _playerBounds;
@@ -26,7 +26,11 @@ namespace Game.Scripts.Context.Scene
                 .AsSingle()
                 .NonLazy();
             
-            this.Container.BindInterfacesTo<PositionClamper>()
+            this.Container.BindInterfacesTo<PlayerClamper>()
+                .AsSingle()
+                .NonLazy();
+            
+            this.Container.BindInterfacesTo<BulletClamper>()
                 .AsSingle()
                 .NonLazy();
             
@@ -34,7 +38,7 @@ namespace Game.Scripts.Context.Scene
                 .FromInstance(_playerBounds)
                 .AsSingle();
             
-            this.Container.Bind<PlayerEntity>()
+            this.Container.Bind<Entity>()
                 .FromInstance(_player)
                 .AsSingle();
             

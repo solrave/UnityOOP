@@ -9,13 +9,13 @@ namespace Game
 {
     public class Bullet : MonoBehaviour, IInitializable, IDisposable
     {
-        public sealed class Pool : MemoryPool<BulletCreateArgs, Bullet>
+        public sealed class Pool : MemoryPool<BulletSettings, Bullet>
         {
-            protected override void Reinitialize(BulletCreateArgs args, Bullet enemy)
+            protected override void Reinitialize(BulletSettings set, Bullet enemy)
             {
-                enemy.SetTeam(args.team);
-                enemy.SetPosition(args.position);
-                enemy.SetDirection(args.direction);
+                enemy.SetTeam(set.team);
+                enemy.SetPosition(set.position);
+                enemy.SetDirection(set.direction);
             }
             
             protected override void OnSpawned(Bullet bullet)
@@ -31,7 +31,7 @@ namespace Game
             }
         }
         
-        public struct BulletCreateArgs
+        public struct BulletSettings
         {
             public TeamType team;
             public Vector2 position;
@@ -43,6 +43,7 @@ namespace Game
         
         public TeamType Team { get; private set; }
         public Vector2 Position => this.transform.position;
+        
         private MoveComponent _moveComponent;
         private int _damage;
         

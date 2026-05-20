@@ -1,7 +1,4 @@
-using System.ComponentModel;
-using Game.Scripts.Components;
 using Game.Scripts.Components.Core;
-using UnityEngine;
 using Zenject;
 
 namespace Game.Scripts.Context.GameObject.Ship
@@ -11,13 +8,15 @@ namespace Game.Scripts.Context.GameObject.Ship
         private readonly IHealthComponent _healthComponent;
         private readonly IMoveComponent _moveComponent;
         private readonly IFireComponent _fireComponent;
+        private readonly IFollowComponent _followComponent;
 
         protected ShipComponents(IHealthComponent healthComponent, IMoveComponent moveComponent
-            ,IFireComponent fireComponent)
+            ,IFireComponent fireComponent, IFollowComponent followComponent)
         {
             _healthComponent = healthComponent;
             _moveComponent = moveComponent;
             _fireComponent = fireComponent;
+            _followComponent = followComponent;
         }
         
         public virtual void Initialize()

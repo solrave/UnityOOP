@@ -13,7 +13,7 @@ namespace Game.Scripts.Context.Scene
         public override void InstallBindings()
         {
             this.Container.BindMemoryPoolCustomInterface<Bullet, Bullet.Pool
-                ,IMemoryPool<Bullet.BulletCreateArgs, Bullet>>().FromInstance(_bulletPrefab);
+                ,IMemoryPool<Bullet.BulletSettings, Bullet>>().FromInstance(_bulletPrefab);
             
         }
     }

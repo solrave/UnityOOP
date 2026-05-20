@@ -2,7 +2,6 @@ using System;
 using Game.Scripts.Components;
 using Game.Scripts.Components.Core;
 using Game.Scripts.Context.GameObject.Ship;
-using Game.Scripts.Context.GameObject.Ship.Player;
 using UnityEngine;
 using Zenject;
 

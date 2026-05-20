@@ -1,7 +1,6 @@
 using System;
-using Game.Scripts.Context.GameObject.Ship.Enemy;
+using Game.Scripts.Context.GameObject.Ship;
 using Game.Scripts.GameObjects.Ship;
-using Game.Scripts.Systems.Enemy.Spawn.ArgsProvider;
 using Game.Scripts.Systems.Enemy.Spawn.Points;
 using UnityEngine;
 using Zenject;
@@ -12,7 +11,7 @@ namespace Game.Scripts.Context.Scene
     public class ShipSpawnerInstaller : Installer
     {
         [SerializeField] 
-        private EnemyEntity _enemyEntity;
+        private Entity _enemyEntity;
         
         [SerializeField]
         private float _spawnCooldown;
@@ -26,17 +25,20 @@ namespace Game.Scripts.Context.Scene
             this.Container.Bind<SpawnPointService>()
                 .FromMethod(this.CreateSpawnPointService)
                 .AsSingle();
-            
-            this.Container.Bind<EnemyCreateArgsProvider>().AsSingle();
 
             this.Container
                 .BindMemoryPoolCustomInterface<EnemyAI, EnemyAI.Pool
                     ,IMemoryPool<EnemyAI.Settings, EnemyAI>>()
                 .WithInitialSize(4);
             
-            this.Container.BindFactory<EnemyAI, EnemyEntity, EnemyEntity.Factory>()
-                .FromComponentInNewPrefab(_enemyEntity)
-                    .AsSingle();
+            this.Container
+                .BindMemoryPoolCustomInterface<Entity, Entity.Pool
+                    ,IMemoryPool<Vector2,Vector2, Entity>>()
+                .WithInitialSize(4);
+            
+            // this.Container.BindFactory<EnemyAI, EnemyEntity, EnemyEntity.Factory>()
+            //     .FromComponentInNewPrefab(_enemyEntity)
+            //         .AsSingle();
             
             this.Container.Bind<ByTimeEnemyShipSpawner>()
                 .AsSingle().WithArguments(_spawnCooldown)

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Game.Scripts.Context.GameObject.Ship.Enemy;
 using Game.Scripts.GameObjects.Ship;
 using Game.Scripts.Systems.Enemy.Spawn.ArgsProvider;
 using UnityEngine;
@@ -28,7 +27,7 @@ namespace Game
         {
             var args = _argsProvider.GetNewArgs();
             var ship = _pool.Spawn(args);
-            var enemy = _factory.Create(ship);
+            EnemyEntity enemy = _factory.Create(ship);
             ship.OnDispose += Despawn;
             _spawnedShips.Add(ship);
         }

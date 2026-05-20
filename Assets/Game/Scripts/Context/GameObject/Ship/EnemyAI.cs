@@ -1,7 +1,6 @@
 using System;
 using Game.Scripts.Components.Core;
-using Game.Scripts.Context.GameObject.Ship.Enemy;
-using Game.Scripts.Context.GameObject.Ship.Player;
+using Game.Scripts.Context.GameObject.Ship;
 using UnityEngine;
 using Zenject;
 
@@ -11,7 +10,6 @@ namespace Game.Scripts.GameObjects.Ship
     {
         public struct Settings
         {
-            public PlayerEntity target;
             public Vector2 startPosition;
             public Vector2 firePosition;
         }
@@ -25,11 +23,10 @@ namespace Game.Scripts.GameObjects.Ship
                 _tickableManager = tickableManager;
             }
             
-            protected override void Reinitialize(Settings args, EnemyAI enemy)
+            protected override void Reinitialize(Settings set, EnemyAI enemy)
             {
-                enemy.SetPosition(args.startPosition);
-                enemy.SetFirePosition(args.firePosition);
-                enemy.SetTarget(args.target);
+                enemy.SetPosition(set.startPosition);
+                enemy.SetFirePosition(set.firePosition);
             }
             
             protected override void OnSpawned(EnemyAI ai)
@@ -51,8 +48,8 @@ namespace Game.Scripts.GameObjects.Ship
 
         public event Action<EnemyAI> OnDispose;
         
-        private EnemyEntity _enemy;
-        private PlayerEntity _target;
+        private Entity _enemy;
+        private Entity _target;
         private Vector2 _firePosition;
         
         public EnemyAI()
@@ -84,7 +81,7 @@ namespace Game.Scripts.GameObjects.Ship
         
         public void SetPosition(Vector2 position) => _enemy.Get<IMoveComponent>().SetPosition(position);
         public void SetFirePosition(Vector2 position) => _firePosition = position;
-        public void SetTarget(PlayerEntity playerEntity) => _target = playerEntity;
+        public void SetTarget(Entity playerEntity) => _target = playerEntity;
 
         private void EnemyShipDestroyed()
         {

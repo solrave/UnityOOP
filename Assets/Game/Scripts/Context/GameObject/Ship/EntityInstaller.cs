@@ -8,7 +8,7 @@ using Zenject;
 namespace Game.Scripts.Context.GameObject.Ship
 {
     [Serializable]
-    public class BaseComponentsInstaller : MonoInstaller
+    public class EntityInstaller : MonoInstaller
     {
         [Header("Settings")]
         [SerializeField] 
@@ -19,6 +19,10 @@ namespace Game.Scripts.Context.GameObject.Ship
         
         [SerializeField]
         private HealthComponent.Settings _healthSettings;
+
+        [SerializeField]
+        private FollowComponent.Settings _followSettings;
+        
 
         public override void InstallBindings()
         {
@@ -31,7 +35,17 @@ namespace Game.Scripts.Context.GameObject.Ship
             this.Container.BindInterfacesTo<HealthComponent>().AsSingle()
                 .WithArguments(_healthSettings);
             
-            Container.Bind<ShipView>().FromComponentInHierarchy().AsSingle();
+            this.Container.BindInterfacesTo<FollowComponent>().AsSingle()
+                .WithArguments(_followSettings);
+            
+            this.Container.Bind<ShipView>().FromComponentInHierarchy().AsSingle();
+
+            this.Container.Bind<EnemyAI>().AsSingle();
+            
+            this.Container.BindInterfacesAndSelfTo<ShipComponents>()
+                .AsSingle()
+                .NonLazy();
+            
         }
     }
 }

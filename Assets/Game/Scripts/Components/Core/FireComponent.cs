@@ -27,12 +27,13 @@ namespace Game.Scripts.Components.Core
         public event Action OnFire;
         public bool ReadyToShoot => TimeToShoot();
         
-        private readonly IMemoryPool<Bullet.BulletCreateArgs, Bullet> _bulletSpawner;
+        private readonly IMemoryPool<Bullet.BulletSettings, Bullet> _bulletSpawner;
         private readonly Settings _settings;
         private ICondition _condition;
         private float _fireTime;
         
-        public FireComponent(IMemoryPool<Bullet.BulletCreateArgs, Bullet> bulletSpawner, Settings settings)
+        public FireComponent(IMemoryPool<Bullet.BulletSettings, Bullet> bulletSpawner,
+                             Settings settings)
         {
             _bulletSpawner = bulletSpawner;
             _settings = settings;
@@ -44,7 +45,7 @@ namespace Game.Scripts.Components.Core
         {
             if (!TimeToShoot()) return;
             OnFire?.Invoke();
-            _bulletSpawner.Spawn(new Bullet.BulletCreateArgs
+            _bulletSpawner.Spawn(new Bullet.BulletSettings
             {
                 team = _settings.Team,
                 position = _settings.GunPoint.position,
@@ -57,7 +58,7 @@ namespace Game.Scripts.Components.Core
             if (!TimeToShoot()) return;
             
             OnFire?.Invoke();
-            _bulletSpawner.Spawn(new Bullet.BulletCreateArgs
+            _bulletSpawner.Spawn(new Bullet.BulletSettings
             {
                 team = _settings.Team,
                 position = _settings.GunPoint.position,

@@ -3,7 +3,6 @@ using DG.Tweening;
 using Game.Scripts.Components;
 using Game.Scripts.Components.Core;
 using Game.Scripts.Context.GameObject.Ship;
-using Game.Scripts.Context.GameObject.Ship.Player;
 using Modules.Utils;
 using UnityEngine;
 using Zenject;
@@ -12,7 +11,7 @@ namespace Game.Scripts.GameObjects.Ship
 {
     public class ShipView : MonoBehaviour, IShipView
     {
-        private PlayerEntity _player;
+        private Entity _player;
 
         [SerializeField] private Transform _visualTransform;
 
@@ -41,7 +40,7 @@ namespace Game.Scripts.GameObjects.Ship
         private Tweener _damageAnimation;
         
         [Inject]
-        public void Construct(PlayerEntity player)
+        public void Construct(Entity player)
         {
             _player = player;
             Debug.Log($"VIEW ENTITY NOT NULL: {_player != null}");

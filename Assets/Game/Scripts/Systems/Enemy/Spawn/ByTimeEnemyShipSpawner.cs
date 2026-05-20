@@ -1,5 +1,4 @@
 using System;
-using Game.Scripts.Context.GameObject.Ship.Enemy;
 using Game.Scripts.GameObjects.Ship;
 using Game.Scripts.Systems.Enemy.Spawn.ArgsProvider;
 using UnityEngine;
@@ -23,9 +22,7 @@ namespace Game
         public void Tick()
         {
             if (TimeToSpawn())
-            {
                 Spawn();
-            }
         }
 
         private bool TimeToSpawn()
