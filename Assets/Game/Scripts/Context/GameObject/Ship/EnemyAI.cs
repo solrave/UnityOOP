@@ -52,7 +52,7 @@ namespace Game.Scripts.GameObjects.Ship
         private Entity _target;
         private Vector2 _firePosition;
         
-        public EnemyAI(Entity enemy, Entity target)
+        public EnemyAI(Entity enemy, Entity target)//CharacterProvider
         {
             _enemy = enemy;
             _target = target;

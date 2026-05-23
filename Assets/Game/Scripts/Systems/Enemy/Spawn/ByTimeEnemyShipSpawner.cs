@@ -1,4 +1,5 @@
 using Game.Scripts.Context.GameObject.Ship;
+using Game.Scripts.Systems.Enemy.Spawn.Points;
 using UnityEngine;
 using Zenject;
 
@@ -9,12 +10,13 @@ namespace Game
         private float _lastSpawnedTime = 0f;
         private readonly float _spawnCooldown;
         
-        public ByTimeEnemyShipSpawner(Entity.Pool pool,float spawnCooldown)
-            : base (pool)
+        protected ByTimeEnemyShipSpawner(Entity.Pool pool, FirePointService firePointService
+            , SpawnPointService spawnPointService, float spawnCooldown)
+            : base(pool, firePointService, spawnPointService)
         {
             _spawnCooldown = spawnCooldown;
         }
-        
+
         public void Tick()
         {
             if (TimeToSpawn())
@@ -24,8 +26,7 @@ namespace Game
         private bool TimeToSpawn()
         {
             _lastSpawnedTime += Time.deltaTime;
-            Debug.Log($"{_lastSpawnedTime}");
-            if (_lastSpawnedTime > _spawnCooldown)
+            if (_lastSpawnedTime >= _spawnCooldown)
             {
                 Debug.Log($"SPAWN!");
                 ResetTimer();

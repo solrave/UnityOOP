@@ -275,6 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0555c6d7bf471f8a48c9aba729fdaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::Game.Scripts.Context.GameObject.Ship.EntityInstaller
+  _sceneContext: {fileID: 168958218145818697}
   _fireSettings:
     <FireCooldown>k__BackingField: 1
     <GunPoint>k__BackingField: {fileID: 3195880656587174614}

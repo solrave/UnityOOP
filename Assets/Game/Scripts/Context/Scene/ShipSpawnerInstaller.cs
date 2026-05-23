@@ -20,11 +20,11 @@ namespace Game.Scripts.Context.Scene
         {
             this.Container.Bind<FirePointService>()
                 .FromMethod(this.CreateFirePointService)
-                .AsSingle();
+                .AsSingle().NonLazy();
             
             this.Container.Bind<SpawnPointService>()
                 .FromMethod(this.CreateSpawnPointService)
-                .AsSingle();
+                .AsSingle().NonLazy();
 
             // this.Container
             //     .BindMemoryPoolCustomInterface<EnemyAI, EnemyAI.Pool
@@ -39,9 +39,13 @@ namespace Game.Scripts.Context.Scene
             //     .FromComponentInNewPrefab(_enemyEntity)
             //         .AsSingle();
             
-            this.Container.Bind<ByTimeEnemyShipSpawner>()
+            this.Container.BindInterfacesAndSelfTo<ByTimeEnemyShipSpawner>()
                 .AsSingle().WithArguments(_spawnCooldown)
                 .NonLazy();
+            
+            this.Container.Bind<EnemyShipSpawner>()
+                .AsSingle();
+
         }
 
         private SpawnPointService CreateSpawnPointService()

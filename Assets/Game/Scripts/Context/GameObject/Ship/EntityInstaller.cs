@@ -10,6 +10,8 @@ namespace Game.Scripts.Context.GameObject.Ship
     [Serializable]
     public class EntityInstaller : MonoInstaller
     {
+        [SerializeField] private Entity _sceneContext;
+        
         [Header("Settings")]
         [SerializeField] 
         private FireComponent.Settings _fireSettings;
@@ -25,7 +27,14 @@ namespace Game.Scripts.Context.GameObject.Ship
 
         public override void InstallBindings()
         {
-            Container.Bind<Entity>().FromComponentInHierarchy().AsSingle();
+            this.Container.Bind<ShipComponents>()
+                .AsSingle()
+                .NonLazy();
+            
+            this.Container.Bind<Entity>()
+                .FromInstance(_sceneContext)
+                .AsSingle()
+                .WhenInjectedInto<ShipView>();
             
             this.Container.BindInterfacesTo<FireComponent>().AsSingle()
                 .WithArguments(_fireSettings);
@@ -42,11 +51,6 @@ namespace Game.Scripts.Context.GameObject.Ship
             this.Container.Bind<ShipView>().FromComponentOnRoot().AsSingle();
 
             this.Container.Bind<EnemyAI>().AsSingle();
-            
-            this.Container.Bind<ShipComponents>()
-                .AsSingle()
-                .NonLazy();
-            
         }
     }
 }

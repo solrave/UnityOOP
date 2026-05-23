@@ -11,7 +11,7 @@ namespace Game.Scripts.GameObjects.Ship
 {
     public class ShipView : MonoBehaviour, IShipView
     {
-        private Entity _player;
+        private Entity _ship;
 
         [SerializeField] private Transform _visualTransform;
 
@@ -40,33 +40,31 @@ namespace Game.Scripts.GameObjects.Ship
         private Tweener _damageAnimation;
         
         [Inject]
-        public void Construct(Entity player)
+        public void Construct(Entity ship)
         {
-            _player = player;
-            Debug.Log($"PLAYER IS: {_player != null}");
-            Debug.Log($"FIRE COMPONENT TEAM: {_player.Get<IFireComponent>().Team}");
+            _ship = ship;
         }
 
         private void OnEnable()
         {
-            _player.Get<IFireComponent>().OnFire += AnimateFire;
-            _player.Get<IHealthComponent>().OnHealthDepleted += AnimateDestruction;
-            _player.Get<IHealthComponent>().OnHit += AnimateDamage;
-            _player.Get<IMoveComponent>().OnMove += AnimateMovement;
+            _ship.Get<IFireComponent>().OnFire += AnimateFire;
+            _ship.Get<IHealthComponent>().OnHealthDepleted += AnimateDestruction;
+            _ship.Get<IHealthComponent>().OnHit += AnimateDamage;
+            _ship.Get<IMoveComponent>().OnMove += AnimateMovement;
         }
 
         private void OnDisable()
         {
-            _player.Get<IFireComponent>().OnFire -= AnimateFire;
-            _player.Get<IHealthComponent>().OnHealthDepleted -= AnimateDestruction;
-            _player.Get<IHealthComponent>().OnHit -= AnimateDamage;
-            _player.Get<IMoveComponent>().OnMove -= AnimateMovement;
+            _ship.Get<IFireComponent>().OnFire -= AnimateFire;
+            _ship.Get<IHealthComponent>().OnHealthDepleted -= AnimateDestruction;
+            _ship.Get<IHealthComponent>().OnHit -= AnimateDamage;
+            _ship.Get<IMoveComponent>().OnMove -= AnimateMovement;
         }
 
         public void AnimateFire()
-        {
+        { 
             PlaySound(_shotSFX);
-           PlayEffect(_muzzleVFX);
+            PlayEffect(_muzzleVFX);
         }
 
         public void AnimateDamage()

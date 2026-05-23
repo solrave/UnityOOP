@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Game.Scripts.Context.GameObject.Ship
 {
-    public class Entity : GameObjectContext, IGameEntity
+    public class Entity : GameObjectContext, IGameEntity, IPoolable
     {
         public string Name { get; set; }
 
@@ -20,25 +20,34 @@ namespace Game.Scripts.Context.GameObject.Ship
             return result != null;
         }
 
-        public sealed class Pool : MemoryPool<Vector2,Vector2,Entity>
+        public sealed class Pool : MonoMemoryPool<Vector2,Vector2,Entity>
         {
             protected override void Reinitialize(Vector2 startPos, Vector2 firePos, Entity enemy)
             {
-                enemy.Get<IMoveComponent>().SetPosition(startPos);
+                enemy.Get<IMoveComponent>().SetPosition(startPos);//TransfformComponent
                 enemy.Get<IFollowComponent>().SetDestination(firePos);
             }
             
             protected override void OnSpawned(Entity entity)
             {
                 base.OnSpawned(entity);
-                //entity.Initialize();
+                
             }
-
+            
             protected override void OnDespawned(Entity entity)
             {
                 base.OnDespawned(entity);
             }
         }
 
+        public void OnDespawned()
+        {
+            //OnDisable
+        }
+
+        public void OnSpawned()
+        {
+           //OnEnable
+        }
     }
 }

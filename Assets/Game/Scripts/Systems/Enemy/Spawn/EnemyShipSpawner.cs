@@ -16,9 +16,12 @@ namespace Game
         private readonly Entity.Pool _pool;
         private List<Entity> _spawnedShips;
 
-        protected EnemyShipSpawner(Entity.Pool pool)
+        protected EnemyShipSpawner(Entity.Pool pool, FirePointService firePointService
+            , SpawnPointService spawnPointService)
         {
             _pool = pool;
+            _firePointService = firePointService;
+            _spawnPointService = spawnPointService;
         }
 
         protected void Spawn()
@@ -26,13 +29,16 @@ namespace Game
             var startPosition = _spawnPointService.GetSpawnPoint().Position;
             var firePosition = _firePointService.GetFirePosition().Position;
             var ship = _pool.Spawn(startPosition,firePosition);
+            Debug.Log($"SPAWNED SHIP NOT NULL:  {ship is not null}");
             _spawnedShips.Add(ship);
+            ship.Run();
         }
 
         private void Despawn(Entity ship)
         {
             OnKillCountIncrease?.Invoke();
             _spawnedShips.Remove(ship);
+            _pool.Despawn(ship);
         }
 
         public void StopAllShips()
