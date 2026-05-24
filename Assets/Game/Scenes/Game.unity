@@ -1294,6 +1294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::Game.Scripts.Scene.SceneContextInstaller
   _player: {fileID: 925397825}
+  _enemy: {fileID: 168958218145818697, guid: 87fe189881a524806800482ac8eaaa83, type: 3}
   _playerBounds: {fileID: 1498479408}
   _shipSpawnerInstaller:
     _enemy: {fileID: 168958218145818697, guid: 87fe189881a524806800482ac8eaaa83, type: 3}

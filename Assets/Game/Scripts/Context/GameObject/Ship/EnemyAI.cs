@@ -48,39 +48,41 @@ namespace Game.Scripts.GameObjects.Ship
 
         public event Action<EnemyAI> OnDispose;
         
-        private readonly Entity _enemy;
+        private readonly Entity _self;
         private Entity _target;
         private Vector2 _firePosition;
         
-        public EnemyAI(Entity enemy, Entity target)//CharacterProvider
+        public EnemyAI(Entity self, CharacterProvider target)
         {
-            _enemy = enemy;
-            _target = target;
+            _self = self;
+            _target = target.Player;
+            Debug.Log($"AI:.......{_self.Get<IFollowComponent>() is not null}");
         }
         
         public void Initialize()
         {
-            _enemy.Get<IHealthComponent>().OnHealthDepleted += EnemyShipDestroyed;
+            _self.Get<IHealthComponent>().OnHealthDepleted += EnemyShipDestroyed;
         }
 
         public void Dispose()
         {
-            _enemy.Get<IHealthComponent>().OnHealthDepleted -= EnemyShipDestroyed;
+            _self.Get<IHealthComponent>().OnHealthDepleted -= EnemyShipDestroyed;
         }
         
         public void FixedTick()
         {
-            var targetDirection = _enemy.Get<IFollowComponent>()
-                .GetDirection(_firePosition, _enemy.Get<IMoveComponent>().Position);
-            _enemy.Get<IMoveComponent>().SetDirection(targetDirection);
+            Debug.Log($"FOLLOW TICK");
+            var targetDirection = _self.Get<IFollowComponent>()
+                .GetDirection(_firePosition, _self.Get<IMoveComponent>().Position);
+            _self.Get<IMoveComponent>().SetDirection(targetDirection);
             
-            if (_enemy.Get<IFollowComponent>().IsReached && _enemy.Get<IFireComponent>().ReadyToShoot && _target != null)
+            if (_self.Get<IFollowComponent>().IsReached && _self.Get<IFireComponent>().ReadyToShoot && _target != null)
             {
-                _enemy.Get<IFireComponent>().FireAt(_target.Get<IMoveComponent>().Position);
+                _self.Get<IFireComponent>().FireAt(_target.Get<IMoveComponent>().Position);
             }
         }
         
-        public void SetPosition(Vector2 position) => _enemy.Get<IMoveComponent>().SetPosition(position);
+        public void SetPosition(Vector2 position) => _self.Get<IMoveComponent>().SetPosition(position);
         public void SetFirePosition(Vector2 position) => _firePosition = position;
         public void SetTarget(Entity playerEntity) => _target = playerEntity;
 

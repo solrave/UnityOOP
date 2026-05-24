@@ -11,7 +11,8 @@ namespace Game.Scripts.Context.GameObject.Ship
 
         public T Get<T>() where T : class
         {
-            return this.Container.Resolve<T>();
+            var result = this.Container.Resolve<T>();
+            return result;
         }
 
         public bool TryGet<T>(out T result) where T : class

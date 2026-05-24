@@ -14,7 +14,7 @@ namespace Game
         private readonly FirePointService _firePointService;
         private readonly SpawnPointService _spawnPointService;
         private readonly Entity.Pool _pool;
-        private List<Entity> _spawnedShips;
+        private readonly List<Entity> _spawnedShips = new List<Entity>();
 
         protected EnemyShipSpawner(Entity.Pool pool, FirePointService firePointService
             , SpawnPointService spawnPointService)
@@ -31,7 +31,7 @@ namespace Game
             var ship = _pool.Spawn(startPosition,firePosition);
             Debug.Log($"SPAWNED SHIP NOT NULL:  {ship is not null}");
             _spawnedShips.Add(ship);
-            ship.Run();
+            //ship.Run();
         }
 
         private void Despawn(Entity ship)

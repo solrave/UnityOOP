@@ -11,6 +11,9 @@ namespace Game.Scripts.Context.Scene
     {
         [SerializeField] 
         private Entity _player;
+        
+        [SerializeField] 
+        private Entity _enemy;
 
         [SerializeField] 
         private LevelBounds _playerBounds;
@@ -23,31 +26,40 @@ namespace Game.Scripts.Context.Scene
         
         public override void InstallBindings()
         {
-            // this.Container.BindInterfacesTo<ITickable>().AsSingle();
-            // this.Container.BindInterfacesTo<ILateTickable>().AsSingle();
-            // this.Container.BindInterfacesTo<IFixedTickable>().AsSingle();
-            
-            this.Container.BindInterfacesTo<PlayerController>()
+            this.Container
+                .BindInterfacesTo<PlayerController>()
                 .AsSingle()
                 .NonLazy();
             
-            Container.Bind<GameBootstrapper>().FromComponentInHierarchy().AsSingle();
-            //Container.BindMemoryPool<>().FromMonoPoolableMemoryPool()
+            Container
+                .Bind<GameBootstrapper>()
+                .FromComponentInHierarchy()
+                .AsSingle();
             
-            this.Container.BindInterfacesTo<PlayerClamper>()
+            this.Container
+                .BindInterfacesTo<PlayerClamper>()
                 .AsSingle()
                 .NonLazy();
             
-            this.Container.BindInterfacesTo<BulletClamper>()
+            this.Container
+                .BindInterfacesTo<BulletClamper>()
                 .AsSingle()
                 .NonLazy();
             
-            this.Container.Bind<LevelBounds>()
+            this.Container
+                .Bind<LevelBounds>()
                 .FromInstance(_playerBounds)
                 .AsCached();
             
-            this.Container.Bind<Entity>()
+            _player.Name = "PLAYER";
+            
+            this.Container
+                .Bind<Entity>()
                 .FromInstance(_player)
+                .AsSingle();
+            
+            this.Container
+                .Bind<CharacterProvider>()
                 .AsSingle();
             
             this.Container

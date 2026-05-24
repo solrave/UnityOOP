@@ -11,7 +11,7 @@ namespace Game
         private readonly float _spawnCooldown;
         
         protected ByTimeEnemyShipSpawner(Entity.Pool pool, FirePointService firePointService
-            , SpawnPointService spawnPointService, float spawnCooldown)
+            ,SpawnPointService spawnPointService, float spawnCooldown)
             : base(pool, firePointService, spawnPointService)
         {
             _spawnCooldown = spawnCooldown;

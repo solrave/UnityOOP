@@ -9,15 +9,13 @@ namespace Game.Scripts.Context.GameObject.Ship
         private readonly IHealthComponent _healthComponent;
         private readonly IMoveComponent _moveComponent;
         private readonly IFireComponent _fireComponent;
-        private readonly IFollowComponent _followComponent;
 
         protected ShipComponents(IHealthComponent healthComponent, IMoveComponent moveComponent
-            ,IFireComponent fireComponent, IFollowComponent followComponent)
+            ,IFireComponent fireComponent)
         {
             _healthComponent = healthComponent;
             _moveComponent = moveComponent;
             _fireComponent = fireComponent;
-            _followComponent = followComponent;
             Debug.Log($"SHIP COMPONENTS: Health is {_healthComponent is not null}");
         }
         

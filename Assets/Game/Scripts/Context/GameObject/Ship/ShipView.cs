@@ -43,6 +43,7 @@ namespace Game.Scripts.GameObjects.Ship
         public void Construct(Entity ship)
         {
             _ship = ship;
+            Debug.Log($"SHIP VIEW: Entity name is {gameObject.name}");
         }
 
         private void OnEnable()

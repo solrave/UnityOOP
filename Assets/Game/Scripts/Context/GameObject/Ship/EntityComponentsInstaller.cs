@@ -8,10 +8,8 @@ using Zenject;
 namespace Game.Scripts.Context.GameObject.Ship
 {
     [Serializable]
-    public class EntityInstaller : MonoInstaller
+    public class EntityComponentsInstaller : MonoInstaller
     {
-        [SerializeField] private Entity _sceneContext;
-        
         [Header("Settings")]
         [SerializeField] 
         private FireComponent.Settings _fireSettings;
@@ -22,22 +20,17 @@ namespace Game.Scripts.Context.GameObject.Ship
         [SerializeField]
         private HealthComponent.Settings _healthSettings;
 
-        [SerializeField]
-        private FollowComponent.Settings _followSettings;
-
         public override void InstallBindings()
         {
+            // this.Container.Bind<Entity>()
+            //     .AsSingle();
+            
             this.Container.Bind<ShipComponents>()
                 .AsSingle()
                 .NonLazy();
             
-            this.Container.Bind<Entity>()
-                .FromInstance(_sceneContext)
-                .AsSingle()
-                .WhenInjectedInto<ShipView>();
-            
             this.Container.BindInterfacesTo<FireComponent>().AsSingle()
-                .WithArguments(_fireSettings);
+                .WithArguments(_fireSettings).NonLazy();
             
             this.Container.BindInterfacesTo<MoveComponent>().AsSingle()
                 .WithArguments(_moveSettings);
@@ -45,12 +38,7 @@ namespace Game.Scripts.Context.GameObject.Ship
             this.Container.BindInterfacesTo<HealthComponent>().AsSingle()
                 .WithArguments(_healthSettings);
             
-            this.Container.BindInterfacesTo<FollowComponent>().AsSingle()
-                .WithArguments(_followSettings);
-            
-            this.Container.Bind<ShipView>().FromComponentOnRoot().AsSingle();
-
-            this.Container.Bind<EnemyAI>().AsSingle();
+            Container.Bind<ShipView>().FromComponentInHierarchy().AsSingle();
         }
     }
 }
