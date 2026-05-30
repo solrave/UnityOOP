@@ -52,7 +52,7 @@ namespace Game.Gameplay
             _currentHealth = Mathf.Clamp(_currentHealth - component.damage, 0,  _settings.MaxHealth);
             OnHit?.Invoke();
             OnHealthChanged?.Invoke(_currentHealth,  _settings.MaxHealth);
-            if (_currentHealth <= 0)
+            if (_currentHealth == 0)
             {
                 this.OnHealthDepleted?.Invoke(_entity);
                 this.OnDestroyAnimationRequested?.Invoke();

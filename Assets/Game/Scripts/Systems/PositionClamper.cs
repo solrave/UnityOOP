@@ -3,31 +3,27 @@ using Zenject;
 
 namespace Game.Gameplay
 {
-    public class PositionClamper : ILateTickable
+    public class PositionClamper
     {
-        private readonly Entity _entity;
         private readonly LevelBounds _levelBounds;
         
-        public PositionClamper(Entity entity, LevelBounds levelBounds)
-        {
-            _entity = entity;
+        public PositionClamper(LevelBounds levelBounds)
+        { 
             _levelBounds = levelBounds;
         }
 
-        public void LateTick() => ClampInLevelBounds();
-        
-        private void ClampInLevelBounds()
+        public void ClampInLevelBounds(Entity entity)
         {
-            if (!_levelBounds.InBounds(_entity.Get<RigidbodyComponent>().Position))
+            if (!_levelBounds.InBounds(entity.Get<RigidbodyComponent>().Position))
             {
-                var newPosition = _levelBounds.ClampInBounds(_entity.Get<RigidbodyComponent>().Position);
+                var newPosition = _levelBounds.ClampInBounds(entity.Get<RigidbodyComponent>().Position);
                 
-                if (_entity.TryGet<Bullet>(out var bullet))
+                if (entity.TryGet<Bullet>(out var bullet))
                 {
                     bullet.IsExpired();
                 }
                 
-                _entity.Get<RigidbodyComponent>().Position = newPosition;
+                entity.Get<RigidbodyComponent>().Position = newPosition;
             }
         }
     }

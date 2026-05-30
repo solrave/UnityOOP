@@ -7,7 +7,7 @@ namespace Game.Gameplay
     public interface IFireComponent
     {
         public TeamType Team { get; }
-        public Vector2 GunPoint { get; }
+        public Vector2 GunPoint {get;}
         public event Action OnFire;
         public bool ReadyToShoot { get; }
         public void FireUp();
@@ -54,14 +54,15 @@ namespace Game.Gameplay
         
         public void FireUp()
         {
-            if (!TimeToShoot()) return;
+            if (!TimeToShoot() && !_condition.Evaluate()) return;
+            
             OnFire?.Invoke();
             _bulletSpawner.Spawn(Team,_settings.GunPoint.position,_settings.GunPoint.up);
         }
 
         public void FireAt(Vector2 direction)
         {
-            if (!TimeToShoot()) return;
+            if (!TimeToShoot() && !_condition.Evaluate()) return;
             
             OnFire?.Invoke();
             _bulletSpawner.Spawn(Team,_settings.GunPoint.position,direction);

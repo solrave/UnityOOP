@@ -15,7 +15,6 @@ namespace Game.Gameplay
             _healthComponent = healthComponent;
             _moveComponent = moveComponent;
             _fireComponent = fireComponent;
-            Debug.Log($"SHIP COMPONENTS: Health is {_healthComponent is not null}");
         }
         
         public virtual void Initialize()

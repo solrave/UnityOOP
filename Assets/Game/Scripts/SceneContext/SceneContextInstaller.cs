@@ -21,12 +21,12 @@ namespace Game.Gameplay
         public override void InstallBindings()
         {
             this.Container
-                .BindInterfacesTo<PlayerController>()
+                .BindInterfacesTo<PositionClamper>()
                 .AsSingle()
                 .NonLazy();
             
             this.Container
-                .BindInterfacesTo<PositionClamper>()
+                .BindInterfacesTo<PlayerController>()
                 .AsSingle()
                 .NonLazy();
             

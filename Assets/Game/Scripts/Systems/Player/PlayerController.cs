@@ -6,10 +6,12 @@ namespace Game.Gameplay
     public class PlayerController : ITickable
     {
         private readonly Entity _player;
+        private PositionClamper _clamper;
         
-        public PlayerController(Entity player)
+        public PlayerController(CharacterProvider provider, PositionClamper clamper)
         {
-            _player = player;
+            _clamper = clamper;
+            _player = provider.Player;
         }
 
         public void Tick() => ListenInput();
@@ -27,6 +29,8 @@ namespace Game.Gameplay
             {
                _player.Get<IFireComponent>().FireUp();
             }
+            
+            _clamper.ClampInLevelBounds(_player);
         }
     }
 }

@@ -16,12 +16,19 @@ namespace Game.Gameplay
         
         [SerializeField]
         private HealthComponent.Settings _healthSettings;
+        
+        [SerializeField] 
+        private TeamComponent _teamComponent;
 
         public override void InstallBindings()
         {
             this.Container.Bind<Ship>()
                 .AsSingle()
                 .NonLazy();
+            
+            this.Container.Bind<TeamComponent>()
+                .FromInstance(_teamComponent)
+                .AsSingle();
             
             this.Container.BindInterfacesTo<FireComponent>().AsSingle()
                 .WithArguments(_fireSettings).NonLazy();
