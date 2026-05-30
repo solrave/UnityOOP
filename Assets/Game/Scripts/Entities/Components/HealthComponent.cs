@@ -7,7 +7,7 @@ namespace Game.Gameplay
     {
         public bool HasHealth { get; }
         public event Action<Entity> OnHealthDepleted;
-        public event Action OnDestroyAnimationRequested;
+        public event Action OnShipDestroyed;
         public event Action OnHit;
         public event Action<int, int> OnHealthChanged;
         public void ReceiveDamage(DamageComponent component);
@@ -28,7 +28,7 @@ namespace Game.Gameplay
         }
         
         public event Action<Entity> OnHealthDepleted;
-        public event Action OnDestroyAnimationRequested;
+        public event Action OnShipDestroyed;
         public event Action OnHit;
         public event Action<int, int> OnHealthChanged;
 
@@ -55,7 +55,7 @@ namespace Game.Gameplay
             if (_currentHealth == 0)
             {
                 this.OnHealthDepleted?.Invoke(_entity);
-                this.OnDestroyAnimationRequested?.Invoke();
+                this.OnShipDestroyed?.Invoke();
             }
 
         }

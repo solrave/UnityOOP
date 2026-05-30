@@ -13,14 +13,12 @@ namespace Game.Gameplay
             public float stoppingDistance;
         }
         
-        public event Action<EnemyAI> OnDispose;
-        
         private Entity _target;
         private Vector2 _firePosition;
-        private IMoveComponent _moveComponent;
-        private IFireComponent _fireComponent;
-        private RigidbodyComponent _rigidbodyComponent;
-        private Settings _settings;
+        private readonly IMoveComponent _moveComponent;
+        private readonly IFireComponent _fireComponent;
+        private readonly RigidbodyComponent _rigidbodyComponent;
+        private readonly Settings _settings;
         private bool _isReached;
         
         public EnemyAI(CharacterProvider target, IMoveComponent moveComponent,
@@ -41,7 +39,7 @@ namespace Game.Gameplay
         {
             if (!_target) return;
             
-            Vector2? distance = _target.Get<RigidbodyComponent>().Position - _rigidbodyComponent.Position;
+            Vector2? distance = _firePosition - _rigidbodyComponent.Position;
             _isReached = distance.Value.sqrMagnitude < _settings.stoppingDistance * _settings.stoppingDistance;
             
            if(!_isReached)

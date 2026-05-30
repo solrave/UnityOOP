@@ -278,12 +278,13 @@ MonoBehaviour:
   _fireSettings:
     <FireCooldown>k__BackingField: 0.2
     <GunPoint>k__BackingField: {fileID: 8503432944885784460}
-    <Team>k__BackingField: 1
   _moveSettings:
-    <Rigidbody>k__BackingField: {fileID: 4575139502811685103}
     <Speed>k__BackingField: 6
   _healthSettings:
     <MaxHealth>k__BackingField: 11
+  _rigidbody2D: {fileID: 4575139502811685103}
+  _teamComponent:
+    team: 1
 --- !u!1 &7932017922939402051
 GameObject:
   m_ObjectHideFlags: 0

@@ -47,7 +47,7 @@ namespace Game.Gameplay
         private void OnEnable()
         {
             _fireComponent.OnFire += AnimateFire;
-            _healthComponent.OnDestroyAnimationRequested += AnimateDestruction;
+            _healthComponent.OnShipDestroyed += AnimateDestruction;
             _healthComponent.OnHit += AnimateDamage;
             _moveComponent.OnMove += AnimateMovement;
         }
@@ -55,7 +55,7 @@ namespace Game.Gameplay
         private void OnDisable()
         {
             _fireComponent.OnFire -= AnimateFire;
-            _healthComponent.OnDestroyAnimationRequested -= AnimateDestruction;
+            _healthComponent.OnShipDestroyed -= AnimateDestruction;
             _healthComponent.OnHit -= AnimateDamage;
             _moveComponent.OnMove -= AnimateMovement;
         }

@@ -17,9 +17,6 @@ namespace Game.Gameplay
         private Rigidbody2D _rigidbody2D;
         
         [SerializeField] 
-        private LevelBounds _bulletBounds;
-        
-        [SerializeField] 
         private MoveComponent.Settings  _moveSettings;
         
         public override void InstallBindings()
@@ -28,18 +25,9 @@ namespace Game.Gameplay
                 .AsSingle()
                 .NonLazy();
             
-            this.Container.BindInterfacesTo<MoveComponent>().AsSingle()
-                .WithArguments(_moveSettings);
-            
-            this.Container
-                .Bind<LevelBounds>()
-                .FromInstance(_bulletBounds)
-                .AsCached();
-            
-            this.Container
-                .BindInterfacesTo<PositionClamper>()
+            this.Container.BindInterfacesTo<MoveComponent>()
                 .AsSingle()
-                .NonLazy();
+                .WithArguments(_moveSettings);
             
             this.Container.Bind<TeamComponent>()
                 .FromInstance(_teamComponent)
@@ -52,8 +40,11 @@ namespace Game.Gameplay
             Container.Bind<RigidbodyComponent>().AsSingle()
                 .WithArguments(_rigidbody2D);
 
-            this.Container.Bind<CollisionListener>().AsSingle();
-            this.Container.Bind<TeamComponent>().AsSingle();
+            this.Container.Bind<CollisionListener>()
+                .AsSingle();
+            
+            this.Container.Bind<TeamComponent>()
+                .AsSingle();
         }
     }
 }

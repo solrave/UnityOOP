@@ -33,5 +33,10 @@ namespace Game.Gameplay
         
         public Vector3 Forward => _transform.transform.forward;
         public Vector3 Right => _transform.transform.right;
+
+        public void MovePosition(Vector2 newDirection)
+        {
+            _transform.MovePosition(newDirection);
+        }
     }
 }

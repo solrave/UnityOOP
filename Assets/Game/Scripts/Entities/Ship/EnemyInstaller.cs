@@ -7,9 +7,6 @@ namespace Game.Gameplay
     {
         [SerializeField]
         private EnemyAI.Settings _aiSettings;
-
-        [SerializeField]
-        private Rigidbody2D _rigidbody2D;
         
         public override void InstallBindings()
         {
@@ -19,15 +16,9 @@ namespace Game.Gameplay
                 .WithArguments(_aiSettings);
             
             this.Container
-                .BindInterfacesTo<EnemyAI.Settings>()
+                .Bind<EnemyAI.Settings>()
                 .AsSingle()
                 .WithArguments(_aiSettings);
-            
-            Container.Bind<RigidbodyComponent>().AsSingle()
-                .WithArguments(_rigidbody2D);
-
-            this.Container.Bind<CollisionListener>().AsSingle();
-            this.Container.Bind<TeamComponent>().AsSingle();
         }
     }
 }

@@ -37,15 +37,15 @@ namespace Game.Gameplay
         public event Action OnFire;
         public bool ReadyToShoot => TimeToShoot();
         
-        private readonly BulletSpawner _bulletSpawner;
+        private readonly BulletManager _bulletManager;
         private readonly Settings _settings;
         private ICondition _condition;
         private float _fireTime;
         private TeamComponent _teamComponent;
         
-        public FireComponent(BulletSpawner bulletSpawner, Settings settings, TeamComponent teamComponent)
+        public FireComponent(BulletManager bulletManager, Settings settings, TeamComponent teamComponent)
         {
-            _bulletSpawner = bulletSpawner;
+            _bulletManager = bulletManager;
             _settings = settings;
             _teamComponent = teamComponent;
         }
@@ -57,7 +57,7 @@ namespace Game.Gameplay
             if (!TimeToShoot() && !_condition.Evaluate()) return;
             
             OnFire?.Invoke();
-            _bulletSpawner.Spawn(Team,_settings.GunPoint.position,_settings.GunPoint.up);
+            _bulletManager.Spawn(Team,_settings.GunPoint.position,_settings.GunPoint.up);
         }
 
         public void FireAt(Vector2 direction)
@@ -65,7 +65,7 @@ namespace Game.Gameplay
             if (!TimeToShoot() && !_condition.Evaluate()) return;
             
             OnFire?.Invoke();
-            _bulletSpawner.Spawn(Team,_settings.GunPoint.position,direction);
+            _bulletManager.Spawn(Team,_settings.GunPoint.position,direction);
         }
 
         private bool TimeToShoot()

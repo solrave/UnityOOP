@@ -8,7 +8,7 @@ namespace Game.Gameplay
         private readonly Entity _player;
         private PositionClamper _clamper;
         
-        public PlayerController(CharacterProvider provider, PositionClamper clamper)
+        public PlayerController(CharacterProvider provider,[Inject (Id = ID.PlayerPositionClamper)] PositionClamper clamper)
         {
             _clamper = clamper;
             _player = provider.Player;

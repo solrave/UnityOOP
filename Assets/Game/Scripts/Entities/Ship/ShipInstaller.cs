@@ -17,6 +17,9 @@ namespace Game.Gameplay
         [SerializeField]
         private HealthComponent.Settings _healthSettings;
         
+        [SerializeField]
+        private Rigidbody2D _rigidbody2D;
+        
         [SerializeField] 
         private TeamComponent _teamComponent;
 
@@ -30,14 +33,21 @@ namespace Game.Gameplay
                 .FromInstance(_teamComponent)
                 .AsSingle();
             
-            this.Container.BindInterfacesTo<FireComponent>().AsSingle()
-                .WithArguments(_fireSettings).NonLazy();
+            this.Container.BindInterfacesTo<FireComponent>()
+                .AsSingle()
+                .WithArguments(_fireSettings);
             
-            this.Container.BindInterfacesTo<MoveComponent>().AsSingle()
+            this.Container.BindInterfacesTo<MoveComponent>()
+                .AsSingle()
                 .WithArguments(_moveSettings);
             
-            this.Container.BindInterfacesTo<HealthComponent>().AsSingle()
+            this.Container.BindInterfacesTo<HealthComponent>()
+                .AsSingle()
                 .WithArguments(_healthSettings);
+            
+            Container.Bind<RigidbodyComponent>()
+                .AsSingle()
+                .WithArguments(_rigidbody2D);
         }
     }
 }

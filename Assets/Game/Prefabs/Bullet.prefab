@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 2743036428890533593}
   - component: {fileID: 3555983760417175357}
   - component: {fileID: 3951101991959698325}
-  - component: {fileID: 76952851492952380}
   - component: {fileID: 1869796918011253435}
+  - component: {fileID: 7973673251284201632}
+  - component: {fileID: 5450280793863483608}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -102,18 +103,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.2
---- !u!114 &76952851492952380
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2743036428890533592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1eb885cbd5fe45ce8c7e7018cf7f5644, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game::Game.Bullet
 --- !u!114 &1869796918011253435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,11 +115,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dec2f81237b4ce6b8a0724fcba57d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::Game.Scripts.Components.BulletView
-  _bullet: {fileID: 76952851492952380}
   _bodyBlue: {fileID: 4342546469450739056}
   _bodyRed: {fileID: 6164157714914106344}
   _explosionBlue: {fileID: 7194944903912687263}
   _explosionRed: {fileID: 1742748963365154161}
+--- !u!114 &7973673251284201632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2743036428890533592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7164d9943e5f44a6930db2437291896c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Entity::Game.Gameplay.Entity
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 5450280793863483608}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
+--- !u!114 &5450280793863483608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2743036428890533592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aad4e2c3da8404099f0aaca236ab7e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Game.Gameplay.BulletInstaller
+  _teamComponent:
+    team: 0
+  _damageComponent:
+    damage: 1
+  _rigidbody2D: {fileID: 3555983760417175357}
+  _moveSettings:
+    <Speed>k__BackingField: 5
 --- !u!1001 &1940752715145011713
 PrefabInstance:
   m_ObjectHideFlags: 0

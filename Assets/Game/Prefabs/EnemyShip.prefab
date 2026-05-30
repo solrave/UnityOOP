@@ -280,12 +280,13 @@ MonoBehaviour:
   _fireSettings:
     <FireCooldown>k__BackingField: 1
     <GunPoint>k__BackingField: {fileID: 3195880656587174614}
-    <Team>k__BackingField: 2
   _moveSettings:
-    <Rigidbody>k__BackingField: {fileID: 659620479434099170}
     <Speed>k__BackingField: 6
   _healthSettings:
     <MaxHealth>k__BackingField: 1
+  _rigidbody2D: {fileID: 659620479434099170}
+  _teamComponent:
+    team: 2
 --- !u!114 &-1255484307561860006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,10 +299,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 612ffa485a2b48ce901047a1c88e9cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::Game.Scripts.Context.GameObject.Ship.EnemyInstaller
-  _followSettings:
-    <StoppingDistance>k__BackingField: 0
-  _enemy: {fileID: 168958218145818697}
-  _container: {fileID: 0}
+  _aiSettings:
+    stoppingDistance: 0.25
 --- !u!1 &1074127585690423075
 GameObject:
   m_ObjectHideFlags: 0

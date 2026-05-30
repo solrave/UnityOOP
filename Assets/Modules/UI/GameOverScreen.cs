@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Modules.UI
 {
-    public sealed class GameOverView : MonoBehaviour
+    public sealed class GameOverScreen : MonoBehaviour
     {
         private void Awake()
         {

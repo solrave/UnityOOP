@@ -36,7 +36,6 @@ namespace Game.Gameplay
                 ResetTimer();
                 return true;
             }
-
             return false;
         }
 

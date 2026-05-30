@@ -15,20 +15,35 @@ namespace Game.Gameplay
         [SerializeField] 
         private LevelBounds _playerBounds;
         
+        [SerializeField] 
+        private LevelBounds _bulletBounds;
+        
         [SerializeField]
         private  ShipSpawnerInstaller _shipSpawnerInstaller;
+        
+        [SerializeField]
+        private  BulletSpawnerInstaller _bulletSpawnerInstaller;
         
         public override void InstallBindings()
         {
             this.Container
-                .BindInterfacesTo<PositionClamper>()
-                .AsSingle()
-                .NonLazy();
+                .Bind<PositionClamper>()
+                .WithId(ID.PlayerPositionClamper)
+                .AsCached()
+                .WithArguments(_playerBounds);
+            
+            this.Container
+                .Bind<PositionClamper>()
+                .WithId(ID.BulletPositionClamper)
+                .AsCached()
+                .WithArguments(_bulletBounds);
             
             this.Container
                 .BindInterfacesTo<PlayerController>()
-                .AsSingle()
-                .NonLazy();
+                .AsSingle();
+
+            this.Container.BindInterfacesTo<GameController>()
+                .AsSingle();
             
             this.Container
                 .Bind<LevelBounds>()
@@ -45,7 +60,8 @@ namespace Game.Gameplay
                 .AsSingle();
             
             this.Container
-                .Install(_shipSpawnerInstaller);   
+                .Install(_shipSpawnerInstaller)  
+                .Install(_bulletSpawnerInstaller);   
         }
     }
 }
