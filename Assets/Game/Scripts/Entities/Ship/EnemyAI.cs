@@ -34,6 +34,10 @@ namespace Game.Gameplay
             _target = target.Player;
         }
         
+        public void SetFirePosition(Vector2 firePosition) => _firePosition = firePosition;
+
+        public void SetTarget(Entity entity) => _target = entity;
+        
         public void FixedTick()
         {
             if (!_target) return;
@@ -49,13 +53,6 @@ namespace Game.Gameplay
            {
                _fireComponent.FireAt(_target.Get<RigidbodyComponent>().Position);
            }
-        }
-
-        public void SetFirePosition(Vector2 firePosition) => _firePosition = firePosition;
-
-        public void SetTarget(Entity entity)
-        {
-            _target = entity;
         }
     }
 }
