@@ -1,4 +1,5 @@
 using Game.Gameplay;
+using Modules.Utils;
 using UnityEngine;
 using Zenject;
 
@@ -15,8 +16,16 @@ namespace Game.Scripts.Context.GameObject.Bullet
         [SerializeField]
         private Rigidbody2D _rigidbody2D;
         
+        [SerializeField] 
+        private LevelBounds _bulletBounds;
+        
         public override void InstallBindings()
         {
+            this.Container
+                .BindInterfacesTo<PositionClamper>()
+                .AsSingle()
+                .NonLazy();
+            
             this.Container.Bind<TeamComponent>()
                 .FromInstance(_teamComponent)
                 .AsSingle();

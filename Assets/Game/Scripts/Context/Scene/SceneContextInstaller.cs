@@ -1,5 +1,4 @@
 using Game.Scripts.Context.GameObject.Ship;
-using Game.Scripts.GameObjects.Ship;
 using UnityEngine;
 using Zenject;
 using Game.Scripts.ZenjectExtensions;
@@ -32,7 +31,7 @@ namespace Game.Gameplay
                 .NonLazy();
             
             this.Container
-                .BindInterfacesTo<PlayerClamper>()
+                .BindInterfacesTo<PositionClamper>()
                 .AsSingle()
                 .NonLazy();
             

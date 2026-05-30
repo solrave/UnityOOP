@@ -22,7 +22,6 @@ namespace Game.Gameplay
         }
         
         public event Action<Vector2?, float> OnMove;
-        public Vector2 Position => _settings.Rigidbody.position;
         public bool IsMoving => _inputDirection.HasValue;
         
         private readonly Settings _settings;
