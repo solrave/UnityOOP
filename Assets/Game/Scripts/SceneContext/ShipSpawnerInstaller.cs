@@ -12,7 +12,7 @@ namespace Game.Gameplay
         private Entity _enemy;
         
         [SerializeField]
-        private float _spawnCooldown;
+        private ShipManager.Settings _managerSettings;
         
         public override void InstallBindings()
         {
@@ -24,11 +24,11 @@ namespace Game.Gameplay
                 .BindMemoryPool<Entity, Entity.Pool>()
                 .FromComponentInNewPrefab(_enemy);
             
-            this.Container.BindInterfacesAndSelfTo<ByTimeEnemyShipSpawner>()
-                .AsSingle().WithArguments(_spawnCooldown)
+            this.Container.BindInterfacesAndSelfTo<ShipManager>()
+                .AsSingle().WithArguments(_managerSettings)
                 .NonLazy();
             
-            this.Container.Bind<EnemyShipSpawner>()
+            this.Container.Bind<ShipSpawner>()
                 .AsSingle();
         }
 

@@ -22,6 +22,11 @@ namespace Game.Scripts.Context.GameObject.Bullet
         public override void InstallBindings()
         {
             this.Container
+                .Bind<LevelBounds>()
+                .FromInstance(_bulletBounds)
+                .AsCached();
+            
+            this.Container
                 .BindInterfacesTo<PositionClamper>()
                 .AsSingle()
                 .NonLazy();

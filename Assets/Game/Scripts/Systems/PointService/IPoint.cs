@@ -1,9 +1,9 @@
 using UnityEngine;
 
-namespace Game
+namespace Game.Gameplay
 {
     public interface IPoint
     {
-        public Vector3 Position { get; }
+        public Vector2 Position { get; }
     }
 }

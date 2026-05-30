@@ -1,4 +1,5 @@
 using System;
+using Game.Scripts.Context.GameObject.Ship;
 using UnityEngine;
 
 namespace Game.Gameplay
@@ -6,7 +7,7 @@ namespace Game.Gameplay
     public interface IHealthComponent
     {
         public bool HasHealth { get; }
-        public event Action OnHealthDepleted;
+        public event Action<Entity> OnHealthDepleted;
         public event Action OnHit;
         public event Action<int, int> OnHealthChanged;
         public void ReceiveDamage(DamageComponent component);
@@ -26,7 +27,7 @@ namespace Game.Gameplay
             bool Evaluate();
         }
         
-        public event Action OnHealthDepleted;
+        public event Action<Entity> OnHealthDepleted;
         public event Action OnHit;
         public event Action<int, int> OnHealthChanged;
 
@@ -34,9 +35,11 @@ namespace Game.Gameplay
         private int _currentHealth;
         private ICondition _condition;
         private readonly Settings _settings;
+        private readonly Entity _entity;
         
-        public HealthComponent(Settings settings)
+        public HealthComponent(Entity entity, Settings settings)
         {
+            _entity = entity;
             _settings = settings;
             _currentHealth = _settings.MaxHealth;
         }
@@ -49,7 +52,7 @@ namespace Game.Gameplay
             OnHit?.Invoke();
             OnHealthChanged?.Invoke(_currentHealth,  _settings.MaxHealth);
             if (_currentHealth <= 0)
-                this.OnHealthDepleted?.Invoke();
+                this.OnHealthDepleted?.Invoke(_entity);
         }
     }
 }

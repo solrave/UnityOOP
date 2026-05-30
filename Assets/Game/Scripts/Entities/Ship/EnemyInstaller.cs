@@ -6,7 +6,7 @@ namespace Game.Gameplay
     public class EnemyInstaller : MonoInstaller
     {
         [SerializeField]
-        private AISettings _aiSettings;
+        private EnemyAI.Settings _aiSettings;
 
         [SerializeField]
         private Rigidbody2D _rigidbody2D;
@@ -19,7 +19,7 @@ namespace Game.Gameplay
                 .WithArguments(_aiSettings);
             
             this.Container
-                .BindInterfacesTo<AISettings>()
+                .BindInterfacesTo<EnemyAI.Settings>()
                 .AsSingle()
                 .WithArguments(_aiSettings);
             

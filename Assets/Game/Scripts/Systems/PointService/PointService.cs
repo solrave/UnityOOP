@@ -1,8 +1,5 @@
-using System;
-using Game.Scripts.ZenjectExtensions;
-using UnityEngine;
 
-namespace Game
+namespace Game.Gameplay
 {
     public class PointService
     {

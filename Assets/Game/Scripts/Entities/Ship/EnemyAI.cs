@@ -7,6 +7,13 @@ namespace Game.Gameplay
 {
     public class EnemyAI : IFixedTickable
     {
+        [Serializable]
+        public class Settings
+        {
+            [SerializeField]
+            public float stoppingDistance;
+        }
+        
         public event Action<EnemyAI> OnDispose;
         
         private Entity _target;
@@ -14,11 +21,11 @@ namespace Game.Gameplay
         private IMoveComponent _moveComponent;
         private IFireComponent _fireComponent;
         private RigidbodyComponent _rigidbodyComponent;
-        private AISettings _settings;
+        private Settings _settings;
         private bool _isReached;
         
         public EnemyAI(CharacterProvider target, IMoveComponent moveComponent,
-            IFireComponent fireComponent, AISettings settings, RigidbodyComponent rigidbodyComponent)
+            IFireComponent fireComponent, Settings settings, RigidbodyComponent rigidbodyComponent)
         {
             _moveComponent = moveComponent;
             _fireComponent = fireComponent;
@@ -42,6 +49,13 @@ namespace Game.Gameplay
            {
                _fireComponent.FireAt(_target.Get<RigidbodyComponent>().Position);
            }
+        }
+
+        public void SetFirePosition(Vector2 firePosition) => _firePosition = firePosition;
+
+        public void SetTarget(Entity entity)
+        {
+            _target = entity;
         }
     }
 }

@@ -1,4 +1,9 @@
-namespace DefaultNamespace
+using UnityEngine;
+using System;
+using System.Collections.Generic;
+using Game.Scripts.Context.GameObject.Ship;
+
+namespace Game.Gameplay
 {
     public class ShipSpawner
     {
@@ -18,7 +23,7 @@ namespace DefaultNamespace
             var startPoint = _pointService.GetSpawnPoint().Position;
             var firePoint = _pointService.GetFirePoint().Position;
             var ship = _pool.Spawn();
-            ship.Get<RigidbodyComponent>().SetPosition(startPoint);
+            ship.Get<RigidbodyComponent>().Position = startPoint;
             ship.Get<EnemyAI>().SetFirePosition(startPoint);
             ship.Get<IHealthComponent>().OnHealthDepleted += this.Despawn;
             _spawnedShips.Add(ship);

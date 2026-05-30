@@ -1,9 +1,9 @@
 using UnityEngine;
 
-namespace Game
+namespace Game.Gameplay
 {
     public class Point : MonoBehaviour, IPoint
     {
-        public Vector3 Position => this.transform.position;
+        public Vector2 Position => this.transform.position;
     }
 }

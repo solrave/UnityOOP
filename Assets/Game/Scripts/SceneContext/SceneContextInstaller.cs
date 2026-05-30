@@ -1,7 +1,6 @@
 using Game.Scripts.Context.GameObject.Ship;
 using UnityEngine;
 using Zenject;
-using Game.Scripts.ZenjectExtensions;
 using Modules.Utils;
 
 namespace Game.Gameplay
@@ -19,9 +18,6 @@ namespace Game.Gameplay
         
         [SerializeField]
         private  ShipSpawnerInstaller _shipSpawnerInstaller;
-
-        [SerializeField] 
-        private BulletSpawnerInstaller _bulletSpawnerInstaller;
         
         public override void InstallBindings()
         {
@@ -50,8 +46,7 @@ namespace Game.Gameplay
                 .AsSingle();
             
             this.Container
-                .Install(_shipSpawnerInstaller)
-                .Install(_bulletSpawnerInstaller);   
+                .Install(_shipSpawnerInstaller);   
         }
     }
 }

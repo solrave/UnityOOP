@@ -1,10 +1,8 @@
-using UnityEngine;
-using System;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Game.Scripts.ZenjectExtensions
+namespace Game.Gameplay
 {
     public static class Extensions
     {
@@ -15,15 +13,6 @@ namespace Game.Scripts.ZenjectExtensions
             }
         
             public static void Shuffle(this Point[] array)
-            {
-                for (int i = array.Length - 1; i > 0; i--)
-                {
-                    int j = Random.Range(0, i + 1);
-                    (array[i], array[j]) = (array[j], array[i]);
-                }
-            }
-        
-            public static void Shuffle(this FirePoint[] array)
             {
                 for (int i = array.Length - 1; i > 0; i--)
                 {

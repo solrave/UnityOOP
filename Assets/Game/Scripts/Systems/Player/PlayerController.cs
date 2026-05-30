@@ -1,11 +1,8 @@
-using System;
-using Game.Scripts.Components;
-using Game.Scripts.Components.Core;
 using Game.Scripts.Context.GameObject.Ship;
 using UnityEngine;
 using Zenject;
 
-namespace Game
+namespace Game.Gameplay
 {
     public class PlayerController : ITickable
     {

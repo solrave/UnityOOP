@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using Zenject;
 
-namespace Game.Scripts.ZenjectExtensions
+namespace Game.Gameplay
 {
     public static class ZenjectExtension
     {
