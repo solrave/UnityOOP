@@ -1,34 +1,34 @@
-using System;
-using UnityEngine;
-using Zenject;
-
-namespace Game
-{
-    public class GameCycle : MonoBehaviour
-    {
-        public event Action OnGameOver;
-        
-        private Entity _player;
-
-        [Inject]
-        public void Construct(Entity player)
-        {
-            _player = player;
-        }
-
-        private void OnEnable()
-        {
-            _player.Get<IHealthComponent>().OnHealthDepleted += StopGame;
-        }
-
-        private void OnDisable()
-        {
-            _player.Get<IHealthComponent>().OnHealthDepleted -= StopGame;
-        }
-        
-        private void StopGame()
-        {
-            OnGameOver?.Invoke();
-        }
-    }
-}
+// using System;
+// using UnityEngine;
+// using Zenject;
+//
+// namespace Game
+// {
+//     public class GameCycle : MonoBehaviour
+//     {
+//         public event Action OnGameOver;
+//         
+//         private Entity _player;
+//
+//         [Inject]
+//         public void Construct(Entity player)
+//         {
+//             _player = player;
+//         }
+//
+//         private void OnEnable()
+//         {
+//             _player.Get<IHealthComponent>().OnHealthDepleted += StopGame;
+//         }
+//
+//         private void OnDisable()
+//         {
+//             _player.Get<IHealthComponent>().OnHealthDepleted -= StopGame;
+//         }
+//         
+//         private void StopGame()
+//         {
+//             OnGameOver?.Invoke();
+//         }
+//     }
+// }

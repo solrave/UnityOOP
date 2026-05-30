@@ -22,9 +22,12 @@ namespace Game.Gameplay
 
         public void LateTick()
         {
-            foreach (var bullet in _activeBullets)
+            for (int i = 0; i < _activeBullets.Count; i++)
             {
-                _clamper.ClampInLevelBounds(bullet);
+                if (_clamper.ClampInLevelBounds(_activeBullets[i]))
+                {
+                    _activeBullets.Remove(_activeBullets[i]);
+                }
             }
         }
     }

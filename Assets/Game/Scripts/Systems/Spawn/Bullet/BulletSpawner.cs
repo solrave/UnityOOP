@@ -16,6 +16,7 @@ namespace Game.Gameplay
         public void Spawn(TeamType team, Vector2 position, Vector2 direction)
         {
             var bullet = _pool.Spawn();
+            _manager.Add(bullet);
             bullet.Get<TeamComponent>().team = team;
             bullet.Get<RigidbodyComponent>().Position = position;
             bullet.Get<IMoveComponent>().SetDirection(direction);

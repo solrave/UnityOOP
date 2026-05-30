@@ -3,7 +3,7 @@ using Modules.Utils;
 using UnityEngine;
 using Zenject;
 
-namespace Game.Scripts.Context.GameObject.Bullet
+namespace Game.Gameplay
 {
     public class BulletInstaller : MonoInstaller
     {
@@ -19,8 +19,18 @@ namespace Game.Scripts.Context.GameObject.Bullet
         [SerializeField] 
         private LevelBounds _bulletBounds;
         
+        [SerializeField] 
+        private MoveComponent.Settings  _moveSettings;
+        
         public override void InstallBindings()
         {
+            this.Container.Bind<Bullet>()
+                .AsSingle()
+                .NonLazy();
+            
+            this.Container.BindInterfacesTo<MoveComponent>().AsSingle()
+                .WithArguments(_moveSettings);
+            
             this.Container
                 .Bind<LevelBounds>()
                 .FromInstance(_bulletBounds)

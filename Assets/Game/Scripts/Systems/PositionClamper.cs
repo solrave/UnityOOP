@@ -12,7 +12,7 @@ namespace Game.Gameplay
             _levelBounds = levelBounds;
         }
 
-        public void ClampInLevelBounds(Entity entity)
+        public bool ClampInLevelBounds(Entity entity)
         {
             if (!_levelBounds.InBounds(entity.Get<RigidbodyComponent>().Position))
             {
@@ -21,10 +21,13 @@ namespace Game.Gameplay
                 if (entity.TryGet<Bullet>(out var bullet))
                 {
                     bullet.IsExpired();
+                    return true;
                 }
                 
                 entity.Get<RigidbodyComponent>().Position = newPosition;
             }
+
+            return false;
         }
     }
 }
