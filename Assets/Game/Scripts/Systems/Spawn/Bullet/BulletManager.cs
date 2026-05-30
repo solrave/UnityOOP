@@ -19,9 +19,18 @@ namespace Game.Gameplay
         public void Spawn(TeamType team, Vector2 position, Vector2 direction)
         {
             var bullet = _spawner.Spawn(team, position, direction);
+            bullet.Get<Bullet>().OnDispose += this.Despawn;
+            bullet.Get<RigidbodyComponent>().Body.gameObject.SetActive(true);
             _activeBullets.Add(bullet);
         }
-        
+
+        private void Despawn(Entity bullet)
+        {
+            _activeBullets.Remove(bullet);
+            bullet.Get<Bullet>().OnDispose -= this.Despawn;
+            bullet.Get<RigidbodyComponent>().Body.gameObject.SetActive(false);
+        }
+
         public void LateTick()
         {
             ClampBulletsInBounds();
@@ -29,11 +38,11 @@ namespace Game.Gameplay
 
         private void ClampBulletsInBounds()
         {
-            for (int i = 0; i < _activeBullets.Count; i++)
+            if (_activeBullets.Count > 0)
             {
-                if (_clamper.ClampInLevelBounds(_activeBullets[i]))
+                foreach (var bullet in _activeBullets)
                 {
-                    _activeBullets.Remove(_activeBullets[i]);
+                    _clamper.ClampInLevelBounds(bullet);
                 }
             }
         }

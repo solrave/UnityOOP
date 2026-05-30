@@ -326,9 +326,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 78117030}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 620c8cd24f3f4f3d87d02ca7c0308a21, type: 3}
+  m_Script: {fileID: 11500000, guid: ebd197b7d30842628d598a6121a85534, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.FirePoint
+  m_EditorClassIdentifier: Game::Game.Gameplay.Point
 --- !u!1 &131519010
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,9 +575,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 196756140}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 620c8cd24f3f4f3d87d02ca7c0308a21, type: 3}
+  m_Script: {fileID: 11500000, guid: ebd197b7d30842628d598a6121a85534, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.FirePoint
+  m_EditorClassIdentifier: Game::Game.Gameplay.Point
 --- !u!1 &363245575
 GameObject:
   m_ObjectHideFlags: 0
@@ -1235,6 +1235,8 @@ MonoBehaviour:
     _enemy: {fileID: 168958218145818697, guid: 87fe189881a524806800482ac8eaaa83, type: 3}
     _managerSettings:
       spawnCooldown: 2
+  _bulletSpawnerInstaller:
+    _bullet: {fileID: 7973673251284201632, guid: 5fe72886874b4e445b06cf777ca4920d, type: 3}
 --- !u!1 &770306091
 GameObject:
   m_ObjectHideFlags: 0
@@ -1434,9 +1436,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 883274639}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 620c8cd24f3f4f3d87d02ca7c0308a21, type: 3}
+  m_Script: {fileID: 11500000, guid: ebd197b7d30842628d598a6121a85534, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.FirePoint
+  m_EditorClassIdentifier: Game::Game.Gameplay.Point
 --- !u!1 &895558704
 GameObject:
   m_ObjectHideFlags: 0
@@ -1748,9 +1750,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1049219807}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 620c8cd24f3f4f3d87d02ca7c0308a21, type: 3}
+  m_Script: {fileID: 11500000, guid: ebd197b7d30842628d598a6121a85534, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.FirePoint
+  m_EditorClassIdentifier: Game::Game.Gameplay.Point
 --- !u!1 &1052031096
 GameObject:
   m_ObjectHideFlags: 0
@@ -2423,9 +2425,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1536551910}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 620c8cd24f3f4f3d87d02ca7c0308a21, type: 3}
+  m_Script: {fileID: 11500000, guid: ebd197b7d30842628d598a6121a85534, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.FirePoint
+  m_EditorClassIdentifier: Game::Game.Gameplay.Point
 --- !u!1 &1549378006
 GameObject:
   m_ObjectHideFlags: 0
@@ -2467,9 +2469,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1549378006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 620c8cd24f3f4f3d87d02ca7c0308a21, type: 3}
+  m_Script: {fileID: 11500000, guid: ebd197b7d30842628d598a6121a85534, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.FirePoint
+  m_EditorClassIdentifier: Game::Game.Gameplay.Point
 --- !u!1 &1606120810
 GameObject:
   m_ObjectHideFlags: 0
@@ -3078,9 +3080,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 453687098638444264}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebd197b7d30842628d598a6121a85534, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e783c3d343e4bbba1c9f972f82d3846, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.SpawnPoint
+  m_EditorClassIdentifier: Game::Game.Gameplay.SpawnPoint
 --- !u!1 &2395466870357280814
 GameObject:
   m_ObjectHideFlags: 0
@@ -3107,9 +3109,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2395466870357280814}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 620c8cd24f3f4f3d87d02ca7c0308a21, type: 3}
+  m_Script: {fileID: 11500000, guid: ebd197b7d30842628d598a6121a85534, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.FirePoint
+  m_EditorClassIdentifier: Game::Game.Gameplay.Point
 --- !u!1 &2436077409588089344
 GameObject:
   m_ObjectHideFlags: 0
@@ -3266,9 +3268,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3507177299642408970}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebd197b7d30842628d598a6121a85534, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e783c3d343e4bbba1c9f972f82d3846, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.SpawnPoint
+  m_EditorClassIdentifier: Game::Game.Gameplay.SpawnPoint
 --- !u!1 &4788406047096451828
 GameObject:
   m_ObjectHideFlags: 0
@@ -3325,9 +3327,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3215446385220561601}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebd197b7d30842628d598a6121a85534, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e783c3d343e4bbba1c9f972f82d3846, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.SpawnPoint
+  m_EditorClassIdentifier: Game::Game.Gameplay.SpawnPoint
 --- !u!1 &5367402353523150177
 GameObject:
   m_ObjectHideFlags: 0
@@ -3402,9 +3404,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5874070695607078750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebd197b7d30842628d598a6121a85534, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e783c3d343e4bbba1c9f972f82d3846, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.SpawnPoint
+  m_EditorClassIdentifier: Game::Game.Gameplay.SpawnPoint
 --- !u!4 &6359635304368030436
 Transform:
   m_ObjectHideFlags: 0
@@ -3429,9 +3431,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3644422865276496877}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebd197b7d30842628d598a6121a85534, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e783c3d343e4bbba1c9f972f82d3846, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.SpawnPoint
+  m_EditorClassIdentifier: Game::Game.Gameplay.SpawnPoint
 --- !u!4 &6563466540960878063
 Transform:
   m_ObjectHideFlags: 0
@@ -3521,9 +3523,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5609395774253919975}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 620c8cd24f3f4f3d87d02ca7c0308a21, type: 3}
+  m_Script: {fileID: 11500000, guid: ebd197b7d30842628d598a6121a85534, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.FirePoint
+  m_EditorClassIdentifier: Game::Game.Gameplay.Point
 --- !u!1 &8442581330395479927
 GameObject:
   m_ObjectHideFlags: 0
@@ -3564,9 +3566,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3569791732579588318}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 620c8cd24f3f4f3d87d02ca7c0308a21, type: 3}
+  m_Script: {fileID: 11500000, guid: ebd197b7d30842628d598a6121a85534, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.FirePoint
+  m_EditorClassIdentifier: Game::Game.Gameplay.Point
 --- !u!1 &8784446303016443019
 GameObject:
   m_ObjectHideFlags: 0
@@ -3632,9 +3634,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6580320674615163606}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 620c8cd24f3f4f3d87d02ca7c0308a21, type: 3}
+  m_Script: {fileID: 11500000, guid: ebd197b7d30842628d598a6121a85534, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.FirePoint
+  m_EditorClassIdentifier: Game::Game.Gameplay.Point
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

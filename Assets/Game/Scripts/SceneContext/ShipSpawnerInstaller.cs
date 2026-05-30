@@ -21,7 +21,8 @@ namespace Game.Gameplay
             
             this.Container
                 .BindMemoryPool<Entity, Entity.Pool>()
-                .FromComponentInNewPrefab(_enemy);
+                .FromComponentInNewPrefab(_enemy)
+                .AsCached();
             
             this.Container.BindInterfacesAndSelfTo<ShipManager>()
                 .AsSingle().WithArguments(_managerSettings)
@@ -33,10 +34,10 @@ namespace Game.Gameplay
 
         private PointService CreatePointService()
         {
-            Point[] spawnPoints = UnityEngine.GameObject.FindObjectsByType<Point>
+            SpawnPoint[] spawnPoints = UnityEngine.GameObject.FindObjectsByType<SpawnPoint>
                 (FindObjectsInactive.Exclude, FindObjectsSortMode.None);
             
-            Point[] firePoints = UnityEngine.GameObject.FindObjectsByType<Point>
+            FirePoint[] firePoints = UnityEngine.GameObject.FindObjectsByType<FirePoint>
                 (FindObjectsInactive.Exclude, FindObjectsSortMode.None);
             
             return new PointService(spawnPoints, firePoints);

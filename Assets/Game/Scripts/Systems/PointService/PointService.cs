@@ -3,10 +3,10 @@ namespace Game.Gameplay
 {
     public class PointService
     {
-        private Point[] _spawnPoints;
-        private Point[] _firePoints;
+        private SpawnPoint[] _spawnPoints;
+        private FirePoint[] _firePoints;
 
-        public PointService(Point[] spawnPoints, Point[] firePoints)
+        public PointService(SpawnPoint[] spawnPoints, FirePoint[] firePoints)
         {
             _spawnPoints = spawnPoints;
             _firePoints = firePoints;

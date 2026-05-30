@@ -31,7 +31,7 @@ namespace Game.Gameplay
             
             this.Container.Bind<TeamComponent>()
                 .FromInstance(_teamComponent)
-                .AsSingle();
+                .AsCached();
             
             this.Container.BindInterfacesTo<FireComponent>()
                 .AsSingle()

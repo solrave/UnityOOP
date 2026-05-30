@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 namespace Game.Gameplay
 {
@@ -6,7 +7,7 @@ namespace Game.Gameplay
     {
         private readonly Entity.Pool _pool;
 
-        public BulletSpawner(Entity.Pool pool)
+        public BulletSpawner([Inject(Id = ID.BulletPool)]Entity.Pool pool)
         {
             _pool = pool;
         }

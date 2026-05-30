@@ -18,6 +18,10 @@ namespace Game.Gameplay
         
         [SerializeField] 
         private MoveComponent.Settings  _moveSettings;
+
+        [SerializeField] 
+        private CollisionListener _collisionListener;
+        
         
         public override void InstallBindings()
         {
@@ -29,9 +33,9 @@ namespace Game.Gameplay
                 .AsSingle()
                 .WithArguments(_moveSettings);
             
-            this.Container.Bind<TeamComponent>()
-                .FromInstance(_teamComponent)
-                .AsSingle();
+            // this.Container.Bind<TeamComponent>()
+            //     .FromInstance(_teamComponent)
+            //     .AsSingle();
             
             this.Container.Bind<DamageComponent>()
                 .FromInstance(_damageComponent)
@@ -41,6 +45,7 @@ namespace Game.Gameplay
                 .WithArguments(_rigidbody2D);
 
             this.Container.Bind<CollisionListener>()
+                .FromInstance(_collisionListener)
                 .AsSingle();
             
             this.Container.Bind<TeamComponent>()

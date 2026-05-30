@@ -7,7 +7,7 @@ namespace Game.Gameplay
     public class Bullet : IInitializable, IDisposable
     {
         public event Action OnHit;
-        public event Action<Bullet> OnDispose;
+        public event Action<Entity> OnDispose;
         public TeamType Team => _teamComponent.team;
        
         private IMoveComponent _moveComponent;
@@ -15,15 +15,17 @@ namespace Game.Gameplay
         private CollisionListener _collisionListener;
         private DamageComponent _damageComponent;
         private TeamComponent _teamComponent;
+        private Entity _entity;
 
         public Bullet(IMoveComponent moveComponent, RigidbodyComponent bodyComponent,
-            CollisionListener collisionListener, TeamComponent teamComponent, DamageComponent damageComponent)
+            CollisionListener collisionListener, TeamComponent teamComponent, DamageComponent damageComponent, Entity entity)
         {
             _moveComponent = moveComponent;
             _bodyComponent = bodyComponent;
             _collisionListener = collisionListener;
             _teamComponent = teamComponent;
             _damageComponent = damageComponent;
+            _entity = entity;
         }
 
         public void Initialize()
@@ -38,7 +40,7 @@ namespace Game.Gameplay
             _collisionListener.OnCollision -= OnCollision;
         }
 
-        public void IsExpired() => OnDispose?.Invoke(this);
+        public void IsExpired() => OnDispose?.Invoke(_entity);
         
         private void SetLayer(TeamType team)
         {

@@ -12,7 +12,7 @@ namespace Game.Gameplay
                 return collection.ElementAt(index);
             }
         
-            public static void Shuffle(this Point[] array)
+            public static void Shuffle(this FirePoint[] array)
             {
                 for (int i = array.Length - 1; i > 0; i--)
                 {
