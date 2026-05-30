@@ -1,4 +1,3 @@
-using Game.Scripts.Context.GameObject.Ship;
 using Zenject;
 
 namespace Game.Gameplay

@@ -1,7 +1,5 @@
-using UnityEngine;
 using System;
 using System.Collections.Generic;
-using Game.Scripts.Context.GameObject.Ship;
 
 namespace Game.Gameplay
 {

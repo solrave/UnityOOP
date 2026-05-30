@@ -1,5 +1,4 @@
 using System;
-using Game.Scripts.Context.GameObject.Ship;
 using UnityEngine;
 using Zenject;
 

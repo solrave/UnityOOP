@@ -1,7 +1,6 @@
-using Game.Scripts.Components;
 using Zenject;
 
-namespace Game.Scripts.Context.GameObject.Ship
+namespace Game.Gameplay
 {
    
     public class Entity : GameObjectContext, IEntity
