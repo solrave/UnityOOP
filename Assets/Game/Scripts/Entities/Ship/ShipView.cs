@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Game.Gameplay
 {
-    public class ShipView : MonoBehaviour, IShipView
+    public class ShipView : MonoBehaviour
     {
         [SerializeField] private Transform _visualTransform;
 

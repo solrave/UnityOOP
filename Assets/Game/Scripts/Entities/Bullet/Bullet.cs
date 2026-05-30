@@ -1,81 +1,49 @@
 using System;
 using Game.Scripts.Components;
-using Game.Scripts.Components.Core;
-using Game.Scripts.Systems.Pool;
 using UnityEngine;
 using Zenject;
 
-namespace Game
+namespace Game.Gameplay
 {
-    public class Bullet : MonoBehaviour, IInitializable, IDisposable
+    public class Bullet : IInitializable, IDisposable
     {
-        public sealed class Pool : MemoryPool<BulletSettings, Bullet>
-        {
-            protected override void Reinitialize(BulletSettings set, Bullet enemy)
-            {
-                enemy.SetTeam(set.team);
-                enemy.SetPosition(set.position);
-                enemy.SetDirection(set.direction);
-            }
-            
-            protected override void OnSpawned(Bullet bullet)
-            {
-                base.OnSpawned(bullet);
-                bullet.OnDispose += this.Despawn;
-            }
-
-            protected override void OnDespawned(Bullet bullet)
-            {
-                bullet.OnDispose -= this.Despawn;
-                base.OnDespawned(bullet);
-            }
-        }
-        
-        public struct BulletSettings
-        {
-            public TeamType team;
-            public Vector2 position;
-            public Vector2 direction;
-        }
-        
         public event Action OnHit;
         public event Action<Bullet> OnDispose;
-        
-        public TeamType Team { get; private set; }
-        public Vector2 Position => this.transform.position;
-        
-        private MoveComponent _moveComponent;
-        private int _damage;
-        
-        [Inject] 
-        public void Construct(MoveComponent moveComponent, int damage)
+        public TeamType Team => _teamComponent.team;
+       
+        private IMoveComponent _moveComponent;
+        private RigidbodyComponent _bodyComponent;
+        private CollisionListener _collisionListener;
+        private DamageComponent _damageComponent;
+        private TeamComponent _teamComponent;
+
+        public Bullet(IMoveComponent moveComponent, RigidbodyComponent bodyComponent,
+            CollisionListener collisionListener, TeamComponent teamComponent, DamageComponent damageComponent)
         {
             _moveComponent = moveComponent;
-            _damage = damage;
+            _bodyComponent = bodyComponent;
+            _collisionListener = collisionListener;
+            _teamComponent = teamComponent;
+            _damageComponent = damageComponent;
         }
-
-        public void SetDirection(Vector2? direction) => _moveComponent.SetDirection(direction);
-        public void SetTeam(TeamType type) => Team = type;
-
-        public void SetPosition(Vector2 position) => this.transform.position = position;
-
-        public void IsExpired() => OnDispose?.Invoke(this);
-        
-        public void FixedUpdate()  => _moveComponent.FixedTick();
 
         public void Initialize()
         {
-            SetLayer(Team);
+            SetLayer(_teamComponent.team);
+            _collisionListener.OnCollision += OnCollision;
         }
 
         public void Dispose()
         {
            SetLayer(TeamType.None);
+            _collisionListener.OnCollision -= OnCollision;
         }
+
+        public void IsExpired() => OnDispose?.Invoke(this);
         
         private void SetLayer(TeamType team)
         {
-            this.gameObject.layer = team switch
+            _bodyComponent.Layer = team switch
             {
                 TeamType.None => LayerMask.NameToLayer("Default"),
                 TeamType.Player => LayerMask.NameToLayer("PlayerBullet"),
@@ -84,12 +52,13 @@ namespace Game
             };
         }
         
-        private void OnTriggerEnter2D(Collider2D other)
+        private void OnCollision(Collision2D other)
         {
-            if (other.TryGetComponent(out IEntity entity) 
-                && entity.TryGet<IHealthComponent>(out var healthComponent))
+            if (other.gameObject.TryGetComponent(out IEntity entity) 
+                && entity.Get<TeamComponent>().team != this._teamComponent.team &&
+                entity.TryGet<IHealthComponent>(out var healthComponent))
             
-                healthComponent.ReceiveDamage(_damage);
+                healthComponent.ReceiveDamage(_damageComponent);
                 
             OnHit?.Invoke();
         }

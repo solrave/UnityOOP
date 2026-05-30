@@ -34,9 +34,9 @@ namespace Game.Gameplay
 
         public void SetCondition(ICondition condition) => _condition = condition;
         
-        public void ReceiveDamage(int damage)
+        public void ReceiveDamage(DamageComponent component)
         {
-            _currentHealth = Mathf.Clamp(_currentHealth - damage, 0,  _settings.MaxHealth);
+            _currentHealth = Mathf.Clamp(_currentHealth - component.damage, 0,  _settings.MaxHealth);
             OnHit?.Invoke();
             OnHealthChanged?.Invoke(_currentHealth,  _settings.MaxHealth);
             if (_currentHealth <= 0)
@@ -50,6 +50,6 @@ namespace Game.Gameplay
         public event Action OnHealthDepleted;
         public event Action OnHit;
         public event Action<int, int> OnHealthChanged;
-        public void ReceiveDamage(int damage);
+        public void ReceiveDamage(DamageComponent component);
     }
 }

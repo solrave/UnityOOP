@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Scripts.Entities.Components
+namespace Game.Gameplay
 {
     public class RigidbodyComponent
     {
@@ -10,6 +10,8 @@ namespace Game.Scripts.Entities.Components
         {
             _transform = transform;
         }
+
+        public Rigidbody2D Body => _transform;
 
         public Vector2 Position
         {
@@ -22,7 +24,13 @@ namespace Game.Scripts.Entities.Components
             get => _transform.transform.rotation;
             set => _transform.transform.rotation = value;
         }
-
+        
+        public int Layer
+        {
+            get => _transform.gameObject.layer;
+            set => _transform.gameObject.layer = value;
+        }
+        
         public Vector3 Forward => _transform.transform.forward;
         public Vector3 Right => _transform.transform.right;
     }

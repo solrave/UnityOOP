@@ -1,14 +1,11 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Zenject;
 
-namespace Game.Scripts.Components
+namespace Game.Gameplay
 {
     public class BulletView : MonoBehaviour
     {
-        [SerializeField] private Bullet _bullet;
-        
         [SerializeField] private ParticleSystem _bodyBlue;
         [SerializeField] private ParticleSystem _bodyRed;
 
@@ -17,8 +14,15 @@ namespace Game.Scripts.Components
 
         private ParticleSystem _currentBody;
         private ParticleSystem _currentExplosion;
+        private Bullet _bullet;
 
-        private void OnEnable()
+        [Inject]
+        public void Construct(Bullet bullet)
+        {
+            _bullet = bullet;
+        }
+
+    private void OnEnable()
         {   
             SelectCurrentRepresentation();
             PlayVisual();
