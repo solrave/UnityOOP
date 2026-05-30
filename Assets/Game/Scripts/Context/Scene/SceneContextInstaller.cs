@@ -5,7 +5,7 @@ using Zenject;
 using Game.Scripts.ZenjectExtensions;
 using Modules.Utils;
 
-namespace Game.Scripts.Context.Scene
+namespace Game.Gameplay
 {
     public class SceneContextInstaller : MonoInstaller
     {
@@ -31,11 +31,6 @@ namespace Game.Scripts.Context.Scene
                 .AsSingle()
                 .NonLazy();
             
-            Container
-                .Bind<GameBootstrapper>()
-                .FromComponentInHierarchy()
-                .AsSingle();
-            
             this.Container
                 .BindInterfacesTo<PlayerClamper>()
                 .AsSingle()
@@ -50,8 +45,6 @@ namespace Game.Scripts.Context.Scene
                 .Bind<LevelBounds>()
                 .FromInstance(_playerBounds)
                 .AsCached();
-            
-            _player.Name = "PLAYER";
             
             this.Container
                 .Bind<Entity>()

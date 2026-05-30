@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Zenject;
 
-namespace Game.Scripts.Context.Scene
+namespace Game.Gameplay
 {
     [Serializable]
     public class BulletSpawnerInstaller : Installer

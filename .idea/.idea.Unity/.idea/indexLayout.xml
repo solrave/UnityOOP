@@ -2,7 +2,13 @@
 <project version="4">
   <component name="UserContentModel">
     <attachedFolders />
-    <explicitIncludes />
+    <explicitIncludes>
+      <Path>Assets/Game/Scripts/Entities</Path>
+      <Path>Assets/Game/Scripts/Modules.Entity</Path>
+      <Path>Assets/Game/Scripts/NewDirectory1</Path>
+      <Path>Assets/Game/Scripts/RRRRRRR</Path>
+      <Path>Assets/Game/Scripts/Systems/Ship.meta</Path>
+    </explicitIncludes>
     <explicitExcludes />
   </component>
 </project>

@@ -5,7 +5,7 @@ using Game.Scripts.Systems.Enemy.Spawn.Points;
 using UnityEngine;
 using Zenject;
 
-namespace Game.Scripts.Context.Scene
+namespace Game.Gameplay
 {
     [Serializable]
     public class ShipSpawnerInstaller : Installer
