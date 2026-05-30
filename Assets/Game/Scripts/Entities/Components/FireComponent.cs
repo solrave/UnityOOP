@@ -7,6 +7,7 @@ namespace Game.Gameplay
     public interface IFireComponent
     {
         public TeamType Team { get; }
+        public Vector2 GunPoint { get; }
         public event Action OnFire;
         public bool ReadyToShoot { get; }
         public void FireUp();
@@ -32,17 +33,17 @@ namespace Game.Gameplay
         }
 
         public TeamType Team => _teamComponent.team;
+        public Vector2 GunPoint => _settings.GunPoint.position;
         public event Action OnFire;
         public bool ReadyToShoot => TimeToShoot();
         
-        private readonly IMemoryPool<Bullet.BulletSettings, Bullet> _bulletSpawner;
+        private readonly BulletSpawner _bulletSpawner;
         private readonly Settings _settings;
         private ICondition _condition;
         private float _fireTime;
         private TeamComponent _teamComponent;
         
-        public FireComponent(IMemoryPool<Bullet.BulletSettings, Bullet> bulletSpawner,
-                             Settings settings, TeamComponent teamComponent)
+        public FireComponent(BulletSpawner bulletSpawner, Settings settings, TeamComponent teamComponent)
         {
             _bulletSpawner = bulletSpawner;
             _settings = settings;
@@ -55,12 +56,7 @@ namespace Game.Gameplay
         {
             if (!TimeToShoot()) return;
             OnFire?.Invoke();
-            _bulletSpawner.Spawn(new Bullet.BulletSettings
-            {
-                team = Team,
-                position = _settings.GunPoint.position,
-                direction =_settings.GunPoint.up
-            });
+            _bulletSpawner.Spawn(Team,_settings.GunPoint.position,_settings.GunPoint.up);
         }
 
         public void FireAt(Vector2 direction)
@@ -68,12 +64,7 @@ namespace Game.Gameplay
             if (!TimeToShoot()) return;
             
             OnFire?.Invoke();
-            _bulletSpawner.Spawn(new Bullet.BulletSettings
-            {
-                team = Team,
-                position = _settings.GunPoint.position,
-                direction = direction
-            });
+            _bulletSpawner.Spawn(Team,_settings.GunPoint.position,direction);
         }
 
         private bool TimeToShoot()
