@@ -40,7 +40,7 @@ namespace Game.Gameplay
            }
            else
            {
-               _fireComponent.FireAt(_target.Get<IMoveComponent>().Position);
+               _fireComponent.FireAt(_target.Get<RigidbodyComponent>().Position);
            }
         }
     }

@@ -36,11 +36,6 @@ namespace Game.Gameplay
                 .NonLazy();
             
             this.Container
-                .BindInterfacesTo<BulletClamper>()
-                .AsSingle()
-                .NonLazy();
-            
-            this.Container
                 .Bind<LevelBounds>()
                 .FromInstance(_playerBounds)
                 .AsCached();

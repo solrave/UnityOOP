@@ -4,6 +4,15 @@ using Zenject;
 
 namespace Game.Gameplay
 {
+    public interface IMoveComponent
+    {
+        public event Action<Vector2?, float> OnMove;
+        bool IsMoving { get; }
+        public void IncreaseSpeedBy(float amount);
+        public void SetCondition(MoveComponent.ICondition condition);
+        public void SetDirection(Vector2? direction);
+    }
+    
     public sealed class MoveComponent : IMoveComponent, IFixedTickable
     {
         [Serializable]
@@ -52,15 +61,5 @@ namespace Game.Gameplay
             }
             OnMove?.Invoke(_inputDirection, _settings.Speed);
         }
-    }
-
-    public interface IMoveComponent
-    {
-        public event Action<Vector2?, float> OnMove;
-        Vector2 Position { get;}
-        bool IsMoving { get; }
-        public void IncreaseSpeedBy(float amount);
-        public void SetCondition(MoveComponent.ICondition condition);
-        public void SetDirection(Vector2? direction);
     }
 }

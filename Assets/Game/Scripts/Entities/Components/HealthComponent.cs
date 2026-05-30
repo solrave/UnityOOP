@@ -3,6 +3,15 @@ using UnityEngine;
 
 namespace Game.Gameplay
 {
+    public interface IHealthComponent
+    {
+        public bool HasHealth { get; }
+        public event Action OnHealthDepleted;
+        public event Action OnHit;
+        public event Action<int, int> OnHealthChanged;
+        public void ReceiveDamage(DamageComponent component);
+    }
+    
     public class HealthComponent : IHealthComponent
     {
         [Serializable]
@@ -42,14 +51,5 @@ namespace Game.Gameplay
             if (_currentHealth <= 0)
                 this.OnHealthDepleted?.Invoke();
         }
-    }
-
-    public interface IHealthComponent
-    {
-        public bool HasHealth { get; }
-        public event Action OnHealthDepleted;
-        public event Action OnHit;
-        public event Action<int, int> OnHealthChanged;
-        public void ReceiveDamage(DamageComponent component);
     }
 }

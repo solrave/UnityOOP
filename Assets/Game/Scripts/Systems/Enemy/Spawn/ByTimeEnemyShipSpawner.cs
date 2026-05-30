@@ -1,5 +1,4 @@
 using Game.Scripts.Context.GameObject.Ship;
-using Game.Scripts.Systems.Enemy.Spawn.Points;
 using UnityEngine;
 using Zenject;
 
@@ -11,8 +10,8 @@ namespace Game
         private readonly float _spawnCooldown;
         
         protected ByTimeEnemyShipSpawner(Entity.Pool pool, FirePointService firePointService
-            ,SpawnPointService spawnPointService, float spawnCooldown)
-            : base(pool, firePointService, spawnPointService)
+            ,PointService pointService, float spawnCooldown)
+            : base(pool, firePointService, pointService)
         {
             _spawnCooldown = spawnCooldown;
         }

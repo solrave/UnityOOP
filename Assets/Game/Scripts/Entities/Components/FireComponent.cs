@@ -4,6 +4,16 @@ using Zenject;
 
 namespace Game.Gameplay
 {
+    public interface IFireComponent
+    {
+        public TeamType Team { get; }
+        public event Action OnFire;
+        public bool ReadyToShoot { get; }
+        public void FireUp();
+        public void FireAt(Vector2 direction);
+        public void SetCondition(FireComponent.ICondition condition);
+        
+    }
     public class FireComponent : IFireComponent
     {
         [Serializable]
@@ -76,15 +86,5 @@ namespace Game.Gameplay
             _fireTime = time;
             return true;
         }
-    }
-
-    public interface IFireComponent
-    {
-        public TeamType Team { get; }
-        public event Action OnFire;
-        public bool ReadyToShoot { get; }
-        public void FireUp();
-        public void FireAt(Vector2 direction);
-        public void SetCondition(FireComponent.ICondition condition);
     }
 }

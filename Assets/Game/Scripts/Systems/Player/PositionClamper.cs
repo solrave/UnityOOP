@@ -21,7 +21,7 @@ namespace Game.Gameplay
         {
             if (!_levelBounds.InBounds(_entity.Get<RigidbodyComponent>().Position))
             {
-                var newPosition = _levelBounds.ClampInBounds(_entity.Get<IMoveComponent>().Position);
+                var newPosition = _levelBounds.ClampInBounds(_entity.Get<RigidbodyComponent>().Position);
                 
                 if (_entity.TryGet<Bullet>(out var bullet))
                 {

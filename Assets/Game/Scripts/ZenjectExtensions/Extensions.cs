@@ -14,7 +14,7 @@ namespace Game.Scripts.ZenjectExtensions
                 return collection.ElementAt(index);
             }
         
-            public static void Shuffle(this SpawnPoint[] array)
+            public static void Shuffle(this Point[] array)
             {
                 for (int i = array.Length - 1; i > 0; i--)
                 {

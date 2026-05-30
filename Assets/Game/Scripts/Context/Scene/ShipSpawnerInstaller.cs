@@ -1,7 +1,5 @@
 using System;
 using Game.Scripts.Context.GameObject.Ship;
-using Game.Scripts.GameObjects.Ship;
-using Game.Scripts.Systems.Enemy.Spawn.Points;
 using UnityEngine;
 using Zenject;
 
@@ -18,26 +16,13 @@ namespace Game.Gameplay
         
         public override void InstallBindings()
         {
-            this.Container.Bind<FirePointService>()
-                .FromMethod(this.CreateFirePointService)
+            this.Container.Bind<PointService>()
+                .FromMethod(this.CreatePointService)
                 .AsSingle().NonLazy();
             
-            this.Container.Bind<SpawnPointService>()
-                .FromMethod(this.CreateSpawnPointService)
-                .AsSingle().NonLazy();
-
-            // this.Container
-            //     .BindMemoryPoolCustomInterface<EnemyAI, EnemyAI.Pool
-            //         ,IMemoryPool<EnemyAI.Settings, EnemyAI>>()
-            //     .WithInitialSize(4);
-
             this.Container
                 .BindMemoryPool<Entity, Entity.Pool>()
                 .FromComponentInNewPrefab(_enemy);
-            
-            // this.Container.BindFactory<EnemyAI, EnemyEntity, EnemyEntity.Factory>()
-            //     .FromComponentInNewPrefab(_enemyEntity)
-            //         .AsSingle();
             
             this.Container.BindInterfacesAndSelfTo<ByTimeEnemyShipSpawner>()
                 .AsSingle().WithArguments(_spawnCooldown)
@@ -45,21 +30,17 @@ namespace Game.Gameplay
             
             this.Container.Bind<EnemyShipSpawner>()
                 .AsSingle();
-
         }
 
-        private SpawnPointService CreateSpawnPointService()
+        private PointService CreatePointService()
         {
-            SpawnPoint[] spawnPoints = UnityEngine.GameObject.FindObjectsByType<SpawnPoint>
+            Point[] spawnPoints = UnityEngine.GameObject.FindObjectsByType<Point>
                 (FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-            return new SpawnPointService(spawnPoints);
-        }
-
-        private FirePointService CreateFirePointService()
-        {
-            FirePoint[] firePoints = UnityEngine.GameObject.FindObjectsByType<FirePoint>
+            
+            Point[] firePoints = UnityEngine.GameObject.FindObjectsByType<Point>
                 (FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-            return new FirePointService(firePoints);
+            
+            return new PointService(spawnPoints, firePoints);
         }
     }
 }
