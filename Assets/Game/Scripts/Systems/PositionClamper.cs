@@ -1,10 +1,11 @@
+using System;
 using Modules.Utils;
-using Zenject;
 
 namespace Game.Gameplay
 {
     public class PositionClamper
     {
+        public event Action<Entity> OnDestroyBullet; 
         private readonly LevelBounds _levelBounds;
         
         public PositionClamper(LevelBounds levelBounds)
@@ -18,9 +19,9 @@ namespace Game.Gameplay
             {
                 var newPosition = _levelBounds.ClampInBounds(entity.Get<RigidbodyComponent>().Position);
                 
-                if (entity.TryGet<Bullet>(out var bullet))
+                if (entity.TryGet<Bullet>(out _))
                 {
-                    bullet.IsExpired();
+                    OnDestroyBullet?.Invoke(entity);
                 }
                 
                 if (entity.TryGet<Ship>(out var ship))

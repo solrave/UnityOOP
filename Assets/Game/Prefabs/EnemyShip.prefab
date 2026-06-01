@@ -278,7 +278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::Game.Scripts.Context.GameObject.Ship.EntityInstaller
   _fireSettings:
-    <FireCooldown>k__BackingField: 1
+    <FireCooldown>k__BackingField: 2
     <GunPoint>k__BackingField: {fileID: 3195880656587174614}
   _moveSettings:
     <Speed>k__BackingField: 6

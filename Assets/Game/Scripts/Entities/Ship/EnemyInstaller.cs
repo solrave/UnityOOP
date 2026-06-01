@@ -11,7 +11,7 @@ namespace Game.Gameplay
         public override void InstallBindings()
         {
             this.Container
-                .Bind<EnemyAI>()
+                .BindInterfacesAndSelfTo<EnemyAI>()
                 .AsSingle()
                 .WithArguments(_aiSettings);
             

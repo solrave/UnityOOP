@@ -40,7 +40,7 @@ namespace Game.Gameplay
             if (!_target) return;
             
             Vector2? distance = _firePosition - _rigidbodyComponent.Position;
-            _isReached = distance.Value.sqrMagnitude < _settings.stoppingDistance * _settings.stoppingDistance;
+            _isReached = distance.Value.sqrMagnitude <= _settings.stoppingDistance * _settings.stoppingDistance;
             
            if(!_isReached)
            {
@@ -48,8 +48,9 @@ namespace Game.Gameplay
            }
            else
            {
+                _moveComponent.SetDirection(null);
                var direction = _target.Get<RigidbodyComponent>().Position - _fireComponent.GunPoint;
-               _fireComponent.FireAt(direction.normalized);
+               //_fireComponent.FireAt(direction.normalized);
            }
         }
     }

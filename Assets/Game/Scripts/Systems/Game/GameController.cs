@@ -7,9 +7,9 @@ namespace Game.Gameplay
     public class GameController : IInitializable, IDisposable
     {
         private Entity _player;
-        private ShipSpawner _shipSpawner;
+        private ShipManager _shipSpawner;
 
-        public GameController(CharacterProvider provider, ShipSpawner shipSpawner)
+        public GameController(CharacterProvider provider, ShipManager shipSpawner)
         {
             _player = provider.Player;
             _shipSpawner = shipSpawner;

@@ -33,9 +33,9 @@ namespace Game.Gameplay
                 .AsSingle()
                 .WithArguments(_moveSettings);
             
-            // this.Container.Bind<TeamComponent>()
-            //     .FromInstance(_teamComponent)
-            //     .AsSingle();
+            this.Container.Bind<TeamComponent>()
+                .FromInstance(_teamComponent)
+                .AsCached();
             
             this.Container.Bind<DamageComponent>()
                 .FromInstance(_damageComponent)
@@ -48,8 +48,9 @@ namespace Game.Gameplay
                 .FromInstance(_collisionListener)
                 .AsSingle();
             
-            this.Container.Bind<TeamComponent>()
-                .AsSingle();
+            // this.Container.Bind<TeamComponent>()
+            //     .FromInstance(_teamComponent)
+            //     .AsSingle();
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections;
+using Codice.Client.BaseCommands;
 using UnityEngine;
 using Zenject;
 
@@ -22,20 +23,21 @@ namespace Game.Gameplay
             _bullet = bullet;
         }
 
-    private void OnEnable()
+        public void Enable()
         {   
             SelectCurrentRepresentation();
             PlayVisual();
-            _bullet.OnHit += PlayExplosion;
+            _bullet.OnExplode += PlayExplosion;
         }
         
         private void OnDisable()
         {
-            _bullet.OnHit -= PlayExplosion;
+            _bullet.OnExplode -= PlayExplosion;
         }
         
         private void SelectCurrentRepresentation()
         {
+            Debug.Log(_bullet.Team);
             switch (_bullet.Team)
             {
                 case TeamType.Player:
@@ -51,13 +53,16 @@ namespace Game.Gameplay
                     _bodyBlue.gameObject.SetActive(false);
                     _explosionBlue.gameObject.SetActive(false);
                     break;
+                
+                default: Debug.Log($"Bullet has no team!");
+                    break;
             }
         }
         
         private void PlayVisual()
-        {
-           _currentBody.gameObject.SetActive(true);
-           _currentBody.Play();
+        { 
+            _currentBody.gameObject.SetActive(true);
+            _currentBody.Play();
         }
 
         private void PlayExplosion()
@@ -71,7 +76,6 @@ namespace Game.Gameplay
         private IEnumerator WaitForExplosion()
         {
             yield return new WaitForSeconds(_currentExplosion.main.duration);
-                _bullet.IsExpired();
         }
     }
 }

@@ -25,13 +25,13 @@ namespace Game.Gameplay
 
         public override void InstallBindings()
         {
-            this.Container.Bind<Ship>()
+            this.Container.BindInterfacesAndSelfTo<Ship>()
                 .AsSingle()
                 .NonLazy();
             
             this.Container.Bind<TeamComponent>()
                 .FromInstance(_teamComponent)
-                .AsCached();
+                .AsSingle();
             
             this.Container.BindInterfacesTo<FireComponent>()
                 .AsSingle()

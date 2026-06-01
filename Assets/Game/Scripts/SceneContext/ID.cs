@@ -4,6 +4,7 @@ namespace Game.Gameplay
     {
         PlayerPositionClamper,
         BulletPositionClamper,
-        BulletPool
+        BulletPool,
+        BulletTeam
     }
 }

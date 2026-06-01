@@ -8,13 +8,15 @@ namespace Game.Gameplay
         private readonly IHealthComponent _healthComponent;
         private readonly IMoveComponent _moveComponent;
         private readonly IFireComponent _fireComponent;
+        private TeamComponent _teamComponent;
 
         protected Ship(IHealthComponent healthComponent, IMoveComponent moveComponent
-            ,IFireComponent fireComponent)
+            ,IFireComponent fireComponent, TeamComponent teamComponent)
         {
             _healthComponent = healthComponent;
             _moveComponent = moveComponent;
             _fireComponent = fireComponent;
+            _teamComponent = teamComponent;
         }
         
         public virtual void Initialize()
@@ -24,6 +26,7 @@ namespace Game.Gameplay
         }
         
         bool MoveComponent.ICondition.Evaluate() => _healthComponent.HasHealth;
-        bool FireComponent.ICondition.Evaluate() => _healthComponent.HasHealth && !_moveComponent.IsMoving;
+        bool FireComponent.ICondition.Evaluate() => _healthComponent.HasHealth;
+        
     }
 }

@@ -4,10 +4,10 @@ using Zenject;
 
 namespace Game.Gameplay
 {
-    public class Bullet : IInitializable, IDisposable
+    public class Bullet : IDisposable
     {
-        public event Action OnHit;
-        public event Action<Entity> OnDispose;
+        public event Action<Entity> OnHit;
+        public event Action OnExplode;
         public TeamType Team => _teamComponent.team;
        
         private IMoveComponent _moveComponent;
@@ -18,7 +18,8 @@ namespace Game.Gameplay
         private Entity _entity;
 
         public Bullet(IMoveComponent moveComponent, RigidbodyComponent bodyComponent,
-            CollisionListener collisionListener, TeamComponent teamComponent, DamageComponent damageComponent, Entity entity)
+            CollisionListener collisionListener, TeamComponent teamComponent,
+            DamageComponent damageComponent, Entity entity)
         {
             _moveComponent = moveComponent;
             _bodyComponent = bodyComponent;
@@ -39,8 +40,6 @@ namespace Game.Gameplay
            SetLayer(TeamType.None);
             _collisionListener.OnCollision -= OnCollision;
         }
-
-        public void IsExpired() => OnDispose?.Invoke(_entity);
         
         private void SetLayer(TeamType team)
         {
@@ -61,7 +60,8 @@ namespace Game.Gameplay
             
                 healthComponent.ReceiveDamage(_damageComponent);
                 
-            OnHit?.Invoke();
+            OnHit?.Invoke(_entity);
+            OnExplode?.Invoke();
         }
     }
 }

@@ -12,13 +12,15 @@ namespace Game.Gameplay
             _pool = pool;
         }
 
-        public Entity Spawn(TeamType team, Vector2 position, Vector2 direction)
+        public Entity Spawn()
         {
             var bullet = _pool.Spawn();
-            bullet.Get<TeamComponent>().team = team;
-            bullet.Get<RigidbodyComponent>().Position = position;
-            bullet.Get<IMoveComponent>().SetDirection(direction);
             return bullet;
+        }
+
+        public void Despawn(Entity bullet)
+        {
+            _pool.Despawn(bullet);
         }
     }
 }

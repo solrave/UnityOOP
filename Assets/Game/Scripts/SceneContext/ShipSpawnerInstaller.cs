@@ -25,7 +25,8 @@ namespace Game.Gameplay
                 .AsCached();
             
             this.Container.BindInterfacesAndSelfTo<ShipManager>()
-                .AsSingle().WithArguments(_managerSettings)
+                .AsSingle()
+                .WithArguments(_managerSettings)
                 .NonLazy();
             
             this.Container.Bind<ShipSpawner>()

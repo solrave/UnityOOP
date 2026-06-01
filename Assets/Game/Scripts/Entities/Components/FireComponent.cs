@@ -7,15 +7,15 @@ namespace Game.Gameplay
     public interface IFireComponent
     {
         public TeamType Team { get; }
+        public float Cooldown { get; }
         public Vector2 GunPoint {get;}
         public event Action OnFire;
-        public bool ReadyToShoot { get; }
         public void FireUp();
         public void FireAt(Vector2 direction);
         public void SetCondition(FireComponent.ICondition condition);
         
     }
-    public class FireComponent : IFireComponent
+    public class FireComponent : IFireComponent, ITickable
     {
         [Serializable]
         public sealed class Settings
@@ -33,14 +33,15 @@ namespace Game.Gameplay
         }
 
         public TeamType Team => _teamComponent.team;
+        public float Cooldown => _settings.FireCooldown;
         public Vector2 GunPoint => _settings.GunPoint.position;
         public event Action OnFire;
-        public bool ReadyToShoot => TimeToShoot();
         
         private readonly BulletManager _bulletManager;
         private readonly Settings _settings;
         private ICondition _condition;
-        private float _fireTime;
+        private float _time;
+        private bool _canShoot;
         private TeamComponent _teamComponent;
         
         public FireComponent(BulletManager bulletManager, Settings settings, TeamComponent teamComponent)
@@ -54,29 +55,40 @@ namespace Game.Gameplay
         
         public void FireUp()
         {
-            if (!TimeToShoot() && !_condition.Evaluate()) return;
+            if (!_condition.Evaluate()) return;
             
             OnFire?.Invoke();
             _bulletManager.Spawn(Team,_settings.GunPoint.position,_settings.GunPoint.up);
+            _canShoot = false;
+            _time = 0f;
         }
 
         public void FireAt(Vector2 direction)
         {
-            if (!TimeToShoot() && !_condition.Evaluate()) return;
+            if (!_condition.Evaluate()) return;
             
             OnFire?.Invoke();
             _bulletManager.Spawn(Team,_settings.GunPoint.position,direction);
+            _canShoot = false;
+            _time = 0f;
+        }
+        
+        private void TimeToShoot()
+        {
+            if(_canShoot) return;
+            
+            _time += Time.deltaTime;
+            
+            if (_time >= _settings.FireCooldown)
+            {
+                _time = 0f;
+                _canShoot = true;
+            }
         }
 
-        private bool TimeToShoot()
+        public void Tick()
         {
-            float time = Time.time;
-
-            if (time - _fireTime < _settings.FireCooldown)
-                return false;
-
-            _fireTime = time;
-            return true;
+            TimeToShoot();
         }
     }
 }
