@@ -37,6 +37,7 @@ namespace Game.Gameplay
             ship.Get<EnemyAI>().SetFirePosition(firePoint);
             ship.Get<TeamComponent>().team = TeamType.Enemy;
             ship.Get<IHealthComponent>().OnHealthDepleted += this.Despawn;
+            ship.Get<IHealthComponent>().Initialize();
             _spawnedShips.Add(ship);
         }
         

@@ -60,13 +60,13 @@ namespace Game.Gameplay
             _moveComponent.OnMove -= AnimateMovement;
         }
 
-        public void AnimateFire()
+        private void AnimateFire()
         { 
             PlaySound(_shotSFX);
             PlayEffect(_muzzleVFX);
         }
 
-        public void AnimateDamage()
+        private void AnimateDamage()
         { 
             if (_damageAnimation.IsActive())
                 _damageAnimation.Kill();
@@ -82,12 +82,12 @@ namespace Game.Gameplay
            PlaySound(_damageSFX);
         }
 
-        public void AnimateDestruction()
+        private void AnimateDestruction()
         {
            PlayEffect(_destroyVFX);
         }
 
-        public void AnimateMovement(Vector2? inputDirection,float speed)
+        private void AnimateMovement(Vector2? inputDirection,float speed)
         {
             Vector3 shipAngles = _visualTransform.localEulerAngles;
             
