@@ -50,7 +50,7 @@ namespace Game.Gameplay
            {
                 _moveComponent.SetDirection(null);
                var direction = _target.Get<RigidbodyComponent>().Position - _fireComponent.GunPoint;
-               //_fireComponent.FireAt(direction.normalized);
+               _fireComponent.FireAt(direction.normalized);
            }
         }
     }

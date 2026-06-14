@@ -5,6 +5,7 @@ namespace Game.Gameplay
         PlayerPositionClamper,
         BulletPositionClamper,
         BulletPool,
+        ShipPool,
         BulletTeam
     }
 }

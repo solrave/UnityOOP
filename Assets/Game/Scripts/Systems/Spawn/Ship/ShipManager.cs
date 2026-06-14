@@ -12,6 +12,7 @@ namespace Game.Gameplay
         {
             [SerializeField] public float spawnCooldown;
         }
+        
         public event Action OnKillCountIncrease;
         private float _lastSpawnedTime = 0f;
         private readonly Settings _settings;
@@ -29,22 +30,22 @@ namespace Game.Gameplay
         public void Tick()
         {
             if (!TimeToSpawn()) return;
-            // var startPoint = _pointService.GetSpawnPoint().Position;
-            // var firePoint = _pointService.GetFirePoint().Position;
-            //  var ship = _shipSpawner.Spawn();
-            //  ship.Get<RigidbodyComponent>().Position = startPoint;
-            //  ship.Get<EnemyAI>().SetFirePosition(firePoint);
-            //  ship.Get<TeamComponent>().team = TeamType.Enemy;
-            //  ship.Get<IHealthComponent>().OnHealthDepleted += this.Despawn;
-            //  _spawnedShips.Add(ship);
-            //  _spawnedShips.Add(ship);
+            var startPoint = _pointService.GetSpawnPoint().Position;
+            var firePoint = _pointService.GetFirePoint().Position;
+            var ship = _shipSpawner.Spawn();
+            ship.Get<RigidbodyComponent>().Position = startPoint;
+            ship.Get<EnemyAI>().SetFirePosition(firePoint);
+            ship.Get<TeamComponent>().team = TeamType.Enemy;
+            ship.Get<IHealthComponent>().OnHealthDepleted += this.Despawn;
+            _spawnedShips.Add(ship);
         }
         
         private void Despawn(Entity ship)
         {
             OnKillCountIncrease?.Invoke();
-            _spawnedShips.Remove(ship);
+            ship.Get<IHealthComponent>().OnHealthDepleted -= this.Despawn;
             _shipSpawner.Despawn(ship);
+            _spawnedShips.Remove(ship);
         }
 
         private bool TimeToSpawn()

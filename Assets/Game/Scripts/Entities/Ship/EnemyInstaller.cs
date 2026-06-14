@@ -15,10 +15,10 @@ namespace Game.Gameplay
                 .AsSingle()
                 .WithArguments(_aiSettings);
             
-            this.Container
-                .Bind<EnemyAI.Settings>()
-                .AsSingle()
-                .WithArguments(_aiSettings);
+            // this.Container
+            //     .Bind<EnemyAI.Settings>()
+            //     .AsSingle()
+            //     .WithArguments(_aiSettings);
         }
     }
 }

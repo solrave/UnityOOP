@@ -65,7 +65,7 @@ namespace Game.Gameplay
 
         public void FireAt(Vector2 direction)
         {
-            if (!_condition.Evaluate()) return;
+            if (!_condition.Evaluate() || !_canShoot) return;
             
             OnFire?.Invoke();
             _bulletManager.Spawn(Team,_settings.GunPoint.position,direction);

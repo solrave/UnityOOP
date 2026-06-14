@@ -25,6 +25,10 @@ namespace Game.Gameplay
 
         public override void InstallBindings()
         {
+            this.Container.Bind<Entity>()
+                .FromComponentInHierarchy()
+                .AsSingle();
+            
             this.Container.BindInterfacesAndSelfTo<Ship>()
                 .AsSingle()
                 .NonLazy();

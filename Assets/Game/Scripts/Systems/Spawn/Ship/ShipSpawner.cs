@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Zenject;
 
 namespace Game.Gameplay
 {
@@ -7,7 +8,7 @@ namespace Game.Gameplay
     {
         private readonly Entity.Pool _pool;
 
-        public ShipSpawner(Entity.Pool pool)
+        public ShipSpawner([Inject(Id = ID.ShipPool)]Entity.Pool pool)
         {
             _pool = pool;
         }

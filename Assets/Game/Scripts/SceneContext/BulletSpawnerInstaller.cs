@@ -21,6 +21,7 @@ namespace Game.Gameplay
             this.Container
                 .BindMemoryPool<Entity, Entity.Pool>()
                 .WithId(ID.BulletPool)
+                .WithInitialSize(5)
                 .FromComponentInNewPrefab(_bullet)
                 .AsCached();
         }

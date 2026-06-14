@@ -19,9 +19,9 @@ namespace Game.UI
         private GameOverScreen _gameOverScreen;
         
         [Inject]
-        public void Construct(Entity player)
+        public void Construct(CharacterProvider provider)
         {
-            _player = player;
+            _player = provider.Player;
         }
         
         private void OnEnable()

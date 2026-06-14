@@ -49,11 +49,12 @@ namespace Game.Gameplay
                 .Bind<LevelBounds>()
                 .FromInstance(_playerBounds)
                 .AsCached();
-            
+
             this.Container
                 .Bind<Entity>()
                 .FromInstance(_player)
-                .AsSingle();
+                .AsSingle()
+                .WhenInjectedInto<CharacterProvider>();
             
             this.Container
                 .Bind<CharacterProvider>()

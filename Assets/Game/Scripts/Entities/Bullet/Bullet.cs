@@ -54,14 +54,15 @@ namespace Game.Gameplay
         
         private void OnCollision(Collision2D other)
         {
-            if (other.gameObject.TryGetComponent(out IEntity entity) 
+            if (other.gameObject.TryGetComponent(out IEntity entity)
                 && entity.Get<TeamComponent>().team != this._teamComponent.team &&
                 entity.TryGet<IHealthComponent>(out var healthComponent))
-            
+            {
                 healthComponent.ReceiveDamage(_damageComponent);
-                
-            OnHit?.Invoke(_entity);
-            OnExplode?.Invoke();
+                Debug.Log($"BulletEntity: {_entity.Name}");
+                OnHit?.Invoke(_entity);
+                OnExplode?.Invoke();
+            }
         }
     }
 }
