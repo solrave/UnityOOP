@@ -39,7 +39,7 @@ namespace Game.Gameplay
                 .WithArguments(_bulletBounds);
             
             this.Container
-                .BindInterfacesTo<PlayerController>()
+                .BindInterfacesAndSelfTo<PlayerController>()
                 .AsSingle();
 
             this.Container.BindInterfacesTo<GameController>()

@@ -60,8 +60,8 @@ namespace Game.Gameplay
             {
                 healthComponent.ReceiveDamage(_damageComponent);
                 Debug.Log($"BulletEntity: {_entity.Name}");
-                OnHit?.Invoke(_entity);
                 OnExplode?.Invoke();
+                OnHit?.Invoke(_entity);
             }
         }
     }

@@ -7,17 +7,21 @@ namespace Game.Gameplay
     {
         private readonly Entity _player;
         private PositionClamper _clamper;
+        private bool _stopControl;
         
         public PlayerController(CharacterProvider provider,[Inject (Id = ID.PlayerPositionClamper)] PositionClamper clamper)
         {
             _clamper = clamper;
             _player = provider.Player;
+            _stopControl = false;
         }
 
         public void Tick() => ListenInput();
         
         private void ListenInput()
         {
+            if (_stopControl) return;
+            
             Vector2? direction = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
             
             if (direction != Vector2.zero)
@@ -31,6 +35,11 @@ namespace Game.Gameplay
             }
             
             _clamper.ClampInLevelBounds(_player);
+        }
+
+        public void StopControl()
+        {
+            _stopControl = true;
         }
     }
 }

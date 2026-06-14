@@ -30,11 +30,6 @@ namespace Game.Gameplay
             _bullet.OnExplode += PlayExplosion;
         }
         
-        private void OnDisable()
-        {
-            _bullet.OnExplode -= PlayExplosion;
-        }
-        
         private void SelectCurrentRepresentation()
         {
             Debug.Log(_bullet.Team);
@@ -61,8 +56,8 @@ namespace Game.Gameplay
         
         private void PlayVisual()
         { 
-            _currentBody.gameObject.SetActive(true);
-            _currentBody.Play();
+           _currentBody.gameObject.SetActive(true);
+           _currentBody.Play();
         }
 
         private void PlayExplosion()
@@ -70,6 +65,7 @@ namespace Game.Gameplay
             _currentBody.Stop();
             _currentExplosion.gameObject.SetActive(true);
             _currentExplosion.Play();
+            _bullet.OnExplode -= PlayExplosion;
             StartCoroutine(WaitForExplosion());
         }
 

@@ -22,6 +22,7 @@ namespace Game.Gameplay
             var bullet = _spawner.Spawn();
             bullet.Get<TeamComponent>().team = team;
             bullet.Get<RigidbodyComponent>().Position = position;
+            bullet.Get<RigidbodyComponent>().Rotation = Quaternion.LookRotation(direction, Vector3.up);
             bullet.Get<IMoveComponent>().SetDirection(direction);
             bullet.Get<Bullet>().OnHit += this.Despawn;
             bullet.Get<Bullet>().Initialize();

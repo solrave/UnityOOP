@@ -19,17 +19,19 @@ namespace Game.Gameplay
         private readonly ShipSpawner _shipSpawner;
         private readonly PointService _pointService;
         private readonly List<Entity> _spawnedShips = new();
+        private bool _spawnStop;
         
         protected ShipManager(Settings settings, ShipSpawner shipSpawner, PointService pointService)
         {
             _settings = settings;
             _shipSpawner = shipSpawner;
             _pointService = pointService;
+            _spawnStop = false;
         }
 
         public void Tick()
         {
-            if (!TimeToSpawn()) return;
+            if (!TimeToSpawn() || _spawnStop) return;
             var startPoint = _pointService.GetSpawnPoint().Position;
             var firePoint = _pointService.GetFirePoint().Position;
             var ship = _shipSpawner.Spawn();
@@ -66,6 +68,11 @@ namespace Game.Gameplay
             {
                 ship.Get<EnemyAI>().SetTarget(null);
             }
+        }
+
+        public void StopSpawn()
+        {
+            _spawnStop = true;
         }
     } 
 }

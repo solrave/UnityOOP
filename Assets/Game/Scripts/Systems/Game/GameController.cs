@@ -6,13 +6,15 @@ namespace Game.Gameplay
 {
     public class GameController : IInitializable, IDisposable
     {
-        private Entity _player;
-        private ShipManager _shipSpawner;
+        private readonly Entity _player;
+        private readonly ShipManager _shipManager;
+        private readonly PlayerController _playerController;
 
-        public GameController(CharacterProvider provider, ShipManager shipSpawner)
+        public GameController(CharacterProvider provider, ShipManager shipManager, PlayerController playerController)
         {
             _player = provider.Player;
-            _shipSpawner = shipSpawner;
+            _shipManager = shipManager;
+            _playerController = playerController;
         }
         
         public void Initialize()
@@ -27,7 +29,9 @@ namespace Game.Gameplay
 
         private void StopGame()
         {
-            _shipSpawner.StopAllShips();
+            _shipManager.StopAllShips();
+            _shipManager.StopSpawn();
+            _playerController.StopControl();
         }
     }
 }            

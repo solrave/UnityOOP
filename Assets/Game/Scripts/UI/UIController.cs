@@ -17,21 +17,26 @@ namespace Game.UI
 
         [SerializeField] 
         private GameOverScreen _gameOverScreen;
-        
+
+        private ShipManager _manager;
+
         [Inject]
-        public void Construct(CharacterProvider provider)
+        public void Construct(CharacterProvider provider, ShipManager manager)
         {
             _player = provider.Player;
+            _manager = manager;
         }
         
         private void OnEnable()
         {
+            _manager.OnKillCountIncrease += SetScore;
             _player.Get<IHealthComponent>().OnShipDestroyed += ShowGameOver;
             _player.Get<IHealthComponent>().OnHealthChanged += SetHealth;
         }
         
         private void OnDisable()
         {
+            _manager.OnKillCountIncrease -= SetScore;
             _player.Get<IHealthComponent>().OnShipDestroyed -= ShowGameOver;
             _player.Get<IHealthComponent>().OnHealthChanged -= SetHealth;
         }
