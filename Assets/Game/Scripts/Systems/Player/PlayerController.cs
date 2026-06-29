@@ -9,7 +9,8 @@ namespace Game.Gameplay
         private PositionClamper _clamper;
         private bool _stopControl;
         
-        public PlayerController(CharacterProvider provider,[Inject (Id = ID.PlayerPositionClamper)] PositionClamper clamper)
+        public PlayerController(CharacterProvider provider,
+            [Inject (Id = BindingID.PlayerPositionClamper)] PositionClamper clamper)
         {
             _clamper = clamper;
             _player = provider.Player;
@@ -25,14 +26,10 @@ namespace Game.Gameplay
             Vector2? direction = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
             
             if (direction != Vector2.zero)
-            {
                _player.Get<IMoveComponent>().SetDirection(direction);
-            }
-
+            
             if (Input.GetKeyDown(KeyCode.Space))
-            {
                _player.Get<IFireComponent>().FireUp();
-            }
             
             _clamper.ClampInLevelBounds(_player);
         }
@@ -40,6 +37,7 @@ namespace Game.Gameplay
         public void StopControl()
         {
             _stopControl = true;
+            _player.Get<ShipView>().gameObject.SetActive(false);
         }
     }
 }

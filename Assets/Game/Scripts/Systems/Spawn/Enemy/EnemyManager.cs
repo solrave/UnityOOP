@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Game.Gameplay
 {
-    public class ShipManager : ITickable
+    public class EnemyManager : ITickable
     {
         [Serializable]
         public class Settings
@@ -16,16 +16,18 @@ namespace Game.Gameplay
         public event Action OnKillCountIncrease;
         private float _lastSpawnedTime = 0f;
         private readonly Settings _settings;
-        private readonly ShipSpawner _shipSpawner;
+        private readonly Entity.Pool _pool;
         private readonly PointService _pointService;
         private readonly List<Entity> _spawnedShips = new();
         private bool _spawnStop;
         
-        protected ShipManager(Settings settings, ShipSpawner shipSpawner, PointService pointService)
+        protected EnemyManager(Settings settings,
+            PointService pointService,
+            Entity.Pool pool)
         {
             _settings = settings;
-            _shipSpawner = shipSpawner;
             _pointService = pointService;
+            _pool = pool;
             _spawnStop = false;
         }
 
@@ -34,20 +36,26 @@ namespace Game.Gameplay
             if (!TimeToSpawn() || _spawnStop) return;
             var startPoint = _pointService.GetSpawnPoint().Position;
             var firePoint = _pointService.GetFirePoint().Position;
-            var ship = _shipSpawner.Spawn();
+            var ship = _pool.Spawn();
             ship.Get<RigidbodyComponent>().Position = startPoint;
             ship.Get<EnemyAI>().SetFirePosition(firePoint);
-            ship.Get<TeamComponent>().team = TeamType.Enemy;
-            ship.Get<IHealthComponent>().OnHealthDepleted += this.Despawn;
+            ship.Get<TeamComponent>().Team = TeamType.Enemy;
+            ship.Get<IHealthComponent>().OnHealthEmpty += OnHealthEmpty;
             ship.Get<IHealthComponent>().Initialize();
             _spawnedShips.Add(ship);
+            return;
+
+            void OnHealthEmpty()
+            {
+                ship.Get<IHealthComponent>().OnHealthEmpty -= OnHealthEmpty;
+                this.Despawn(ship);
+            }
         }
         
         private void Despawn(Entity ship)
         {
             OnKillCountIncrease?.Invoke();
-            ship.Get<IHealthComponent>().OnHealthDepleted -= this.Despawn;
-            _shipSpawner.Despawn(ship);
+            _pool.Despawn(ship);
             _spawnedShips.Remove(ship);
         }
 

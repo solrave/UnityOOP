@@ -6,7 +6,6 @@ namespace Game.Gameplay
 {
     public interface IFireComponent
     {
-        public TeamType Team { get; }
         public float Cooldown { get; }
         public Vector2 GunPoint {get;}
         public event Action OnFire;
@@ -32,7 +31,6 @@ namespace Game.Gameplay
             bool Evaluate();
         }
 
-        public TeamType Team => _teamComponent.team;
         public float Cooldown => _settings.FireCooldown;
         public Vector2 GunPoint => _settings.GunPoint.position;
         public event Action OnFire;
@@ -44,7 +42,10 @@ namespace Game.Gameplay
         private bool _canShoot;
         private TeamComponent _teamComponent;
         
-        public FireComponent(BulletManager bulletManager, Settings settings, TeamComponent teamComponent)
+        public FireComponent(
+            BulletManager bulletManager,
+            Settings settings,
+            TeamComponent teamComponent)
         {
             _bulletManager = bulletManager;
             _settings = settings;
@@ -57,22 +58,27 @@ namespace Game.Gameplay
         {
             if (!_condition.Evaluate()) return;
             
-            OnFire?.Invoke();
-            _bulletManager.Spawn(Team,_settings.GunPoint.position,_settings.GunPoint.up);
+            _bulletManager.Spawn(_teamComponent.Team,_settings.GunPoint.position,_settings.GunPoint.up);
             _canShoot = false;
             _time = 0f;
+            OnFire?.Invoke();
         }
 
         public void FireAt(Vector2 direction)
         {
             if (!_condition.Evaluate() || !_canShoot) return;
             
+            _bulletManager.Spawn(_teamComponent.Team,_settings.GunPoint.position,direction);
+            ResetCooldown();
             OnFire?.Invoke();
-            _bulletManager.Spawn(Team,_settings.GunPoint.position,direction);
+        }
+
+        private void ResetCooldown()
+        {
             _canShoot = false;
             _time = 0f;
         }
-        
+
         private void TimeToShoot()
         {
             if(_canShoot) return;

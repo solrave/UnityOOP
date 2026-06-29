@@ -10,8 +10,10 @@ namespace Game.Gameplay
         private readonly IFireComponent _fireComponent;
         private TeamComponent _teamComponent;
 
-        protected Ship(IHealthComponent healthComponent, IMoveComponent moveComponent
-            ,IFireComponent fireComponent, TeamComponent teamComponent)
+        protected Ship(IHealthComponent healthComponent,
+            IMoveComponent moveComponent,
+            IFireComponent fireComponent,
+            TeamComponent teamComponent)
         {
             _healthComponent = healthComponent;
             _moveComponent = moveComponent;

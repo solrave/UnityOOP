@@ -4,50 +4,53 @@ using Zenject;
 
 namespace Game.Gameplay
 {
-    public class Bullet : IDisposable
+    public class Bullet : IInitializable, IDisposable
     {
-        public event Action<Entity> OnHit;
-        public event Action OnExplode;
-        public TeamType Team => _teamComponent.team;
+        public event Action OnHit;
+        public event Action OnInitialized;
        
         private IMoveComponent _moveComponent;
-        private RigidbodyComponent _bodyComponent;
-        private CollisionListener _collisionListener;
-        private DamageComponent _damageComponent;
-        private TeamComponent _teamComponent;
-        private Entity _entity;
+        private readonly RigidbodyComponent _bodyComponent;
+        private readonly CollisionObservable _collisionObservable;
+        private readonly DamageComponent _damageComponent;
+        private readonly TeamComponent _teamComponent;
 
-        public Bullet(IMoveComponent moveComponent, RigidbodyComponent bodyComponent,
-            CollisionListener collisionListener, TeamComponent teamComponent,
-            DamageComponent damageComponent, Entity entity)
+        public Bullet(IMoveComponent moveComponent,
+            RigidbodyComponent bodyComponent,
+            CollisionObservable collisionObservable,
+            TeamComponent teamComponent,
+            DamageComponent damageComponent)
         {
             _moveComponent = moveComponent;
             _bodyComponent = bodyComponent;
-            _collisionListener = collisionListener;
+            _collisionObservable = collisionObservable;
             _teamComponent = teamComponent;
             _damageComponent = damageComponent;
-            _entity = entity;
         }
 
         public void Initialize()
         {
-            SetLayer(_teamComponent.team);
-            _collisionListener.OnCollision += OnCollision;
+            _teamComponent.OnTeamChanged += SetLayer;
+            _collisionObservable.OnCollision += OnCollision;
+            OnInitialized?.Invoke();
         }
 
         public void Dispose()
         {
            SetLayer(TeamType.None);
-            _collisionListener.OnCollision -= OnCollision;
+            _teamComponent.OnTeamChanged -= SetLayer;
+            _collisionObservable.OnCollision -= OnCollision;
         }
+
+        public void ApplyHit() => OnHit?.Invoke();
         
         private void SetLayer(TeamType team)
         {
             _bodyComponent.Layer = team switch
             {
                 TeamType.None => LayerMask.NameToLayer("Default"),
-                TeamType.Player => LayerMask.NameToLayer("PlayerBullet"),
-                TeamType.Enemy => LayerMask.NameToLayer("EnemyBullet"),
+                TeamType.Player => LayerMask.NameToLayer("Player"),
+                TeamType.Enemy => LayerMask.NameToLayer("Enemy"),
                 _ => throw new ArgumentOutOfRangeException(nameof(team), team, null)
             };
         }
@@ -55,13 +58,11 @@ namespace Game.Gameplay
         private void OnCollision(Collision2D other)
         {
             if (other.gameObject.TryGetComponent(out IEntity entity)
-                && entity.Get<TeamComponent>().team != this._teamComponent.team &&
-                entity.TryGet<IHealthComponent>(out var healthComponent))
+                && entity.Get<TeamComponent>().Team != this._teamComponent.Team
+                && entity.TryGet<IHealthComponent>(out var healthComponent))
             {
                 healthComponent.ReceiveDamage(_damageComponent);
-                Debug.Log($"BulletEntity: {_entity.Name}");
-                OnExplode?.Invoke();
-                OnHit?.Invoke(_entity);
+                OnHit?.Invoke(); 
             }
         }
     }

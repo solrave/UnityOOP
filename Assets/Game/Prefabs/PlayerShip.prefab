@@ -284,7 +284,7 @@ MonoBehaviour:
     <MaxHealth>k__BackingField: 11
   _rigidbody2D: {fileID: 4575139502811685103}
   _teamComponent:
-    team: 1
+    _team: 1
 --- !u!1 &7932017922939402051
 GameObject:
   m_ObjectHideFlags: 0

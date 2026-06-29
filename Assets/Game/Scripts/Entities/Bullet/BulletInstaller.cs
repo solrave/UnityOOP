@@ -18,42 +18,41 @@ namespace Game.Gameplay
         
         [SerializeField] 
         private MoveComponent.Settings  _moveSettings;
-
-        [SerializeField] 
-        private CollisionListener _collisionListener;
-        
         
         public override void InstallBindings()
         {
-            this.Container.Bind<Entity>()
-                .FromComponentInHierarchy().AsSingle();
+            this.Container.BindInterfacesAndSelfTo<Entity>()
+                .FromComponentInHierarchy()
+                .AsSingle();
             
-            this.Container.Bind<Bullet>()
+            this.Container.BindInterfacesAndSelfTo<Bullet>()
                 .AsSingle()
                 .NonLazy();
+
+            this.Container.BindInterfacesAndSelfTo<BulletView>()
+                .FromComponentInHierarchy()
+                .AsSingle();
             
-            this.Container.BindInterfacesTo<MoveComponent>()
+            this.Container.BindInterfacesAndSelfTo<MoveComponent>()
                 .AsSingle()
                 .WithArguments(_moveSettings);
             
-            this.Container.Bind<TeamComponent>()
+            this.Container.BindInterfacesAndSelfTo<TeamComponent>()
                 .FromInstance(_teamComponent)
-                .AsCached();
+                .AsCached()
+                .Lazy();
             
-            this.Container.Bind<DamageComponent>()
+            this.Container.BindInterfacesAndSelfTo<DamageComponent>()
                 .FromInstance(_damageComponent)
                 .AsSingle();
             
-            Container.Bind<RigidbodyComponent>().AsSingle()
+            Container.BindInterfacesAndSelfTo<RigidbodyComponent>()
+                .AsSingle()
                 .WithArguments(_rigidbody2D);
 
-            this.Container.Bind<CollisionListener>()
-                .FromInstance(_collisionListener)
+            this.Container.BindInterfacesAndSelfTo<CollisionObservable>()
+                .FromComponentInHierarchy()
                 .AsSingle();
-            
-            // this.Container.Bind<TeamComponent>()
-            //     .FromInstance(_teamComponent)
-            //     .AsSingle();
         }
     }
 }

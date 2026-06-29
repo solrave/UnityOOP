@@ -4,7 +4,7 @@ using Modules.Utils;
 
 namespace Game.Gameplay
 {
-    public class SceneContextInstaller : MonoInstaller
+    public class GameSystemInstaller : MonoInstaller
     {
         [SerializeField] 
         private Entity _player;
@@ -19,7 +19,7 @@ namespace Game.Gameplay
         private LevelBounds _bulletBounds;
         
         [SerializeField]
-        private  ShipSpawnerInstaller _shipSpawnerInstaller;
+        private  EnemyManagerInstaller enemyManagerInstaller;
         
         [SerializeField]
         private  BulletSpawnerInstaller _bulletSpawnerInstaller;
@@ -28,13 +28,13 @@ namespace Game.Gameplay
         {
             this.Container
                 .Bind<PositionClamper>()
-                .WithId(ID.PlayerPositionClamper)
+                .WithId(BindingID.PlayerPositionClamper)
                 .AsCached()
                 .WithArguments(_playerBounds);
             
             this.Container
                 .Bind<PositionClamper>()
-                .WithId(ID.BulletPositionClamper)
+                .WithId(BindingID.BulletPositionClamper)
                 .AsCached()
                 .WithArguments(_bulletBounds);
             
@@ -43,6 +43,12 @@ namespace Game.Gameplay
                 .AsSingle();
 
             this.Container.BindInterfacesTo<GameController>()
+                .AsSingle();
+
+            this.Container.BindInterfacesAndSelfTo<GameCycle>()
+                .AsSingle();
+
+            this.Container.BindInterfacesAndSelfTo<GameOverHandler>()
                 .AsSingle();
             
             this.Container
@@ -61,7 +67,7 @@ namespace Game.Gameplay
                 .AsSingle();
             
             this.Container
-                .Install(_shipSpawnerInstaller)  
+                .Install(enemyManagerInstaller)  
                 .Install(_bulletSpawnerInstaller);   
         }
     }

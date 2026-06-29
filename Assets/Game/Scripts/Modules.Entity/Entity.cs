@@ -7,6 +7,10 @@ namespace Game.Gameplay
     {
         public sealed class Pool : MonoMemoryPool<Entity>
         {
+            protected override void Reinitialize(Entity item)
+            {
+                //item.Get<Bullet>().ResetFlag();
+            }
         }
         
         public string Name

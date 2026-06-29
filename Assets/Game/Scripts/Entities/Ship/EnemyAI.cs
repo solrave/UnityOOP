@@ -21,8 +21,11 @@ namespace Game.Gameplay
         private readonly Settings _settings;
         private bool _isReached;
         
-        public EnemyAI(CharacterProvider target, IMoveComponent moveComponent,
-            IFireComponent fireComponent, Settings settings, RigidbodyComponent rigidbodyComponent)
+        public EnemyAI(CharacterProvider target,
+            IMoveComponent moveComponent,
+            IFireComponent fireComponent,
+            Settings settings,
+            RigidbodyComponent rigidbodyComponent)
         {
             _moveComponent = moveComponent;
             _fireComponent = fireComponent;

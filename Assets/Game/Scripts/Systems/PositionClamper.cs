@@ -19,9 +19,9 @@ namespace Game.Gameplay
             {
                 var newPosition = _levelBounds.ClampInBounds(entity.Get<RigidbodyComponent>().Position);
                 
-                if (entity.TryGet<Bullet>(out _))
+                if (entity.TryGet<Bullet>(out var bullet))
                 {
-                    OnDestroyBullet?.Invoke(entity);
+                    bullet.ApplyHit();
                 }
                 
                 if (entity.TryGet<Ship>(out var ship))

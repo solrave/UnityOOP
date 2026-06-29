@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Gameplay
 {
-    public class CollisionListener : MonoBehaviour
+    public class CollisionObservable : MonoBehaviour
     {
         public event Action<Collision2D> OnCollision;
 

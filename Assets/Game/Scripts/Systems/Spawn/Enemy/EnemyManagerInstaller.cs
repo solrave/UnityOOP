@@ -5,34 +5,36 @@ using Zenject;
 namespace Game.Gameplay
 {
     [Serializable]
-    public class ShipSpawnerInstaller : Installer
+    public class EnemyManagerInstaller : Installer
     {
         [SerializeField]
         private Entity _enemy;
         
         [SerializeField]
-        private ShipManager.Settings _managerSettings;
+        private EnemyManager.Settings _managerSettings;
+
+        [SerializeField]
+        private Transform _poolContainer;
+        
         
         public override void InstallBindings()
         {
             this.Container.Bind<PointService>()
                 .FromMethod(this.CreatePointService)
                 .AsSingle().NonLazy();
-            
+
             this.Container
                 .BindMemoryPool<Entity, Entity.Pool>()
-                .WithId(ID.ShipPool)
                 .WithInitialSize(5)
                 .FromComponentInNewPrefab(_enemy)
-                .AsCached();
+                .UnderTransform(_poolContainer)
+                .AsCached()
+                .WhenInjectedInto<EnemyManager>();
             
-            this.Container.BindInterfacesAndSelfTo<ShipManager>()
+            this.Container.BindInterfacesAndSelfTo<EnemyManager>()
                 .AsSingle()
                 .WithArguments(_managerSettings)
                 .NonLazy();
-            
-            this.Container.Bind<ShipSpawner>()
-                .AsSingle();
         }
 
         private PointService CreatePointService()

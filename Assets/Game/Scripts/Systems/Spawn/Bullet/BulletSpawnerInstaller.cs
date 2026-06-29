@@ -10,20 +10,21 @@ namespace Game.Gameplay
         [SerializeField]
         private Entity _bullet;
         
+        [SerializeField]
+        private Transform _poolContainer;
+        
         public override void InstallBindings()
         {
-            this.Container.Bind<BulletSpawner>()
-                .AsSingle();
-            
             this.Container.BindInterfacesAndSelfTo<BulletManager>()
                 .AsSingle();
             
             this.Container
                 .BindMemoryPool<Entity, Entity.Pool>()
-                .WithId(ID.BulletPool)
                 .WithInitialSize(5)
                 .FromComponentInNewPrefab(_bullet)
-                .AsCached();
+                .UnderTransform(_poolContainer)
+                .AsCached()
+                .WhenInjectedInto<BulletManager>();
         }
     }
 }

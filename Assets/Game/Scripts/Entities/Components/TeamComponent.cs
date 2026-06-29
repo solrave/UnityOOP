@@ -6,6 +6,20 @@ namespace Game.Gameplay
     [Serializable]
     public class TeamComponent
     {
-        [SerializeField] public TeamType team;
+        public event Action<TeamType> OnTeamChanged;
+
+        [field: SerializeField] 
+        public TeamType _team;
+
+        public TeamType Team
+        {
+            get => _team;
+            set
+            {
+                _team = value;
+                OnTeamChanged?.Invoke(Team);
+                Debug.Log("ON TEAM CHANGED!");
+            }
+        }
     }
 }

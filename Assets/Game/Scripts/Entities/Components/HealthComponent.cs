@@ -6,8 +6,7 @@ namespace Game.Gameplay
     public interface IHealthComponent
     {
         public bool HasHealth { get; }
-        public event Action<Entity> OnHealthDepleted;
-        public event Action OnShipDestroyed;
+        public event Action OnHealthEmpty;
         public event Action OnHit;
         public event Action<int, int> OnHealthChanged;
         public void ReceiveDamage(DamageComponent component);
@@ -28,8 +27,7 @@ namespace Game.Gameplay
             bool Evaluate();
         }
         
-        public event Action<Entity> OnHealthDepleted;
-        public event Action OnShipDestroyed;
+        public event Action OnHealthEmpty;
         public event Action OnHit;
         public event Action<int, int> OnHealthChanged;
 
@@ -37,11 +35,9 @@ namespace Game.Gameplay
         private int _currentHealth;
         private ICondition _condition;
         private readonly Settings _settings;
-        private readonly Entity _entity;
         
-        public HealthComponent(Entity entity, Settings settings)
+        public HealthComponent(Settings settings)
         {
-            _entity = entity;
             _settings = settings;
             _currentHealth = _settings.MaxHealth;
         }
@@ -57,8 +53,7 @@ namespace Game.Gameplay
             OnHealthChanged?.Invoke(_currentHealth,  _settings.MaxHealth);
             if (_currentHealth == 0)
             {
-                this.OnShipDestroyed?.Invoke();
-                this.OnHealthDepleted?.Invoke(_entity);
+                this.OnHealthEmpty?.Invoke();
             }
         }
     }

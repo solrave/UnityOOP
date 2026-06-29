@@ -14,11 +14,6 @@ namespace Game.Gameplay
                 .BindInterfacesAndSelfTo<EnemyAI>()
                 .AsSingle()
                 .WithArguments(_aiSettings);
-            
-            // this.Container
-            //     .Bind<EnemyAI.Settings>()
-            //     .AsSingle()
-            //     .WithArguments(_aiSettings);
         }
     }
 }

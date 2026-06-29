@@ -7,31 +7,28 @@ namespace Game.Gameplay
     public class GameController : IInitializable, IDisposable
     {
         private readonly Entity _player;
-        private readonly ShipManager _shipManager;
-        private readonly PlayerController _playerController;
-
-        public GameController(CharacterProvider provider, ShipManager shipManager, PlayerController playerController)
+        private readonly IGameCycle _gameCycle;
+        
+        public GameController(CharacterProvider provider,
+            IGameCycle gameCycle)
         {
+            _gameCycle = gameCycle;
             _player = provider.Player;
-            _shipManager = shipManager;
-            _playerController = playerController;
         }
         
         public void Initialize()
         {
-            _player.Get<IHealthComponent>().OnShipDestroyed += StopGame;
+            _player.Get<IHealthComponent>().OnHealthEmpty += StopGame;
         }
 
         public void Dispose()
         {
-            _player.Get<IHealthComponent>().OnShipDestroyed -= StopGame;
+            _player.Get<IHealthComponent>().OnHealthEmpty -= StopGame;
         }
 
         private void StopGame()
         {
-            _shipManager.StopAllShips();
-            _shipManager.StopSpawn();
-            _playerController.StopControl();
+            _gameCycle.FinishGame();
         }
     }
 }            

@@ -1,11 +1,8 @@
 namespace Game.Gameplay
 {
-    public enum ID
+    public enum BindingID
     {
         PlayerPositionClamper,
         BulletPositionClamper,
-        BulletPool,
-        ShipPool,
-        BulletTeam
     }
 }

@@ -37,7 +37,9 @@ namespace Game.Gameplay
         private IMoveComponent _moveComponent;
         
         [Inject]
-        public void Construct(IHealthComponent healthComponent, IFireComponent fireComponent, IMoveComponent moveComponent)
+        public void Construct(IHealthComponent healthComponent,
+            IFireComponent fireComponent,
+            IMoveComponent moveComponent)
         {
             _healthComponent = healthComponent;
             _fireComponent = fireComponent;
@@ -47,7 +49,7 @@ namespace Game.Gameplay
         private void OnEnable()
         {
             _fireComponent.OnFire += AnimateFire;
-            _healthComponent.OnShipDestroyed += AnimateDestruction;
+            _healthComponent.OnHealthEmpty += AnimateDestruction;
             _healthComponent.OnHit += AnimateDamage;
             _moveComponent.OnMove += AnimateMovement;
         }
@@ -55,7 +57,7 @@ namespace Game.Gameplay
         private void OnDisable()
         {
             _fireComponent.OnFire -= AnimateFire;
-            _healthComponent.OnShipDestroyed -= AnimateDestruction;
+            _healthComponent.OnHealthEmpty -= AnimateDestruction;
             _healthComponent.OnHit -= AnimateDamage;
             _moveComponent.OnMove -= AnimateMovement;
         }

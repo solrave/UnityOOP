@@ -1,42 +1,65 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using Zenject;
 
 namespace Game.Gameplay
 {
     public class BulletManager : ILateTickable, IInitializable, IDisposable
     {
-        private BulletSpawner _spawner;
+        private readonly Entity.Pool _pool;
         private PositionClamper _clamper;
         private List<Entity> _activeBullets = new();
+        private Dictionary<Entity, Action> _bulletSubscription = new();
 
-        public BulletManager(BulletSpawner spawner,[Inject (Id = ID.BulletPositionClamper)] PositionClamper clamper)
+        public BulletManager
+            ([Inject (Id = BindingID.BulletPositionClamper)] PositionClamper clamper, 
+            Entity.Pool pool)
         {
-            _spawner = spawner;
             _clamper = clamper;
+            _pool = pool;
+        }
+        
+        public void Initialize()
+        {
+            //_clamper.OnDestroyBullet += Despawn;
+        }
+
+        public void Dispose()
+        {
+            //_clamper.OnDestroyBullet -= Despawn;
+
         }
 
         public void Spawn(TeamType team, Vector2 position, Vector2 direction)
         {
-            var bullet = _spawner.Spawn();
-            bullet.Get<TeamComponent>().team = team;
+            var bullet = _pool.Spawn();
+            bullet.Get<TeamComponent>().Team = team;
             bullet.Get<RigidbodyComponent>().Position = position;
             bullet.Get<RigidbodyComponent>().Rotation = Quaternion.LookRotation(direction, Vector3.up);
+            bullet.Get<BulletView>().OnDestroy += OnDespawn;
+            bullet.Get<BulletView>().EnableView();
             bullet.Get<IMoveComponent>().SetDirection(direction);
-            bullet.Get<Bullet>().OnHit += this.Despawn;
-            bullet.Get<Bullet>().Initialize();
-            bullet.gameObject.GetComponent<BulletView>().Enable();
             bullet.gameObject.SetActive(true);
             _activeBullets.Add(bullet);
+            _bulletSubscription.Add(bullet, OnDespawn);
+            return;
+
+            void OnDespawn()
+            {
+                bullet.Get<BulletView>().OnDestroy -= OnDespawn;
+                this.Despawn(bullet);
+            }
         }
 
         private void Despawn(Entity bullet)
         {
+            _bulletSubscription.Remove(bullet, out var onDespawn);
+            bullet.Get<BulletView>().OnDestroy -= onDespawn;
             _activeBullets.Remove(bullet);
-            bullet.Get<Bullet>().OnHit -= this.Despawn;
-            _spawner.Despawn(bullet);
-           bullet.gameObject.SetActive(false);
+            _pool.Despawn(bullet);
+            bullet.gameObject.SetActive(false);
         }
 
         public void LateTick()
@@ -53,17 +76,6 @@ namespace Game.Gameplay
                     _clamper.ClampInLevelBounds(_activeBullets[i]);
                 }
             }
-        }
-
-        public void Initialize()
-        {
-            _clamper.OnDestroyBullet += Despawn;
-        }
-
-        public void Dispose()
-        {
-            _clamper.OnDestroyBullet -= Despawn;
-
         }
     }
 }

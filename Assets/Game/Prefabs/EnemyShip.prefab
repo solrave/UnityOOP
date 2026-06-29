@@ -138,7 +138,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 6200000, guid: 2a54dc216f6924766b4c82fdcf077707, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -286,7 +286,7 @@ MonoBehaviour:
     <MaxHealth>k__BackingField: 1
   _rigidbody2D: {fileID: 659620479434099170}
   _teamComponent:
-    team: 2
+    _team: 2
 --- !u!114 &-1255484307561860006
 MonoBehaviour:
   m_ObjectHideFlags: 0

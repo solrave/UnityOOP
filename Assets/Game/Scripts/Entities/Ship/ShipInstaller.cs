@@ -32,6 +32,10 @@ namespace Game.Gameplay
             this.Container.BindInterfacesAndSelfTo<Ship>()
                 .AsSingle()
                 .NonLazy();
+
+            this.Container.Bind<ShipView>()
+                .FromComponentInHierarchy()
+                .AsSingle();
             
             this.Container.Bind<TeamComponent>()
                 .FromInstance(_teamComponent)
