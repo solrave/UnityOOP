@@ -14,18 +14,18 @@ namespace Game.Gameplay
         }
         
         private Entity _target;
-        private Vector2 _firePosition;
-        private readonly IMoveComponent _moveComponent;
-        private readonly IFireComponent _fireComponent;
         private readonly RigidbodyComponent _rigidbodyComponent;
         private readonly Settings _settings;
+        private readonly IMoveComponent _moveComponent;
+        private readonly IFireComponent _fireComponent;
+        private Vector2 _firePosition;
         private bool _isReached;
         
         public EnemyAI(CharacterProvider target,
-            IMoveComponent moveComponent,
-            IFireComponent fireComponent,
-            Settings settings,
-            RigidbodyComponent rigidbodyComponent)
+                       IMoveComponent moveComponent,
+                       IFireComponent fireComponent,
+                       Settings settings,
+                       RigidbodyComponent rigidbodyComponent)
         {
             _moveComponent = moveComponent;
             _fireComponent = fireComponent;

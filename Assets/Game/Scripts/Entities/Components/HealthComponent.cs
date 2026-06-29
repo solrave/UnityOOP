@@ -30,11 +30,11 @@ namespace Game.Gameplay
         public event Action OnHealthEmpty;
         public event Action OnHit;
         public event Action<int, int> OnHealthChanged;
-
         public bool HasHealth => _currentHealth > 0;
-        private int _currentHealth;
+        
         private ICondition _condition;
         private readonly Settings _settings;
+        private int _currentHealth;
         
         public HealthComponent(Settings settings)
         {

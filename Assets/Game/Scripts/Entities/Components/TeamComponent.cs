@@ -18,7 +18,6 @@ namespace Game.Gameplay
             {
                 _team = value;
                 OnTeamChanged?.Invoke(Team);
-                Debug.Log("ON TEAM CHANGED!");
             }
         }
     }

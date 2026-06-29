@@ -38,8 +38,8 @@ namespace Game.Gameplay
         
         [Inject]
         public void Construct(IHealthComponent healthComponent,
-            IFireComponent fireComponent,
-            IMoveComponent moveComponent)
+                              IFireComponent fireComponent,
+                              IMoveComponent moveComponent)
         {
             _healthComponent = healthComponent;
             _fireComponent = fireComponent;
@@ -80,7 +80,6 @@ namespace Game.Gameplay
                 progress => _material?.SetFloat(_hitPropertyName,
                     _hitAnimationCurve.Evaluate(progress))
             );
-            
            PlaySound(_damageSFX);
         }
 

@@ -8,6 +8,9 @@ namespace Game.Gameplay
     {
         public event Action OnHit;
         public event Action OnInitialized;
+
+        public Vector3 Position => _bodyComponent.Position;
+        public Quaternion Rotation => _bodyComponent.Rotation;
        
         private IMoveComponent _moveComponent;
         private readonly RigidbodyComponent _bodyComponent;

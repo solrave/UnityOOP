@@ -35,17 +35,16 @@ namespace Game.Gameplay
         public Vector2 GunPoint => _settings.GunPoint.position;
         public event Action OnFire;
         
+        private TeamComponent _teamComponent;
+        private ICondition _condition;
         private readonly BulletManager _bulletManager;
         private readonly Settings _settings;
-        private ICondition _condition;
         private float _time;
         private bool _canShoot;
-        private TeamComponent _teamComponent;
         
-        public FireComponent(
-            BulletManager bulletManager,
-            Settings settings,
-            TeamComponent teamComponent)
+        public FireComponent(BulletManager bulletManager,
+                             Settings settings,
+                             TeamComponent teamComponent)
         {
             _bulletManager = bulletManager;
             _settings = settings;

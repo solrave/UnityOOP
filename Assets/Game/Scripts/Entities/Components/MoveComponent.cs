@@ -30,13 +30,12 @@ namespace Game.Gameplay
         public event Action<Vector2?, float> OnMove;
         public bool IsMoving => _inputDirection.HasValue;
         
-        private readonly Settings _settings;
         private ICondition _condition;
-        
+        private RigidbodyComponent _body;
+        private readonly Settings _settings;
         private Vector2? _inputDirection;
         private Vector2 _simpleDirection;
         private float _speedMultiplier = 1;
-        private RigidbodyComponent _body;
         
         public MoveComponent(Settings settings, RigidbodyComponent body)
         {

@@ -10,7 +10,7 @@ namespace Game.Gameplay
         private bool _stopControl;
         
         public PlayerController(CharacterProvider provider,
-            [Inject (Id = BindingID.PlayerPositionClamper)] PositionClamper clamper)
+                               [Inject (Id = BindingID.PlayerPositionClamper)] PositionClamper clamper)
         {
             _clamper = clamper;
             _player = provider.Player;

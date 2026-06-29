@@ -31,6 +31,7 @@ namespace Game.Gameplay
         private ParticleSystem _currentExplosion;
         private TeamComponent _teamComponent;
         private TrailRenderer _currentRenderer;
+        private TrailRenderer _trail;
 
         [Inject]
         public void Construct(Bullet bullet, TeamComponent teamComponent)
@@ -84,18 +85,27 @@ namespace Game.Gameplay
         
         private void PlayVisual()
         {
-            _currentRenderer.Clear();
             _currentBody.gameObject.SetActive(true);
-            _currentRenderer.gameObject.SetActive(true);
             _currentBody.Play();
-            _currentRenderer.emitting = true;
+            _trail = Instantiate(_currentRenderer,
+                                 _bullet.Position,
+                                 _bullet.Rotation, 
+                                 this.transform);
+            _trail.gameObject.SetActive(true);
+            _trail.Clear();
+            _trail.emitting = true;
+            //_currentRenderer.gameObject.SetActive(true);
         }
 
         private void PlayExplosion()
         {
             _currentBody.Stop();
-            _currentRenderer.emitting = false;
-            _currentRenderer.Clear();
+            _trail.emitting = false;
+            _trail.Clear();
+            _trail.gameObject.SetActive(false);
+            _trail = null;
+            //_currentRenderer.emitting = false;
+            //_currentRenderer.Clear();
             _currentExplosion.gameObject.SetActive(true);
             _currentExplosion.Play();
             _bullet.OnHit -= PlayExplosion;

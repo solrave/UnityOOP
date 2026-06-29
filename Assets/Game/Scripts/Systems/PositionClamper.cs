@@ -5,7 +5,6 @@ namespace Game.Gameplay
 {
     public class PositionClamper
     {
-        public event Action<Entity> OnDestroyBullet; 
         private readonly LevelBounds _levelBounds;
         
         public PositionClamper(LevelBounds levelBounds)
