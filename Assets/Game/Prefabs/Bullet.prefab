@@ -122,6 +122,7 @@ MonoBehaviour:
   _explosionRed: {fileID: 1742748963365154161}
   _rendererBlue: {fileID: 4599474324975191608}
   _rendererRed: {fileID: 6205283886481126496}
+  _prefabRenderer: {fileID: 3943618118438821732, guid: d38ff2747667d6041b8585702d32acd7, type: 3}
 --- !u!114 &7973673251284201632
 MonoBehaviour:
   m_ObjectHideFlags: 0

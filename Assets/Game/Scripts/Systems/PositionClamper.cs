@@ -5,6 +5,7 @@ namespace Game.Gameplay
 {
     public class PositionClamper
     {
+        public event Action<Entity> OnBulletOutOfRange;
         private readonly LevelBounds _levelBounds;
         
         public PositionClamper(LevelBounds levelBounds)
@@ -16,11 +17,12 @@ namespace Game.Gameplay
         {
             if (!_levelBounds.InBounds(entity.Get<RigidbodyComponent>().Position))
             {
-                var newPosition = _levelBounds.ClampInBounds(entity.Get<RigidbodyComponent>().Position);
+                var newPosition = _levelBounds.ClampInBounds
+                                         (entity.Get<RigidbodyComponent>().Position);
                 
                 if (entity.TryGet<Bullet>(out var bullet))
                 {
-                    bullet.ApplyHit();
+                    OnBulletOutOfRange?.Invoke(entity);
                 }
                 
                 if (entity.TryGet<Ship>(out var ship))

@@ -44,8 +44,6 @@ namespace Game.Gameplay
             _teamComponent.OnTeamChanged -= SetLayer;
             _collisionObservable.OnCollision -= OnCollision;
         }
-
-        public void ApplyHit() => OnHit?.Invoke();
         
         private void SetLayer(TeamType team)
         {

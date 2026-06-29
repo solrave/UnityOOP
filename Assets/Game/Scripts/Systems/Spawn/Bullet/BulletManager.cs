@@ -23,13 +23,12 @@ namespace Game.Gameplay
         
         public void Initialize()
         {
-            //_clamper.OnDestroyBullet += Despawn;
+            _clamper.OnBulletOutOfRange += Despawn;
         }
 
         public void Dispose()
         {
-            //_clamper.OnDestroyBullet -= Despawn;
-
+            _clamper.OnBulletOutOfRange -= Despawn;
         }
 
         public void Spawn(TeamType team, Vector2 position, Vector2 direction)

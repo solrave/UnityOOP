@@ -25,6 +25,9 @@ namespace Game.Gameplay
         
         [SerializeField] 
         private TrailRenderer _rendererRed;
+
+        [SerializeField]
+        private TrailRenderer _prefabRenderer;
         
         private Bullet _bullet;
         private ParticleSystem _currentBody;
@@ -87,7 +90,7 @@ namespace Game.Gameplay
         {
             _currentBody.gameObject.SetActive(true);
             _currentBody.Play();
-            _trail = Instantiate(_currentRenderer,
+            _trail = Instantiate(_prefabRenderer,
                                  _bullet.Position,
                                  _bullet.Rotation, 
                                  this.transform);
